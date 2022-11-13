@@ -47,7 +47,8 @@ func update_tooltip() -> void:
 	if self.text != "":
 		parts.append(self.text)
 	parts.append(Global.TYPE_NAMES[self.type])
-	self.hint_tooltip = ", ".join(parts).capitalize()
+	parts[0] = parts[0].capitalize()
+	self.hint_tooltip = ", ".join(parts)
 
 
 func set_text(text: String) -> void:
