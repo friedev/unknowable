@@ -12,7 +12,6 @@
 		- Worse but definitely possible: fill assignment area with slots
 		- The slots themselves should be the droppable area
 		- For assignments with unlimited capacity: maintain exactly one free slot at the end
-	- Artifacts generate suspicion over time?
 	- Random events?
 		- Shouldn't be too powerful, to avoid upsetting the balance
 		- Random discoveries during quests
@@ -23,6 +22,7 @@
 		- Followers will still be required to perform the task
 		- Artifacts can't "die", but if the last person in the task dies, the artifact is lost?
 		- Stat buffs
+		- More powerful artifacts generate suspicion
 	- Follower stats
 		- Health
 		- Strength (combat)
@@ -33,6 +33,7 @@
 		- Stressed/unstable (going insane, caused by research, questing, or ritual)
 		- Captured (by the watch, during a raid, theft, or bribery)
 		- Unavailable (on a quest)
+	- Details pane/popup when right clicking an entity or task
 	- Follower, artifact, and wealth capacity?
 		- Spend wealth to upgrade
 	- New raid options
@@ -60,14 +61,13 @@
 		- Remove "quell suspicion"
 			- Too cheap; once wealth exists then there's a better cost for reducing suspicion
 - UI
+	- Keyboard shortcuts
 	- Report screen after each turn where something happened?
 	- Menu
 	- HBox of suspicion icons?
 	- Quit button
 	- Restart button
 	- Quit, restart, or continue on end screen
-- Art
-	- Assignment icons
 - Juice
 	- Particles
 		- Death

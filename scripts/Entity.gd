@@ -148,7 +148,7 @@ func get_assignment() -> Node:
 func get_drag_data(position: Vector2):
 	if self.type in [Global.SUSPICION, Global.ARTIFACT]:
 		return null
-	var preview: VBoxContainer = self.duplicate()
+	var preview: Container = self.duplicate()
 	# Wrap preview in a parent Control node
 	# The Control's position is set to the mouse, but we can offset the entity
 	var parent := Control.new()

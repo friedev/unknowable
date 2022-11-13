@@ -5,6 +5,7 @@ export var text: String
 export var progress := 0
 export var max_progress: int
 export var allowed_types: Array
+export var texture: Texture = null
 
 export var autohide := false
 export var raid := false
@@ -19,8 +20,10 @@ export var suspicion_delta := 0
 var assignees := []
 
 
-onready var area: HFlowContainer = find_node("AssignmentArea")
+onready var area: Container = find_node("AssignmentArea")
 onready var label: RichTextLabel = find_node("Label")
+onready var texture_container: Container = find_node("TextureContainer")
+onready var texture_rect: TextureRect = find_node("TextureRect")
 onready var progress_bar: ProgressBar = find_node("ProgressBar")
 
 
@@ -90,6 +93,15 @@ func set_text(text: String) -> void:
 	self.update_label()
 
 
+func set_texture(texture: Texture) -> void:
+	self.texture = texture
+	if texture != null:
+		self.texture_rect.texture = texture
+		self.texture_container.show()
+	else:
+		self.texture_container.hide()
+
+
 func set_progress(progress: int) -> void:
 	self.progress = min(progress, self.max_progress)
 	self.progress_bar.value = self.progress
@@ -134,5 +146,6 @@ func drop_data(position: Vector2, data) -> void:
 
 func _ready():
 	self.set_text(text)
+	self.set_texture(texture)
 	self.set_max_progress(self.max_progress)
 	self.set_progress(self.progress)

@@ -19,6 +19,11 @@ var assignments := []
 const assignment_scene := preload("res://scenes/Assignment.tscn")
 const entity_scene := preload("res://scenes/Entity.tscn")
 
+const investigation_texture := preload("res://sprites/investigation.png")
+const recruit_texture := preload("res://sprites/recruit.png")
+const seek_texture := preload("res://sprites/seek.png")
+const conceal_texture := preload("res://sprites/conceal.png")
+
 var investigation_assignment: Node
 var artifacts_assignment: Node
 var idle_assignment: Node
@@ -176,6 +181,7 @@ func add_assignments():
 
 	assignment = self.add_assignment("Investigation")
 	assignment.allowed_types = [Global.SUSPICION]
+	assignment.set_texture(self.investigation_texture)
 	assignment.set_max_progress(10)
 	assignment.raid = true
 	assignment.hide()
@@ -196,6 +202,7 @@ func add_assignments():
 
 	assignment = self.add_assignment("Recruit follower")
 	assignment.allowed_types = [Global.FOLLOWER]
+	assignment.set_texture(self.recruit_texture)
 	assignment.set_max_progress(3)
 	assignment.follower_delta = 1
 	assignment.suspicion_delta = 1
@@ -203,6 +210,7 @@ func add_assignments():
 
 	assignment = self.add_assignment("Seek artifact")
 	assignment.allowed_types = [Global.FOLLOWER]
+	assignment.set_texture(self.seek_texture)
 	assignment.set_max_progress(12)
 	assignment.artifact_delta = 1
 	assignment.suspicion_delta = 2
@@ -213,6 +221,7 @@ func add_assignments():
 
 	assignment = self.add_assignment("Quell suspicion")
 	assignment.allowed_types = [Global.FOLLOWER]
+	assignment.set_texture(self.conceal_texture)
 	assignment.set_max_progress(4)
 	assignment.suspicion_delta = -1
 	assignment.risk = 4
