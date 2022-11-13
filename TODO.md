@@ -1,0 +1,98 @@
+# TODO
+
+- Mechanics
+	- Artifacts generate suspicion?
+	- Random events
+	- Random discoveries during quests
+	- Enemies (watch inspectors, rival cultists, eldritch abominations)
+	- Research to discover quests of varying difficulty and requirements
+	- Assignment slots
+		- Each can hold certain type(s) of entity
+		- Some are required, some are optional
+		- Ideally: have an HBox of slot icons behind the actual assignment area
+		- Worse but definitely possible: fill assignment area with slots
+		- The slots themselves should be the droppable area
+	- Wealth
+		- Followers (of a certain level?) need some money 
+		- Replace conceal with bribe
+	- Artifact powers, usable in assignments
+		- Stat buffs
+	- Follower stats
+		- Health
+		- Strength (combat)
+		- Intelligence (artifact seeking)
+		- XP
+	- Follower statuses
+		- Wounded (during a raid or quest)
+		- Stressed/unstable (going insane, caused by research, questing, or ritual)
+		- Captured (by the watch, during a raid, theft, or bribery)
+		- Unavailable (on a quest)
+	- Follower, artifact, and wealth capacity
+		- Spend wealth to upgrade
+	- Raid options
+		- Fight them off
+			- Gain suspicion
+			- Combat check with chance of death, wound, or capture
+		- Bribe with LOTS of wealth
+	- New assignments
+		- Work
+			- Earn small amount of wealth for no suspicion
+		- Steal
+			- Earn large amount of wealth for high suspicion and chance of death (or capture)
+		- Recruit cultist
+			- Current recruit follower action: spend time and gain suspicion to recruit a cultist
+			- Cultists have low strength but decent intelligence
+		- Hire mercenary
+			- Spend wealth and time to hire a merc with decent strength but zero intelligence
+		- Bribe
+			- Spend wealth to reduce suspicion
+		- Scapegoat
+			- Sacrifice a follower to reduce suspicion
+		- Rituals
+			- Summon entities which can be used as powerful followers, but only for certain tasks
+			- Sacrifice followers and/or artifacts
+		- Remove "quell suspicion"
+			- Too cheap; once wealth exists then there's a better cost for reducing suspicion
+- UI
+	- Report screen after each turn where something happened?
+	- Menu
+	- HBox of suspicion icons?
+	- Quit button
+	- Restart button
+	- Quit, restart, or continue on end screen
+- Art
+	- Resource icons
+	- Assignment icons
+- Juice
+	- Particles
+		- Death
+		- New follower
+		- New artifact
+		- Assignment completion
+- Sounds
+	- Pick up
+	- Drop
+	- End turn
+	- Death
+	- New follower
+	- New artifact
+	- Assignment completion
+- Music
+- Secret ending
+- Procgen end text
+- Procgen art
+	- Modulate artifact colors (split into 2 TextureRects: colored and uncolored)
+	- Faces
+		- Modulate colors
+			- Skin color
+			- Hair color
+			- Eye color?
+		- Others are harder and require some art compatibility matching
+			- Face shape
+				- This is the main driver of compatibility challenges
+				- Limit this to a small number to reduce number of other sprites required
+			- Hair
+			- Facial hair
+			- Facial feature
+			- Eyes
+	- Conditions
