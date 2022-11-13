@@ -41,6 +41,7 @@ onready var drag_sound: AudioStreamPlayer = find_node("DragSound")
 onready var drop_sound: AudioStreamPlayer = find_node("DropSound")
 onready var cancel_sound: AudioStreamPlayer = find_node("CancelSound")
 onready var end_turn_sound: AudioStreamPlayer = find_node("EndTurnSound")
+onready var music: AudioStreamPlayer = find_node("Music")
 
 
 func get_suspicion() -> int:
@@ -238,6 +239,7 @@ func add_assignments():
 func _ready():
 	self.add_assignments()
 	self.add_entity(Global.FOLLOWER)
+	self.music.play(0.0)
 
 
 func _on_EndTurnButton_pressed():

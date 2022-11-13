@@ -68,7 +68,7 @@
 	- Restart button
 	- Quit, restart, or continue on end screen
 - Juice
-	- Particles
+	- Particles? (if possible in a Control scene)
 		- Death
 		- New follower
 		- New artifact
@@ -78,7 +78,6 @@
 	- New follower
 	- New artifact
 	- Assignment completion
-- Music and/or ambiance
 - Procgen end text?
 - Procgen art
 	- Modulate artifact colors (split into 2 TextureRects: colored and uncolored)

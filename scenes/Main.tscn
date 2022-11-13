@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=10 format=2]
 
 [ext_resource path="res://ui/theme.tres" type="Theme" id=1]
 [ext_resource path="res://scripts/Main.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://sound/drag.wav" type="AudioStream" id=4]
 [ext_resource path="res://sound/drop.wav" type="AudioStream" id=5]
 [ext_resource path="res://sound/cancel.wav" type="AudioStream" id=6]
+[ext_resource path="res://sound/unknowable.ogg" type="AudioStream" id=7]
 
 [sub_resource type="InputEventAction" id=1]
 action = "end_turn"
@@ -173,6 +174,9 @@ stream = ExtResource( 6 )
 
 [node name="EndTurnSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 7 )
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/EndTurnButton" to="." method="_on_EndTurnButton_pressed"]
 [connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton1" to="." method="_on_PopupButton1_pressed"]
