@@ -34,8 +34,8 @@ func get_death_chance() -> float:
 		return self.max_death_chance
 	var effective_assignees := max(0, len(self.assignees) - 1)
 	var actual_risk := max(0, self.risk - effective_assignees)
-	var death_chance := self.max_death_chance * float(actual_risk) / float(self.risk)
-	return clamp(self.min_death_chance, death_chance, self.max_death_chance)
+	var death_chance := (self.max_death_chance - self.min_death_chance) * float(actual_risk) / float(self.risk)
+	return self.min_death_chance + death_chance
 
 
 func update_label() -> void:

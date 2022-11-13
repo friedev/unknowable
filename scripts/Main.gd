@@ -216,7 +216,7 @@ func add_assignments():
 	assignment.suspicion_delta = 2
 	assignment.risk = 4
 	assignment.max_death_chance = 1.00
-	assignment.min_death_chance = 0.10
+	assignment.min_death_chance = 0.20
 	assignment.update_label()
 
 	assignment = self.add_assignment("Quell suspicion")
