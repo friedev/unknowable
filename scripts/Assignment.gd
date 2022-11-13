@@ -40,17 +40,17 @@ func update_label() -> void:
 
 	if self.raid:
 		self.label.push_color(Global.COLOR_BAD)
-
 	self.label.add_text(self.text)
-
-	if self.max_progress > 0:
-		if len(self.assignees) > 0:
-			self.label.add_text(" (%d+%d/%d) " % [self.progress, len(self.assignees), self.max_progress])
-		else:
-			self.label.add_text(" (%d/%d) " % [self.progress, self.max_progress])
-
 	if self.raid:
 		self.label.pop()
+
+	if self.max_progress > 0:
+		self.label.add_text(" (")
+		if len(self.assignees) > 0:
+			self.label.push_color(Global.COLOR_PREVIEW)
+			self.label.add_text("%d+" % len(self.assignees))
+			self.label.pop()
+		self.label.add_text("%d/%d) " % [self.progress, self.max_progress])
 
 	if self.risk > 0 and len(self.assignees) > 0:
 		self.label.push_color(Global.COLOR_BAD)

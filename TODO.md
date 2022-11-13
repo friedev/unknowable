@@ -1,21 +1,27 @@
 # TODO
 
 - Mechanics
-	- Artifacts generate suspicion?
-	- Random events
-	- Random discoveries during quests
-	- Enemies (watch inspectors, rival cultists, eldritch abominations)
 	- Research to discover quests of varying difficulty and requirements
+	- Wealth
+		- Followers (of a certain level?) consume money 
+		- Replace conceal with bribe
 	- Assignment slots
 		- Each can hold certain type(s) of entity
 		- Some are required, some are optional
 		- Ideally: have an HBox of slot icons behind the actual assignment area
 		- Worse but definitely possible: fill assignment area with slots
 		- The slots themselves should be the droppable area
-	- Wealth
-		- Followers (of a certain level?) need some money 
-		- Replace conceal with bribe
+		- For assignments with unlimited capacity: maintain exactly one free slot at the end
+	- Artifacts generate suspicion over time?
+	- Random events?
+		- Shouldn't be too powerful, to avoid upsetting the balance
+		- Random discoveries during quests
+		- Guaranteed events throughout the year/as you progress
+	- Enemies (watch inspectors, rival cultists, eldritch abominations)
+		- Separate type
 	- Artifact powers, usable in assignments
+		- Followers will still be required to perform the task
+		- Artifacts can't "die", but if the last person in the task dies, the artifact is lost?
 		- Stat buffs
 	- Follower stats
 		- Health
@@ -27,9 +33,9 @@
 		- Stressed/unstable (going insane, caused by research, questing, or ritual)
 		- Captured (by the watch, during a raid, theft, or bribery)
 		- Unavailable (on a quest)
-	- Follower, artifact, and wealth capacity
+	- Follower, artifact, and wealth capacity?
 		- Spend wealth to upgrade
-	- Raid options
+	- New raid options
 		- Fight them off
 			- Gain suspicion
 			- Combat check with chance of death, wound, or capture
@@ -61,7 +67,6 @@
 	- Restart button
 	- Quit, restart, or continue on end screen
 - Art
-	- Resource icons
 	- Assignment icons
 - Juice
 	- Particles
@@ -77,9 +82,8 @@
 	- New follower
 	- New artifact
 	- Assignment completion
-- Music
-- Secret ending
-- Procgen end text
+- Music and/or ambiance
+- Procgen end text?
 - Procgen art
 	- Modulate artifact colors (split into 2 TextureRects: colored and uncolored)
 	- Faces
