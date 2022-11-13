@@ -64,7 +64,6 @@
 	- Full keyboard controls
 	- Report screen after each turn where something happened?
 	- Menu
-	- HBox of suspicion icons?
 	- Quit button
 	- Restart button
 	- Quit, restart, or continue on end screen
@@ -75,9 +74,6 @@
 		- New artifact
 		- Assignment completion
 - Sounds
-	- Pick up
-	- Drop
-	- End turn
 	- Death
 	- New follower
 	- New artifact

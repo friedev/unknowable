@@ -28,9 +28,10 @@ UNKNOWABLE was created by [Aaron Friesen](https://frie.dev).
 
 - Engine: [Godot Engine 3.5](https://godotengine.org)
 - Art: [GIMP](https://gimp.org)
-- Font: [pixelFJ8pt](https://www.1001fonts.com/pixelfj8pt1-font.html) by [MBommeli](https://www.1001fonts.com/users/flashjunior/), licensed under the [1001Fonts FFC License](https://www.1001fonts.com/licenses/ffc.html)
+- Sounds: [LMMS](https://lmms.io) with [ZynAddSubFX](https://zynaddsubfx.sourceforge.io)
+- Font: [pixelFJ8pt](https://www.1001fonts.com/pixelfj8pt1-font.html) by [MBommeli](https://www.1001fonts.com/users/flashjunior), licensed under the [1001Fonts FFC License](https://www.1001fonts.com/licenses/ffc.html)
 
 ## License
 
 - The source code is licensed under the [GNU Affero General Public License v3](https://www.gnu.org/licenses/agpl-3.0.en.html) (see `LICENSE.txt`).
-- All original art is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/) (see `ASSET_LICENSE.txt`).
+- All original assets (art and sound effects) is licensed under the [Creative Commons Attribution-ShareAlike 4.0 International License (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/) (see `ASSET_LICENSE.txt`).

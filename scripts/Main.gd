@@ -37,6 +37,11 @@ onready var popup_button2: Button = find_node("PopupButton2")
 onready var popup_button3: Button = find_node("PopupButton3")
 onready var assignment_container: Node = find_node("AssignmentContainer")
 
+onready var drag_sound: AudioStreamPlayer = find_node("DragSound")
+onready var drop_sound: AudioStreamPlayer = find_node("DropSound")
+onready var cancel_sound: AudioStreamPlayer = find_node("CancelSound")
+onready var end_turn_sound: AudioStreamPlayer = find_node("EndTurnSound")
+
 
 func get_suspicion() -> int:
 	return len(self.investigation_assignment.assignees)
@@ -47,10 +52,21 @@ func set_turn(turn: int) -> void:
 	self.turn_label.text = "Week %d of %d" % [self.turn + 1, self.max_turn]
 
 
-func add_suspicion() -> void:
-	var entity := entity_scene.instance()
-	self.investigation_assignment.add_assignee(entity)
-	entity.make_suspicion()
+func add_entity(type: int) -> void:
+	var entity := self.entity_scene.instance()
+	match type:
+		Global.FOLLOWER:
+			self.idle_assignment.add_assignee(entity)
+			entity.make_follower()
+		Global.ARTIFACT:
+			self.artifacts_assignment.add_assignee(entity)
+			entity.make_artifact()
+		Global.SUSPICION:
+			self.investigation_assignment.add_assignee(entity)
+			entity.make_suspicion()
+	entity.connect("drag", self, "_on_Entity_drag")
+	entity.connect("drop", self, "_on_Entity_drop")
+	entity.connect("cancel", self, "_on_Entity_cancel")
 
 
 func remove_suspicion() -> void:
@@ -63,18 +79,7 @@ func change_suspicion(suspicion: int) -> void:
 		if suspicion < 0:
 			self.remove_suspicion()
 		else:
-			self.add_suspicion()
-
-func add_follower():
-	var entity := entity_scene.instance()
-	self.idle_assignment.add_assignee(entity)
-	entity.make_follower()
-
-
-func add_artifact():
-	var entity := entity_scene.instance()
-	self.artifacts_assignment.add_assignee(entity)
-	entity.make_artifact()
+			self.add_entity(Global.SUSPICION)
 
 
 func _enter_tree():
@@ -232,10 +237,12 @@ func add_assignments():
 
 func _ready():
 	self.add_assignments()
-	self.add_follower()
+	self.add_entity(Global.FOLLOWER)
 
 
 func _on_EndTurnButton_pressed():
+	self.end_turn_sound.play()
+
 	var raids := 0
 	for assignment in self.assignments:
 		if assignment.max_progress == 0 or len(assignment.assignees) == 0:
@@ -251,9 +258,9 @@ func _on_EndTurnButton_pressed():
 			if assignment.follower_delta != 0 or assignment.artifact_delta != 0:
 				for _i in range(completions):
 					for _j in range(assignment.follower_delta):
-						self.add_follower()
+						self.add_entity(Global.FOLLOWER)
 					for _j in range(assignment.artifact_delta):
-						self.add_artifact()
+						self.add_entity(Global.ARTIFACT)
 		if randf() < assignment.get_death_chance():
 			assignment.remove_assignee(Global.choice(assignment.assignees))
 
@@ -291,3 +298,15 @@ func _on_PopupButton2_pressed():
 func _on_PopupButton3_pressed():
 	popup.hide()
 	self.game_over(self.TEXT_LOSE_SURRENDER)
+
+
+func _on_Entity_drag():
+	self.drag_sound.play()
+
+
+func _on_Entity_drop():
+	self.drop_sound.play()
+
+
+func _on_Entity_cancel():
+	self.cancel_sound.play()

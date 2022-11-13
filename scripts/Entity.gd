@@ -1,6 +1,11 @@
 extends VBoxContainer
 
 
+signal drag
+signal drop
+signal cancel
+
+
 # https://www.victorians.co.uk/victorian-names
 var male_first_names := ["Albert", "Alexander", "Alfred", "Algernon", "Allen", "Ambrose", "Andrew", "Anthony", "Archibald", "Archie", "Arthur", "Aubrey", "August", "Augustine", "Augustus", "Basil", "Ben", "Benjamin", "Bernard", "Bert", "Bertram", "Carl", "Cecil", "Cedric", "Charles", "Charley", "Charlie", "Chester", "Clarence", "Claude", "Clement", "Clifford", "Clyde", "Cornelius", "Cuthbert", "Cyril", "Daniel", "David", "Donald", "Douglas", "Duncan", "Earl", "Ebenezer", "Ed", "Eddie", "Edgar", "Edmund", "Edward", "Edwin", "Elmer", "Ernest", "Eugene", "Eustace", "Evan", "Everett", "Ewart", "Felix", "Fergus", "Floyd", "Francis", "Frank", "Franklin", "Fred", "Frederick", "Geoffrey", "George", "Gerald", "Gilbert", "Grover", "Guy", "Harold", "Harry", "Harvey", "Henry", "Herbert", "Herman", "Horace", "Howard", "Hubert", "Hugh", "Hugo", "Humphrey", "Ira", "Isaac", "Ivan", "Ivor", "Jack", "Jacob", "James", "Jasper", "Jessie", "Jim", "Joe", "John", "Jonathan", "Joseph", "Julian", "Julius", "Kenneth", "Laurence", "Lawrence", "Lee", "Leo", "Leonard", "Leopold", "Leroy", "Leslie", "Lewis", "Lionel", "Llewellyn", "Lloyd", "Louis", "Luther", "Malcolm", "Marion", "Martin", "Maurice", "Maxwell", "Michael", "Miles", "Montague", "Neville", "Nigel", "Oliver", "Oscar", "Otto", "Owen", "Patrick", "Paul", "Percival", "Percy", "Peter", "Philip", "Ralph", "Randolph", "Ray", "Raymond", "Reginald", "Reuben", "Richard", "Robert", "Roderick", "Roger", "Roy", "Rufus", "Rupert", "Sam", "Samuel", "Septimus", "Sidney", "Silas", "Simeon", "Stanley", "Stephen", "Theodore", "Thomas", "Timothy", "Tom", "Valentine", "Vernon", "Victor", "Vincent", "Walter", "Warren", "Wilfred", "Will", "William", "Willie"]
 var female_first_names := ["Ada", "Addie", "Adelaide", "Adeline", "Agatha", "Agnes", "Alice", "Alma", "Amanda", "Amelia", "Amy", "Anna", "Anne", "Annie", "Augusta", "Beatrice", "Bertha", "Bessie", "Blanche", "Caroline", "Carrie", "Catherine", "Cecilia", "Cecily", "Charlotte", "Clara", "Clarissa", "Clementina", "Constance", "Cora", "Cordelia", "Daisy", "Delia", "Della", "Dora", "Dorcas", "Doris", "Dorothea", "Dorothy", "Edith", "Edna", "Effie", "Eliza", "Elizabeth", "Ella", "Ellen", "Elsie", "Emily", "Emma", "Emmeline", "Esther", "Ethel", "Etta", "Eugenie", "Eva", "Eveline", "Flora", "Florence", "Frances", "Freda", "Georgia", "Georgina", "Gertrude", "Gladys", "Grace", "Gwendoline", "Harriet", "Hattie", "Hazel", "Helen", "Helena", "Henrietta", "Hetty", "Hilda", "Honor", "Ida", "Irene", "Iris", "Isabel", "Ivy", "Jane", "Jemima", "Jennie", "Jenny", "Jessie", "Josephine", "Julia", "Kate", "Katherine", "Kathleen", "Kathryn", "Katie", "Laura", "Lavinia", "Leah", "Lena", "Lillian", "Lillie", "Lily", "Lizzie", "Lottie", "Louisa", "Louise", "Lucy", "Lula", "Lulu", "Lydia", "Mabel", "Mae", "Maggie", "Mamiev", "Margaret", "Marguerite", "Marie", "Marion", "Marjorie", "Martha", "Mary", "Matilda", "Maude", "May", "Mercy", "Mildred", "Millicent", "Minnie", "Mollie", "Myrtle", "Nancy", "Nannie", "Nellie", "Nettie", "Nora", "Olive", "Patience", "Pauline", "Pearl", "Phoebe", "Phyllis", "Priscilla", "Prudence", "Rachel", "Rebecca", "Rhoda", "Rosa", "Rose", "Rosetta", "Rosina", "Ruby", "Ruth", "Sadie", "Sallie", "Sarah", "Selina", "Stella", "Susan", "Susannah", "Susie", "Sylvia", "Tabitha", "Theodora", "Theresa", "Ursula", "Victoria", "Viola", "Violet", "Wilhelmina", "Willie", "Winifred"]
@@ -147,7 +152,9 @@ func get_assignment() -> Node:
 
 func get_drag_data(position: Vector2):
 	if self.type in [Global.SUSPICION, Global.ARTIFACT]:
+		self.emit_signal("cancel")
 		return null
+	self.emit_signal("drag")
 	var preview: Container = self.duplicate()
 	# Wrap preview in a parent Control node
 	# The Control's position is set to the mouse, but we can offset the entity
@@ -162,6 +169,10 @@ func get_drag_data(position: Vector2):
 func _notification(notification) -> void:
 	match notification:
 		NOTIFICATION_DRAG_END:
+			if self.is_drag_successful():
+				self.emit_signal("drop")
+			else:
+				self.emit_signal("cancel")
 			self.show()
 
 
