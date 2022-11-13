@@ -61,7 +61,7 @@
 		- Remove "quell suspicion"
 			- Too cheap; once wealth exists then there's a better cost for reducing suspicion
 - UI
-	- Keyboard shortcuts
+	- Full keyboard controls
 	- Report screen after each turn where something happened?
 	- Menu
 	- HBox of suspicion icons?

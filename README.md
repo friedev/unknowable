@@ -8,13 +8,19 @@ Made in under 34 hours for the [UNL Game Development Club](https://unl-game-dev-
 
 ## How to Play
 
-UNKNOWABLE is played using only the mouse.
-
-Your goal is gather 5 artifacts before the celestial conjunction in one year (52 weeks).
+In UNKNOWABLE, your goal is gather 5 artifacts before the celestial conjunction in one year (52 weeks).
 
 Every turn, each cultist will contribute toward their task's progress.
 Drag a cultist to a task to reassign them.
 When you are content with your cultists' assignments, press "End Turn" to pass the week.
+
+### Controls
+
+UNKNOWABLE can be played using only the mouse.
+
+Keyboard shortcuts:
+
+- Space/Enter: End Turn
 
 ## Credits
 
