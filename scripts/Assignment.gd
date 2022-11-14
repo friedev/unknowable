@@ -20,7 +20,7 @@ export var suspicion_delta := 0
 var assignees := []
 
 
-onready var area: Container = find_node("AssignmentArea")
+onready var area: Container = find_node("AssigneeArea")
 onready var label: RichTextLabel = find_node("Label")
 onready var texture_container: Container = find_node("TextureContainer")
 onready var texture_rect: TextureRect = find_node("TextureRect")

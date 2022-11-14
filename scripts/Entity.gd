@@ -148,7 +148,7 @@ func make_artifact() -> void:
 
 
 func get_assignment() -> Node:
-	return self.find_parent("*Assignment")
+	return self.find_parent("*Assignment*")
 
 
 func get_drag_data(position: Vector2):

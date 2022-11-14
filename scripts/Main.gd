@@ -15,6 +15,7 @@ var raid_followers_lost := []
 var turn := 0
 const max_turn := 52
 var assignments := []
+var is_game_over := false
 
 const assignment_scene := preload("res://scenes/Assignment.tscn")
 const entity_scene := preload("res://scenes/Entity.tscn")
@@ -29,13 +30,13 @@ var artifacts_assignment: Node
 var idle_assignment: Node
 
 onready var turn_label: Label = find_node("TurnLabel")
+onready var assignment_container: Container = find_node("AssignmentContainer")
 onready var popup: Popup = find_node("Popup")
 onready var popup_label: Label = find_node("PopupLabel")
 onready var popup_spacer: Label = find_node("PopupSpacer")
 onready var popup_button1: Button = find_node("PopupButton1")
 onready var popup_button2: Button = find_node("PopupButton2")
 onready var popup_button3: Button = find_node("PopupButton3")
-onready var assignment_container: Node = find_node("AssignmentContainer")
 
 onready var drag_sound: AudioStreamPlayer = find_node("DragSound")
 onready var drop_sound: AudioStreamPlayer = find_node("DropSound")
@@ -174,10 +175,14 @@ func raid() -> void:
 
 
 func game_over(text: String):
+	self.is_game_over = true
 	self.popup_label.text = text
-	self.popup_spacer.hide()
-	self.popup_button1.hide()
-	self.popup_button2.hide()
+	self.popup_button1.text = "Restart"
+	self.popup_button2.text = "Quit"
+	self.popup_button2.disabled = OS.get_name() == "HTML5"
+	self.popup_spacer.show()
+	self.popup_button1.show()
+	self.popup_button2.show()
 	self.popup_button3.hide()
 	self.popup.popup_centered()
 
@@ -236,10 +241,21 @@ func add_assignments():
 	assignment.update_label()
 
 
-func _ready():
+func start():
+	for assignment in self.assignments:
+		for assignee in assignment.assignees:
+			assignee.queue_free()
+		assignment.queue_free()
+	self.assignments.clear()
+	self.is_game_over = false
+	self.set_turn(0)
 	self.add_assignments()
 	self.add_entity(Global.FOLLOWER)
+
+
+func _ready():
 	self.music.play(0.0)
+	start()
 
 
 func _on_EndTurnButton_pressed():
@@ -286,15 +302,23 @@ func _on_EndTurnButton_pressed():
 
 
 func _on_PopupButton1_pressed():
-	for follower in self.raid_followers_lost:
-		follower.get_assignment().remove_assignee(follower)
 	popup.hide()
+	if self.is_game_over:
+		self.start()
+	else:
+		for follower in self.raid_followers_lost:
+			follower.get_assignment().remove_assignee(follower)
+			follower.queue_free()
 
 
 func _on_PopupButton2_pressed():
-	for artifact in self.raid_artifacts_lost:
-		artifact.get_assignment().remove_assignee(artifact)
 	popup.hide()
+	if self.is_game_over:
+		self.get_tree().quit()
+	else:
+		for artifact in self.raid_artifacts_lost:
+			artifact.get_assignment().remove_assignee(artifact)
+			artifact.queue_free()
 
 
 func _on_PopupButton3_pressed():

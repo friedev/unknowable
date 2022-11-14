@@ -64,9 +64,6 @@
 	- Full keyboard controls
 	- Report screen after each turn where something happened?
 	- Menu
-	- Quit button
-	- Restart button
-	- Quit, restart, or continue on end screen
 - Juice
 	- Particles? (if possible in a Control scene)
 		- Death

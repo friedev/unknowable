@@ -70,7 +70,7 @@ size_flags_vertical = 3
 text = "Assignment"
 fit_content_height = true
 
-[node name="AssignmentArea" type="HFlowContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
+[node name="AssigneeArea" type="HFlowContainer" parent="VBoxContainer/MarginContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 38.0
 margin_right = 868.0
 margin_bottom = 72.0
