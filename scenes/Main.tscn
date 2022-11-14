@@ -67,25 +67,31 @@ valign = 1
 margin_left = 758.0
 margin_right = 836.0
 margin_bottom = 34.0
+focus_mode = 0
 theme = ExtResource( 1 )
 toggle_mode = true
 pressed = true
+enabled_focus_mode = 0
 text = "Sound"
 
 [node name="MusicButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 852.0
 margin_right = 922.0
 margin_bottom = 34.0
+focus_mode = 0
 theme = ExtResource( 1 )
 toggle_mode = true
 pressed = true
+enabled_focus_mode = 0
 text = "Music"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 938.0
 margin_right = 992.0
 margin_bottom = 34.0
+focus_mode = 0
 theme = ExtResource( 1 )
+enabled_focus_mode = 0
 text = "Quit"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
@@ -173,6 +179,8 @@ autowrap = true
 margin_top = 44.0
 margin_right = 600.0
 margin_bottom = 78.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Lose Alice Adams and Bob Baker"
 align = 0
 
@@ -180,6 +188,8 @@ align = 0
 margin_top = 82.0
 margin_right = 600.0
 margin_bottom = 116.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Lose the Eye of Cthulhu"
 align = 0
 
@@ -187,6 +197,8 @@ align = 0
 margin_top = 120.0
 margin_right = 600.0
 margin_bottom = 154.0
+focus_mode = 0
+enabled_focus_mode = 0
 text = "Surrender"
 align = 0
 
