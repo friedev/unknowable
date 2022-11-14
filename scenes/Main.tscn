@@ -54,14 +54,39 @@ text = "End Turn"
 [node name="TurnLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 124.0
 margin_top = 8.0
-margin_right = 258.0
+margin_right = 742.0
 margin_bottom = 26.0
 hint_tooltip = "Suspicion"
 mouse_filter = 0
+size_flags_horizontal = 3
 theme = ExtResource( 1 )
 text = "Week 1 of 52"
-align = 1
 valign = 1
+
+[node name="SoundButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 758.0
+margin_right = 836.0
+margin_bottom = 34.0
+theme = ExtResource( 1 )
+toggle_mode = true
+pressed = true
+text = "Sound"
+
+[node name="MusicButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 852.0
+margin_right = 922.0
+margin_bottom = 34.0
+theme = ExtResource( 1 )
+toggle_mode = true
+pressed = true
+text = "Music"
+
+[node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 938.0
+margin_right = 992.0
+margin_bottom = 34.0
+theme = ExtResource( 1 )
+text = "Quit"
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer"]
 margin_top = 46.0
@@ -167,20 +192,28 @@ align = 0
 
 [node name="DragSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 4 )
+bus = "Sound"
 
 [node name="DropSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 5 )
+bus = "Sound"
 
 [node name="CancelSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 6 )
+bus = "Sound"
 
 [node name="EndTurnSound" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 3 )
+bus = "Sound"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 7 )
+bus = "Music"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/EndTurnButton" to="." method="_on_EndTurnButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/SoundButton" to="." method="_on_SoundButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MusicButton" to="." method="_on_MusicButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton1" to="." method="_on_PopupButton1_pressed"]
 [connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton2" to="." method="_on_PopupButton2_pressed"]
 [connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton3" to="." method="_on_PopupButton3_pressed"]

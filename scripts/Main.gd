@@ -37,6 +37,7 @@ onready var popup_spacer: Label = find_node("PopupSpacer")
 onready var popup_button1: Button = find_node("PopupButton1")
 onready var popup_button2: Button = find_node("PopupButton2")
 onready var popup_button3: Button = find_node("PopupButton3")
+onready var quit_button: Button = find_node("QuitButton")
 
 onready var drag_sound: AudioStreamPlayer = find_node("DragSound")
 onready var drop_sound: AudioStreamPlayer = find_node("DropSound")
@@ -73,7 +74,9 @@ func add_entity(type: int) -> void:
 
 func remove_suspicion() -> void:
 	if self.get_suspicion() > 0:
-		self.investigation_assignment.remove_assignee(self.investigation_assignment.assignees[-1])
+		var assignee: Node = self.investigation_assignment.assignees[-1]
+		self.investigation_assignment.remove_assignee(assignee)
+		assignee.queue_free()
 
 
 func change_suspicion(suspicion: int) -> void:
@@ -179,10 +182,11 @@ func game_over(text: String):
 	self.popup_label.text = text
 	self.popup_button1.text = "Restart"
 	self.popup_button2.text = "Quit"
-	self.popup_button2.disabled = OS.get_name() == "HTML5"
+	self.popup_button1.disabled = false
+	self.popup_button2.disabled = false
 	self.popup_spacer.show()
 	self.popup_button1.show()
-	self.popup_button2.show()
+	self.popup_button2.visible = OS.get_name() != "HTML5"
 	self.popup_button3.hide()
 	self.popup.popup_centered()
 
@@ -255,6 +259,8 @@ func start():
 
 func _ready():
 	self.music.play(0.0)
+	if OS.get_name() == "HTML5":
+		self.quit_button.hide()
 	start()
 
 
@@ -280,7 +286,9 @@ func _on_EndTurnButton_pressed():
 					for _j in range(assignment.artifact_delta):
 						self.add_entity(Global.ARTIFACT)
 		if randf() < assignment.get_death_chance():
-			assignment.remove_assignee(Global.choice(assignment.assignees))
+			var assignee: Node = Global.choice(assignment.assignees)
+			assignment.remove_assignee(assignee)
+			assignee.queue_free()
 
 	var entities := self.get_entities()
 
@@ -314,6 +322,7 @@ func _on_PopupButton1_pressed():
 func _on_PopupButton2_pressed():
 	popup.hide()
 	if self.is_game_over:
+		self.print_stray_nodes()
 		self.get_tree().quit()
 	else:
 		for artifact in self.raid_artifacts_lost:
@@ -336,3 +345,16 @@ func _on_Entity_drop():
 
 func _on_Entity_cancel():
 	self.cancel_sound.play()
+
+
+func _on_SoundButton_pressed():
+	AudioServer.set_bus_mute(Global.SOUND_BUS, not AudioServer.is_bus_mute(Global.SOUND_BUS))
+
+
+func _on_MusicButton_pressed():
+	AudioServer.set_bus_mute(Global.MUSIC_BUS, not AudioServer.is_bus_mute(Global.MUSIC_BUS))
+
+
+func _on_QuitButton_pressed():
+	self.print_stray_nodes()
+	get_tree().quit()

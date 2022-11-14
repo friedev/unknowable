@@ -1,6 +1,9 @@
 extends Node
 
 
+const SOUND_BUS := 1
+const MUSIC_BUS := 2
+
 enum {FOLLOWER, ARTIFACT, SUSPICION}
 var ALL_TYPES := [FOLLOWER, ARTIFACT, SUSPICION]
 var TYPE_NAMES := ["follower", "artifact", "suspicion"]
