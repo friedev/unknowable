@@ -25,9 +25,9 @@ const recruit_texture := preload("res://sprites/recruit.png")
 const seek_texture := preload("res://sprites/seek.png")
 const conceal_texture := preload("res://sprites/conceal.png")
 
-var investigation_assignment: Node
-var artifacts_assignment: Node
-var idle_assignment: Node
+var default_suspicion_assignment: Node
+var default_artifact_assignment: Node
+var default_follower_assignment: Node
 
 onready var turn_label: Label = find_node("TurnLabel")
 onready var assignment_container: Container = find_node("AssignmentContainer")
@@ -48,7 +48,7 @@ onready var music: AudioStreamPlayer = find_node("Music")
 
 
 func get_suspicion() -> int:
-	return len(self.investigation_assignment.assignees)
+	return len(self.default_suspicion_assignment.assignees)
 
 
 func set_turn(turn: int) -> void:
@@ -60,13 +60,13 @@ func add_entity(type: int) -> void:
 	var entity := self.entity_scene.instance()
 	match type:
 		Global.FOLLOWER:
-			self.idle_assignment.add_assignee(entity)
+			self.default_follower_assignment.add_assignee(entity)
 			entity.make_follower()
 		Global.ARTIFACT:
-			self.artifacts_assignment.add_assignee(entity)
+			self.default_artifact_assignment.add_assignee(entity)
 			entity.make_artifact()
 		Global.SUSPICION:
-			self.investigation_assignment.add_assignee(entity)
+			self.default_suspicion_assignment.add_assignee(entity)
 			entity.make_suspicion()
 	entity.connect("drag", self, "_on_Entity_drag")
 	entity.connect("drop", self, "_on_Entity_drop")
@@ -75,8 +75,8 @@ func add_entity(type: int) -> void:
 
 func remove_suspicion() -> void:
 	if self.get_suspicion() > 0:
-		var assignee: Node = self.investigation_assignment.assignees[-1]
-		self.investigation_assignment.remove_assignee(assignee)
+		var assignee: Node = self.default_suspicion_assignment.assignees[-1]
+		self.default_suspicion_assignment.remove_assignee(assignee)
 		assignee.queue_free()
 
 
@@ -202,19 +202,19 @@ func add_assignments():
 	assignment.raid = true
 	assignment.hide()
 	assignment.update_label()
-	self.investigation_assignment = assignment
+	self.default_suspicion_assignment = assignment
 
 	assignment = self.add_assignment("Artifacts")
 	assignment.allowed_types = [Global.ARTIFACT]
 	assignment.autohide = true
 	assignment.hide()
 	assignment.update_label()
-	self.artifacts_assignment = assignment
+	self.default_artifact_assignment = assignment
 
 	assignment = self.add_assignment("Idle")
 	assignment.allowed_types = [Global.FOLLOWER]
 	assignment.update_label()
-	self.idle_assignment = assignment
+	self.default_follower_assignment = assignment
 
 	assignment = self.add_assignment("Recruit follower")
 	assignment.allowed_types = [Global.FOLLOWER]
