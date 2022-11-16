@@ -33,7 +33,7 @@
 		- Stressed/unstable (going insane, caused by research, questing, or ritual)
 		- Captured (by the watch, during a raid, theft, or bribery)
 		- Unavailable (on a quest)
-	- Details pane/popup when right clicking an entity or task
+	- Rich custom tooltips, or right click to open an info panel
 	- Follower, artifact, and wealth capacity?
 		- Spend wealth to upgrade
 	- New raid options
@@ -62,6 +62,8 @@
 			- Too cheap; once wealth exists then there's a better cost for reducing suspicion
 - UI
 	- Full keyboard controls
+		- Tab/backtab or arrows/WASD to focus
+		- Space to start dragging
 	- Report screen after each turn where something happened?
 	- Menu
 - Juice
@@ -71,6 +73,7 @@
 		- New artifact
 		- Assignment completion
 - Sounds
+	- Change drag and drop sounds to be less melodic
 	- Death
 	- New follower
 	- New artifact

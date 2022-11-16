@@ -54,7 +54,7 @@ text = "End Turn"
 [node name="TurnLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 124.0
 margin_top = 8.0
-margin_right = 742.0
+margin_right = 608.0
 margin_bottom = 26.0
 hint_tooltip = "Suspicion"
 mouse_filter = 0
@@ -64,8 +64,8 @@ text = "Week 1 of 52"
 valign = 1
 
 [node name="SoundButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 758.0
-margin_right = 836.0
+margin_left = 624.0
+margin_right = 702.0
 margin_bottom = 34.0
 focus_mode = 0
 theme = ExtResource( 1 )
@@ -75,8 +75,8 @@ enabled_focus_mode = 0
 text = "Sound"
 
 [node name="MusicButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 852.0
-margin_right = 922.0
+margin_left = 718.0
+margin_right = 788.0
 margin_bottom = 34.0
 focus_mode = 0
 theme = ExtResource( 1 )
@@ -84,6 +84,17 @@ toggle_mode = true
 pressed = true
 enabled_focus_mode = 0
 text = "Music"
+
+[node name="FullscreenButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 804.0
+margin_right = 922.0
+margin_bottom = 34.0
+focus_mode = 0
+theme = ExtResource( 1 )
+toggle_mode = true
+pressed = true
+enabled_focus_mode = 0
+text = "Fullscreen"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 margin_left = 938.0
@@ -225,6 +236,7 @@ bus = "Music"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/EndTurnButton" to="." method="_on_EndTurnButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/SoundButton" to="." method="_on_SoundButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MusicButton" to="." method="_on_MusicButton_pressed"]
+[connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/FullscreenButton" to="." method="_on_FullscreenButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
 [connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton1" to="." method="_on_PopupButton1_pressed"]
 [connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton2" to="." method="_on_PopupButton2_pressed"]

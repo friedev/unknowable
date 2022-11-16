@@ -38,6 +38,7 @@ onready var popup_button1: Button = find_node("PopupButton1")
 onready var popup_button2: Button = find_node("PopupButton2")
 onready var popup_button3: Button = find_node("PopupButton3")
 onready var quit_button: Button = find_node("QuitButton")
+onready var fullscreen_button: Button = find_node("FullscreenButton")
 
 onready var drag_sound: AudioStreamPlayer = find_node("DragSound")
 onready var drop_sound: AudioStreamPlayer = find_node("DropSound")
@@ -261,6 +262,7 @@ func _ready():
 	self.music.play(0.0)
 	if OS.get_name() == "HTML5":
 		self.quit_button.hide()
+		self.fullscreen_button.pressed = false
 	start()
 
 
@@ -358,3 +360,7 @@ func _on_MusicButton_pressed():
 func _on_QuitButton_pressed():
 	self.print_stray_nodes()
 	get_tree().quit()
+
+
+func _on_FullscreenButton_pressed():
+	OS.window_fullscreen = !OS.window_fullscreen
