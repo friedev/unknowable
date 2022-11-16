@@ -25,30 +25,28 @@ const recruit_texture := preload("res://sprites/recruit.png")
 const seek_texture := preload("res://sprites/seek.png")
 const conceal_texture := preload("res://sprites/conceal.png")
 
-var default_suspicion_assignment: Node
-var default_artifact_assignment: Node
-var default_follower_assignment: Node
+var default_assignments := {}
 
-onready var turn_label: Label = find_node("TurnLabel")
-onready var assignment_container: Container = find_node("AssignmentContainer")
-onready var popup: Popup = find_node("Popup")
-onready var popup_label: Label = find_node("PopupLabel")
-onready var popup_spacer: Label = find_node("PopupSpacer")
-onready var popup_button1: Button = find_node("PopupButton1")
-onready var popup_button2: Button = find_node("PopupButton2")
-onready var popup_button3: Button = find_node("PopupButton3")
-onready var quit_button: Button = find_node("QuitButton")
-onready var fullscreen_button: Button = find_node("FullscreenButton")
+onready var turn_label: Label = self.find_node("TurnLabel")
+onready var assignment_container: Container = self.find_node("AssignmentContainer")
+onready var popup: Popup = self.find_node("Popup")
+onready var popup_label: Label = self.find_node("PopupLabel")
+onready var popup_spacer: Label = self.find_node("PopupSpacer")
+onready var popup_button1: Button = self.find_node("PopupButton1")
+onready var popup_button2: Button = self.find_node("PopupButton2")
+onready var popup_button3: Button = self.find_node("PopupButton3")
+onready var quit_button: Button = self.find_node("QuitButton")
+onready var fullscreen_button: Button = self.find_node("FullscreenButton")
 
-onready var drag_sound: AudioStreamPlayer = find_node("DragSound")
-onready var drop_sound: AudioStreamPlayer = find_node("DropSound")
-onready var cancel_sound: AudioStreamPlayer = find_node("CancelSound")
-onready var end_turn_sound: AudioStreamPlayer = find_node("EndTurnSound")
-onready var music: AudioStreamPlayer = find_node("Music")
+onready var drag_sound: AudioStreamPlayer = self.find_node("DragSound")
+onready var drop_sound: AudioStreamPlayer = self.find_node("DropSound")
+onready var cancel_sound: AudioStreamPlayer = self.find_node("CancelSound")
+onready var end_turn_sound: AudioStreamPlayer = self.find_node("EndTurnSound")
+onready var music: AudioStreamPlayer = self.find_node("Music")
 
 
 func get_suspicion() -> int:
-	return len(self.default_suspicion_assignment.assignees)
+	return len(self.default_assignment[Global.SUSPICION].get_entities())
 
 
 func set_turn(turn: int) -> void:
@@ -56,28 +54,26 @@ func set_turn(turn: int) -> void:
 	self.turn_label.text = "Week %d of %d" % [self.turn + 1, self.max_turn]
 
 
-func add_entity(type: int) -> void:
+func create_entity(type: int) -> void:
 	var entity := self.entity_scene.instance()
-	match type:
-		Global.FOLLOWER:
-			self.default_follower_assignment.add_assignee(entity)
-			entity.make_follower()
-		Global.ARTIFACT:
-			self.default_artifact_assignment.add_assignee(entity)
-			entity.make_artifact()
-		Global.SUSPICION:
-			self.default_suspicion_assignment.add_assignee(entity)
-			entity.make_suspicion()
+	var assignment: Node = self.default_assignments[type]
+
+	# TODO make this process less fragile by adding an add_entity to assignment
+	assignment.slots[-1].add_entity(entity)
+	assignment.update_slots()
+
+	entity.make_type(type)
 	entity.connect("drag", self, "_on_Entity_drag")
 	entity.connect("drop", self, "_on_Entity_drop")
 	entity.connect("cancel", self, "_on_Entity_cancel")
 
 
 func remove_suspicion() -> void:
-	if self.get_suspicion() > 0:
-		var assignee: Node = self.default_suspicion_assignment.assignees[-1]
-		self.default_suspicion_assignment.remove_assignee(assignee)
-		assignee.queue_free()
+	var slot: Node = self.default_assignments[Global.SUSPICION].slots[0]
+	if slot.entity != null:
+		var entity: Node = slot.entity
+		slot.remove_entity()
+		entity.queue_free()
 
 
 func change_suspicion(suspicion: int) -> void:
@@ -85,27 +81,36 @@ func change_suspicion(suspicion: int) -> void:
 		if suspicion < 0:
 			self.remove_suspicion()
 		else:
-			self.add_entity(Global.SUSPICION)
+			self.create_entity(Global.SUSPICION)
 
 
 func _enter_tree():
 	randomize()
 
 
+func get_slots() -> Array:
+	var slots := []
+	for assignment in self.assignments:
+		for slot in assignment.slots:
+			slots.append(slot)
+	return slots
+
+
 func get_entities() -> Dictionary:
 	var entities := {}
 	for type in Global.ALL_TYPES:
 		entities[type] = []
-	for assignment in self.assignments:
-		for entity in assignment.assignees:
-			entities[entity.type].append(entity)
+	for slot in self.get_slots():
+		if slot.entity != null:
+			entities[slot.entity.type].append(slot.entity)
 	return entities
 
 
-func add_assignment(text: String) -> Node:
+func create_assignment(text: String, allowed_types: Array) -> Node:
 	var assignment = self.assignment_scene.instance()
 	assignment.name = "%sAssignment" % text.replace(" ", "_")
 	assignment.text = text
+	assignment.allowed_types = allowed_types
 	self.assignments.append(assignment)
 	self.assignment_container.add_child(assignment)
 	return assignment
@@ -192,40 +197,35 @@ func game_over(text: String):
 	self.popup.popup_centered()
 
 
-func add_assignments():
+func create_assignments():
 	var assignment
 
-	assignment = self.add_assignment("Investigation")
-	assignment.allowed_types = [Global.SUSPICION]
+	assignment = self.create_assignment("Investigation", [Global.SUSPICION])
 	assignment.set_texture(self.investigation_texture)
 	assignment.set_max_progress(10)
 	assignment.raid = true
 	assignment.hide()
-	assignment.update_label()
-	self.default_suspicion_assignment = assignment
+	assignment.label_dirty = true
+	self.default_assignments[Global.SUSPICION] = assignment
 
-	assignment = self.add_assignment("Artifacts")
-	assignment.allowed_types = [Global.ARTIFACT]
+	assignment = self.create_assignment("Artifacts", [Global.ARTIFACT])
 	assignment.autohide = true
 	assignment.hide()
-	assignment.update_label()
-	self.default_artifact_assignment = assignment
+	assignment.label_dirty = true
+	self.default_assignments[Global.ARTIFACT] = assignment
 
-	assignment = self.add_assignment("Idle")
-	assignment.allowed_types = [Global.FOLLOWER]
-	assignment.update_label()
-	self.default_follower_assignment = assignment
+	assignment = self.create_assignment("Idle", [Global.FOLLOWER])
+	assignment.label_dirty = true
+	self.default_assignments[Global.FOLLOWER] = assignment
 
-	assignment = self.add_assignment("Recruit follower")
-	assignment.allowed_types = [Global.FOLLOWER]
+	assignment = self.create_assignment("Recruit follower", [Global.FOLLOWER])
 	assignment.set_texture(self.recruit_texture)
 	assignment.set_max_progress(3)
 	assignment.follower_delta = 1
 	assignment.suspicion_delta = 1
-	assignment.update_label()
+	assignment.label_dirty = true
 
-	assignment = self.add_assignment("Seek artifact")
-	assignment.allowed_types = [Global.FOLLOWER]
+	assignment = self.create_assignment("Seek artifact", [Global.FOLLOWER])
 	assignment.set_texture(self.seek_texture)
 	assignment.set_max_progress(12)
 	assignment.artifact_delta = 1
@@ -233,29 +233,30 @@ func add_assignments():
 	assignment.risk = 4
 	assignment.max_death_chance = 1.00
 	assignment.min_death_chance = 0.20
-	assignment.update_label()
+	assignment.label_dirty = true
 
-	assignment = self.add_assignment("Quell suspicion")
-	assignment.allowed_types = [Global.FOLLOWER]
+	assignment = self.create_assignment("Quell suspicion", [Global.FOLLOWER])
 	assignment.set_texture(self.conceal_texture)
 	assignment.set_max_progress(4)
 	assignment.suspicion_delta = -1
 	assignment.risk = 4
 	assignment.max_death_chance = 0.25
 	assignment.min_death_chance = 0.05
-	assignment.update_label()
+	assignment.label_dirty = true
 
 
 func start():
 	for assignment in self.assignments:
-		for assignee in assignment.assignees:
-			assignee.queue_free()
+		for slot in assignment.slots:
+			if slot.entity != null:
+				slot.entity.queue_free()
+			slot.queue_free()
 		assignment.queue_free()
 	self.assignments.clear()
 	self.is_game_over = false
 	self.set_turn(0)
-	self.add_assignments()
-	self.add_entity(Global.FOLLOWER)
+	self.create_assignments()
+	self.create_entity(Global.FOLLOWER)
 
 
 func _ready():
@@ -271,9 +272,10 @@ func _on_EndTurnButton_pressed():
 
 	var raids := 0
 	for assignment in self.assignments:
-		if assignment.max_progress == 0 or len(assignment.assignees) == 0:
+		var entities: Array = assignment.get_entities()
+		if assignment.max_progress == 0 or len(entities) == 0:
 			continue
-		var new_progress := len(assignment.assignees)
+		var new_progress := len(entities)
 		var total_progress: int = assignment.progress + new_progress
 		var completions: int = total_progress / assignment.max_progress
 		assignment.set_progress(total_progress % assignment.max_progress)
@@ -284,13 +286,13 @@ func _on_EndTurnButton_pressed():
 			if assignment.follower_delta != 0 or assignment.artifact_delta != 0:
 				for _i in range(completions):
 					for _j in range(assignment.follower_delta):
-						self.add_entity(Global.FOLLOWER)
+						self.create_entity(Global.FOLLOWER)
 					for _j in range(assignment.artifact_delta):
-						self.add_entity(Global.ARTIFACT)
+						self.create_entity(Global.ARTIFACT)
 		if randf() < assignment.get_death_chance():
-			var assignee: Node = Global.choice(assignment.assignees)
-			assignment.remove_assignee(assignee)
-			assignee.queue_free()
+			var entity: Node = Global.choice(entities)
+			entity.slot.remove_entity()
+			entity.queue_free()
 
 	var entities := self.get_entities()
 
@@ -317,18 +319,17 @@ func _on_PopupButton1_pressed():
 		self.start()
 	else:
 		for follower in self.raid_followers_lost:
-			follower.get_assignment().remove_assignee(follower)
+			follower.slot.remove_entity()
 			follower.queue_free()
 
 
 func _on_PopupButton2_pressed():
 	popup.hide()
 	if self.is_game_over:
-		self.print_stray_nodes()
 		self.get_tree().quit()
 	else:
 		for artifact in self.raid_artifacts_lost:
-			artifact.get_assignment().remove_assignee(artifact)
+			artifact.slot.remove_entity()
 			artifact.queue_free()
 
 
@@ -358,7 +359,6 @@ func _on_MusicButton_pressed():
 
 
 func _on_QuitButton_pressed():
-	self.print_stray_nodes()
 	get_tree().quit()
 
 

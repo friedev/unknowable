@@ -1,10 +1,11 @@
 extends PanelContainer
 
 
+const slot_scene := preload("res://scenes/Slot.tscn")
+
 export var text: String
 export var progress := 0
 export var max_progress: int
-export var allowed_types: Array
 export var texture: Texture = null
 
 export var autohide := false
@@ -17,14 +18,24 @@ export var follower_delta := 0
 export var artifact_delta := 0
 export var suspicion_delta := 0
 
-var assignees := []
+var allowed_types := []
+var slots := []
+var label_dirty := false
+var slots_dirty := false
+
+onready var slot_container: Container = self.find_node("SlotContainer")
+onready var label: RichTextLabel = self.find_node("Label")
+onready var texture_container: Container = self.find_node("TextureContainer")
+onready var texture_rect: TextureRect = self.find_node("TextureRect")
+onready var progress_bar: ProgressBar = self.find_node("ProgressBar")
 
 
-onready var area: Container = find_node("AssigneeArea")
-onready var label: RichTextLabel = find_node("Label")
-onready var texture_container: Container = find_node("TextureContainer")
-onready var texture_rect: TextureRect = find_node("TextureRect")
-onready var progress_bar: ProgressBar = find_node("ProgressBar")
+func get_entities() -> Array:
+	var entities := []
+	for slot in self.slots:
+		if slot.entity != null:
+			entities.append(slot.entity)
+	return entities
 
 
 func get_death_chance() -> float:
@@ -32,13 +43,15 @@ func get_death_chance() -> float:
 		return 0.0
 	if self.risk < 0.0:
 		return self.max_death_chance
-	var effective_assignees := max(0, len(self.assignees) - 1)
-	var actual_risk := max(0, self.risk - effective_assignees)
+	var effective_entities := max(0, len(self.get_entities()) - 1)
+	var actual_risk := max(0, self.risk - effective_entities)
 	var death_chance := (self.max_death_chance - self.min_death_chance) * float(actual_risk) / float(self.risk)
 	return self.min_death_chance + death_chance
 
 
 func update_label() -> void:
+	var entities := self.get_entities()
+
 	self.label.clear()
 
 	if self.raid:
@@ -49,13 +62,13 @@ func update_label() -> void:
 
 	if self.max_progress > 0:
 		self.label.add_text(" (")
-		if len(self.assignees) > 0:
+		if len(entities) > 0:
 			self.label.push_color(Global.COLOR_PREVIEW)
-			self.label.add_text("%d+" % len(self.assignees))
+			self.label.add_text("%d+" % len(entities))
 			self.label.pop()
 		self.label.add_text("%d/%d) " % [self.progress, self.max_progress])
 
-	if self.risk > 0 and len(self.assignees) > 0:
+	if self.risk > 0 and len(entities) > 0:
 		self.label.push_color(Global.COLOR_BAD)
 		self.label.add_text("%d%% Chance of Death " % Global.percent(self.get_death_chance()))
 		self.label.pop()
@@ -90,7 +103,7 @@ func update_label() -> void:
 
 func set_text(text: String) -> void:
 	self.text = text
-	self.update_label()
+	self.label_dirty = true
 
 
 func set_texture(texture: Texture) -> void:
@@ -105,7 +118,7 @@ func set_texture(texture: Texture) -> void:
 func set_progress(progress: int) -> void:
 	self.progress = min(progress, self.max_progress)
 	self.progress_bar.value = self.progress
-	self.update_label()
+	self.label_dirty = true
 
 
 func set_max_progress(max_progress: int) -> void:
@@ -116,32 +129,52 @@ func set_max_progress(max_progress: int) -> void:
 		self.progress_bar.hide()
 	else:
 		self.progress_bar.show()
-	self.update_label()
+	self.label_dirty = true
 
 
-func add_assignee(assignee: Node) -> void:
-	self.area.add_child(assignee)
-	self.assignees.append(assignee)
-	self.update_label()
-	if len(self.assignees) > 0:
-		self.show()
+func update_slots() -> void:
+	var empty_slots := 0
+	for slot in self.slots:
+		if slot.empty.visible:
+			empty_slots += 1
+	if empty_slots > 1 or (
+		empty_slots == 1
+		and not self.slots[-1].empty.visible
+	):
+		var i := 0
+		while i < len(self.slots):
+			var slot: Node = self.slots[i]
+			if slot.entity == null:
+				self.remove_slot(slot)
+				slot.queue_free()
+				empty_slots -= 1
+			else:
+				i += 1
+	if empty_slots == 0:
+		self.create_slot()
 
-func remove_assignee(assignee: Node) -> void:
-	self.area.remove_child(assignee)
-	self.assignees.erase(assignee)
-	self.update_label()
-	if self.autohide and len(self.assignees) == 0:
+
+func create_slot() -> void:
+	var slot := self.slot_scene.instance()
+	self.add_slot(slot)
+	slot.set_allowed_types(self.allowed_types.duplicate())
+
+
+func add_slot(slot: Node) -> void:
+	self.slots.append(slot)
+	self.slot_container.add_child(slot)
+	slot.assignment = self
+	self.label_dirty = true
+	self.show()
+
+
+func remove_slot(slot: Node) -> void:
+	slot.assignment = null
+	self.slots.erase(slot)
+	self.slot_container.remove_child(slot)
+	self.label_dirty = true
+	if self.autohide and len(self.slots) == 0:
 		self.hide()
-
-
-func can_drop_data(position: Vector2, data) -> bool:
-	return data.type in self.allowed_types
-
-
-func drop_data(position: Vector2, data) -> void:
-	var assignee = data
-	assignee.get_assignment().remove_assignee(assignee)
-	self.add_assignee(assignee)
 
 
 func _ready():
@@ -149,3 +182,11 @@ func _ready():
 	self.set_texture(texture)
 	self.set_max_progress(self.max_progress)
 	self.set_progress(self.progress)
+	self.create_slot()
+
+
+func _process(delta: float) -> void:
+	if self.slots_dirty:
+		self.update_slots()
+	if self.label_dirty:
+		self.update_label()

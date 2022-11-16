@@ -5,13 +5,6 @@
 	- Wealth
 		- Followers (of a certain level?) consume money 
 		- Replace conceal with bribe
-	- Assignment slots
-		- Each can hold certain type(s) of entity
-		- Some are required, some are optional
-		- Ideally: have an HBox of slot icons behind the actual assignment area
-		- Worse but definitely possible: fill assignment area with slots
-		- The slots themselves should be the droppable area
-		- For assignments with unlimited capacity: maintain exactly one free slot at the end
 	- Random events?
 		- Shouldn't be too powerful, to avoid upsetting the balance
 		- Random discoveries during quests
@@ -78,6 +71,7 @@
 	- New follower
 	- New artifact
 	- Assignment completion
+- Better music
 - Procgen end text?
 - Procgen art
 	- Modulate artifact colors (split into 2 TextureRects: colored and uncolored)
