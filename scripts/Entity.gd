@@ -25,6 +25,7 @@ const artifact_nouns := ["Souls", "Blood", "Flame", "Time", "Death", "Shadows", 
 
 # TODO generalize artifact types as a dict/list of objects so fewer variables are needed
 const suspicion_texture := preload("res://sprites/suspicion.png")
+const wealth_texture := preload("res://sprites/wealth.png")
 const artifact_ring_textures := [preload("res://sprites/artifact1.png")]
 const artifact_staff_textures := [preload("res://sprites/artifact2.png")]
 const artifact_blade_textures := [preload("res://sprites/artifact3.png")]
@@ -114,8 +115,12 @@ func _make_suspicion() -> void:
 	self.set_texture(self.suspicion_texture)
 
 
+func _make_wealth() -> void:
+	self.set_text("Wealth")
+	self.set_texture(self.wealth_texture)
+
+
 func _make_follower():
-	self.set_type(Global.FOLLOWER)
 	if randi() % 2 == 0:
 		self.set_text(self.generate_male_name())
 		self.set_texture(Global.choice(male_textures))
@@ -125,7 +130,6 @@ func _make_follower():
 
 
 func _make_artifact() -> void:
-	self.set_type(Global.ARTIFACT)
 	var artifact_object: String
 	match randi() % 5:
 		0:
@@ -149,11 +153,13 @@ func _make_artifact() -> void:
 func make_type(type: int) -> void:
 	self.set_type(type)
 	match type:
-		Global.SUSPICION:
+		Global.Types.SUSPICION:
 			self._make_suspicion()
-		Global.FOLLOWER:
+		Global.Types.WEALTH:
+			self._make_wealth()
+		Global.Types.FOLLOWER:
 			self._make_follower()
-		Global.ARTIFACT:
+		Global.Types.ARTIFACT:
 			self._make_artifact()
 
 
@@ -198,3 +204,4 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if self.tooltip_dirty:
 		self.update_tooltip()
+		self.tooltip_dirty = false

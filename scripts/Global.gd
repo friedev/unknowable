@@ -4,9 +4,9 @@ extends Node
 const SOUND_BUS := 1
 const MUSIC_BUS := 2
 
-enum {FOLLOWER, ARTIFACT, SUSPICION}
-var ALL_TYPES := [FOLLOWER, ARTIFACT, SUSPICION]
-var TYPE_NAMES := ["follower", "artifact", "suspicion"]
+enum Types {FOLLOWER, ARTIFACT, WEALTH, SUSPICION}
+var TYPE_NAMES := ["follower", "artifact", "wealth", "suspicion"]
+var RESOURCE_TYPES := [Types.WEALTH, Types.SUSPICION]
 
 const COLOR_PREVIEW := Color(0.5, 0.5, 0.5)
 const COLOR_BAD := Color(1.0, 0.0, 0.0)
@@ -21,9 +21,15 @@ func percent(fraction: float) -> int:
 
 
 func plural(string: String, count: int) -> String:
-	if abs(count) != 1:
-		return "%ss" % string
-	return string
+	if abs(count) == 1:
+		return string
+	# Special cases
+	match string.to_lower():
+		"wealth":
+			return string
+		"suspicion":
+			return string
+	return "%ss" % string
 
 
 func delta(amount: int) -> String:

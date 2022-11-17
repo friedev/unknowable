@@ -2,22 +2,19 @@
 
 - Mechanics
 	- Research to discover quests of varying difficulty and requirements
-	- Wealth
-		- Followers (of a certain level?) consume money 
-		- Replace conceal with bribe
-	- Random events?
-		- Shouldn't be too powerful, to avoid upsetting the balance
-		- Random discoveries during quests
-		- Guaranteed events throughout the year/as you progress
+	- Bribery gets more expensive the more use you use it?
 	- Enemies (watch inspectors, rival cultists, eldritch abominations)
 		- Separate type
+		- Contribute toward negative tasks
+		- Can't be moved
+		- Each generate an associated assignment to kill them (or, eventually, capture them, etc.)
 	- Artifact powers, usable in assignments
 		- Followers will still be required to perform the task
 		- Artifacts can't "die", but if the last person in the task dies, the artifact is lost?
 		- Stat buffs
 		- More powerful artifacts generate suspicion
 	- Follower stats
-		- Health
+		- Health?
 		- Strength (combat)
 		- Intelligence (artifact seeking)
 		- XP
@@ -26,17 +23,20 @@
 		- Stressed/unstable (going insane, caused by research, questing, or ritual)
 		- Captured (by the watch, during a raid, theft, or bribery)
 		- Unavailable (on a quest)
-	- Rich custom tooltips, or right click to open an info panel
 	- Follower, artifact, and wealth capacity?
 		- Spend wealth to upgrade
+	- Random events?
+		- Shouldn't be too powerful, to avoid upsetting the balance
+		- Random discoveries during quests
+		- Guaranteed events throughout the year/as you progress
+	- Only reveal assignments when you first gain their corresponding resource(s) (e.g. reveal bribe when you get wealth)
+- Content
 	- New raid options
 		- Fight them off
 			- Gain suspicion
 			- Combat check with chance of death, wound, or capture
 		- Bribe with LOTS of wealth
 	- New assignments
-		- Work
-			- Earn small amount of wealth for no suspicion
 		- Steal
 			- Earn large amount of wealth for high suspicion and chance of death (or capture)
 		- Recruit cultist
@@ -44,20 +44,25 @@
 			- Cultists have low strength but decent intelligence
 		- Hire mercenary
 			- Spend wealth and time to hire a merc with decent strength but zero intelligence
-		- Bribe
-			- Spend wealth to reduce suspicion
-		- Scapegoat
+		- Scapegoat?
 			- Sacrifice a follower to reduce suspicion
 		- Rituals
 			- Summon entities which can be used as powerful followers, but only for certain tasks
 			- Sacrifice followers and/or artifacts
-		- Remove "quell suspicion"
-			- Too cheap; once wealth exists then there's a better cost for reducing suspicion
 - UI
+	- Click a slot to auto-fill from storage/return to storage
+	- Collapse/stack homogeneous resources (e.g. "Wealth x9" instead of "Wealth, Wealth, Wealth..."
+		- Drag to take one from the top
+		- Drop to stack more
+	- Rich custom tooltips, or right click to open an info panel
+	- Better way to flow assignments to fit more on the screen
+		- HFlow/VFlow cause ugly wrapping by default
+		- Idea: Lay out tasks on
 	- Full keyboard controls
 		- Tab/backtab or arrows/WASD to focus
-		- Space to start dragging
-	- Report screen after each turn where something happened?
+		- Space to select an entity to move, release to move the selected entity to the cursor
+	- Animations when entities are created/destroyed/moved
+	- Flavorful popups/reports when things happen at the end of a turn
 	- Menu
 - Juice
 	- Particles? (if possible in a Control scene)
@@ -75,6 +80,7 @@
 - Procgen end text?
 - Procgen art
 	- Modulate artifact colors (split into 2 TextureRects: colored and uncolored)
+	- Modulate wealth
 	- Faces
 		- Modulate colors
 			- Skin color

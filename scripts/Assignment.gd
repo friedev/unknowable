@@ -1,8 +1,6 @@
 extends PanelContainer
 
 
-const slot_scene := preload("res://scenes/Slot.tscn")
-
 export var text: String
 export var progress := 0
 export var max_progress: int
@@ -13,13 +11,11 @@ export var raid := false
 export var risk := 0
 export var max_death_chance := 0.0
 export var min_death_chance := 0.0
-# TODO list of delta objects
-export var follower_delta := 0
-export var artifact_delta := 0
-export var suspicion_delta := 0
+export var type_deltas := {}
 
-var allowed_types := []
 var slots := []
+var template_slot: Node = null
+
 var label_dirty := false
 var slots_dirty := false
 
@@ -68,32 +64,20 @@ func update_label() -> void:
 			self.label.pop()
 		self.label.add_text("%d/%d) " % [self.progress, self.max_progress])
 
-	if self.risk > 0 and len(entities) > 0:
+	if self.risk != 0 and len(entities) > 0:
 		self.label.push_color(Global.COLOR_BAD)
 		self.label.add_text("%d%% Chance of Death " % Global.percent(self.get_death_chance()))
 		self.label.pop()
 
 	var previews := []
-	if self.follower_delta != 0:
-		previews.append("%s %s" % [
-				Global.delta(self.follower_delta),
-				Global.plural("Follower", self.follower_delta),
-			]
-		)
-
-	if self.artifact_delta != 0:
-		previews.append("%s %s" % [
-				Global.delta(self.artifact_delta),
-				Global.plural("Artifact", self.artifact_delta),
-			]
-		)
-
-	if self.suspicion_delta != 0:
-		previews.append("%s %s" % [
-				Global.delta(self.suspicion_delta),
-				"Suspicion",
-			]
-		)
+	for type in Global.Types.values():
+		var delta = self.type_deltas.get(type)
+		if delta != null and delta != 0:
+			previews.append("%s %s" % [
+					Global.delta(delta),
+					Global.plural(Global.TYPE_NAMES[type].capitalize(), delta),
+				]
+			)
 
 	if len(previews) > 0:
 		self.label.push_color(Global.COLOR_PREVIEW)
@@ -133,6 +117,9 @@ func set_max_progress(max_progress: int) -> void:
 
 
 func update_slots() -> void:
+	if self.template_slot == null:
+		return
+
 	var empty_slots := 0
 	for slot in self.slots:
 		if slot.empty.visible:
@@ -155,9 +142,7 @@ func update_slots() -> void:
 
 
 func create_slot() -> void:
-	var slot := self.slot_scene.instance()
-	self.add_slot(slot)
-	slot.set_allowed_types(self.allowed_types.duplicate())
+	self.add_slot(self.template_slot.duplicate())
 
 
 func add_slot(slot: Node) -> void:
@@ -182,11 +167,12 @@ func _ready():
 	self.set_texture(texture)
 	self.set_max_progress(self.max_progress)
 	self.set_progress(self.progress)
-	self.create_slot()
 
 
 func _process(delta: float) -> void:
 	if self.slots_dirty:
 		self.update_slots()
+		self.slots_dirty = false
 	if self.label_dirty:
 		self.update_label()
+		self.label_dirty = false
