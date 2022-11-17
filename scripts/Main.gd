@@ -367,31 +367,43 @@ func _on_EndTurnButton_pressed():
 	var i := 0
 	while i < len(self.assignments):
 		var assignment: Node = self.assignments[i]
-		var entities: Array = assignment.get_entities()
-		if assignment.max_progress == 0 or len(entities) == 0:
+		if assignment.max_progress == 0:
 			i += 1
 			continue
-		var new_progress := len(entities)
-		var total_progress: int = assignment.progress + new_progress
+
+		var added_progress: int = assignment.get_added_progress()
+		if added_progress == 0:
+			i += 1
+			continue
+
+		var entities: Array = assignment.get_entities()
+		var total_progress: int = assignment.progress + added_progress
 		var completions: int = total_progress / assignment.max_progress
 		assignment.set_progress(total_progress % assignment.max_progress)
+
 		if randf() < assignment.get_death_chance() and len(entities) > 0:
 			var entity: Node = Global.choice(entities)
 			entity.slot.remove_entity()
 			entity.queue_free()
+
 		if completions > 0:
 			if assignment.raid:
 				raids += completions
+
 			for assignment_type in assignment.gained_assignments:
 				self.create_assignment(assignment_type)
+
 			for entity in assignment.gained_entities:
 				self.add_entity(entity)
+
 			for type in assignment.type_deltas:
 				type_deltas[type] += assignment.type_deltas[type] * completions
+
 			for slot in assignment.slots:
 				if slot.consumed and slot.entity != null:
 					slot.remove_entity().queue_free()
 			entities = assignment.get_entities()
+
 			if assignment.exhausts:
 				self.destroy_assignment(assignment)
 				continue
@@ -399,7 +411,6 @@ func _on_EndTurnButton_pressed():
 
 	for type in type_deltas:
 		self.change_resource(type, type_deltas[type])
-
 
 	var entities := self.get_entities()
 

@@ -1,9 +1,6 @@
 # TODO
 
 - Mechanics
-	- Required slots
-		- If not all required slots are filled, no progress is made
-		- Example use case: task with an optional artifact but a required follower
 	- Locked slots
 		- Entities cannot be moved out of locked slots until the assignment is completed
 		- Example use case: quests; followers can't return until the quest is over

@@ -5,6 +5,7 @@ signal request
 
 
 var allowed_types: Array
+var required := false
 var consumed := false
 var entity: Node = null
 var assignment: Node = null
@@ -12,6 +13,12 @@ var assignment: Node = null
 onready var empty: Node = self.find_node("Empty")
 onready var label: Label = self.find_node("Label")
 onready var consumed_texture: TextureRect = self.find_node("ConsumedTexture")
+onready var required_texture: TextureRect = self.find_node("RequiredTexture")
+
+
+func set_required(required: bool) -> void:
+	self.required = required
+	self.required_texture.visible = self.required
 
 
 func set_consumed(consumed: bool) -> void:
@@ -48,6 +55,7 @@ func remove_entity() -> Node:
 
 
 func can_drop_data(position: Vector2, data) -> bool:
+	# TODO allow dropping on top of an entity to swap them, or return to storage
 	var entity: Node = data
 	return (
 		self.entity == null
@@ -69,5 +77,6 @@ func _gui_input(event: InputEvent) -> void:
 
 
 func _ready():
+	self.set_required(self.required)
 	self.set_consumed(self.consumed)
 	self.set_allowed_types(self.allowed_types)
