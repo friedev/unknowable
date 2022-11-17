@@ -5,6 +5,7 @@ signal request
 
 
 var allowed_types: Array
+var progress := 1
 var required := false
 var consumed := false
 var entity: Node = null

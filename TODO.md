@@ -36,7 +36,7 @@
 		- Spend wealth to upgrade
 	- Pantheon of gods?
 	- Research to find out win condition?
-	- For atmosphere and ease of learning: only reveal assignments when you first gain their corresponding resource(s) (e.g. reveal bribe when you get wealth)
+	- For atmosphere and ease of learning: only reveal assignments when you first gain their corresponding resource(s) (e.g. reveal bribe when you have wealth and suspicion)
 - Balance
 	- Make bribery more expensive each time use you use it?
 	- Limit bribery to 1 wealth per turn?
@@ -72,7 +72,7 @@
 		- Drag to take one from the top
 		- Drop to stack more
 		- Allows for the UI to collapse more compactly
-	- Rich custom tooltips, or right click to open an info panel
+	- Right click anything to open an info panel on the bottom of the screen
 	- Full keyboard controls
 		- Tab/backtab or arrows/WASD to focus
 		- Space to select an entity to move, release to move the selected entity to the cursor

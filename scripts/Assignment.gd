@@ -54,10 +54,13 @@ func get_death_chance() -> float:
 
 
 func get_added_progress() -> int:
+	var added_progress := 0
 	for slot in self.slots:
-		if slot.required and slot.entity == null:
+		if slot.entity != null:
+			added_progress += slot.progress
+		elif slot.required:
 			return 0
-	return len(self.get_entities())
+	return added_progress
 
 
 func update_label() -> void:
@@ -168,6 +171,7 @@ func create_slot() -> void:
 	# as of 75742ac, duplicate isn't duplicating fields, so manually copy them
 	var slot: Node = self.template_slot.duplicate()
 	slot.allowed_types = self.template_slot.allowed_types.duplicate()
+	slot.progress = self.template_slot.progress
 	slot.required = self.template_slot.required
 	slot.consumed = self.template_slot.consumed
 	self.add_slot(slot)
