@@ -69,8 +69,7 @@ func create_entity(type: int) -> Node:
 func add_entity(entity: Node) -> void:
 	var assignment: Node = self.default_assignments[entity.type]
 	# TODO make this process less fragile by adding an add_entity to assignment
-	assignment.slots[-1].add_entity(entity)
-	assignment.update_slots()
+	assignment.add_entity(entity)
 
 
 func destroy_resource(type: int) -> void:
@@ -240,6 +239,10 @@ func create_assignments():
 	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
+	slot = self.slot_scene.instance()
+	slot.consumed = true
+	slot.allowed_types = [Global.Types.SUSPICION]
+	assignment.add_slot(slot)
 	assignment.template_slot = self.slot_scene.instance()
 	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.set_texture(self.investigation_texture)

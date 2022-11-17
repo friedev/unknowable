@@ -148,7 +148,7 @@ func update_slots() -> void:
 
 	var empty_slots := 0
 	for slot in self.slots:
-		if slot.empty.visible:
+		if slot.from_template and slot.empty.visible:
 			empty_slots += 1
 	if empty_slots > 1 or (
 		empty_slots == 1
@@ -157,7 +157,7 @@ func update_slots() -> void:
 		var i := 0
 		while i < len(self.slots):
 			var slot: Node = self.slots[i]
-			if slot.entity == null:
+			if slot.from_template and slot.entity == null:
 				self.remove_slot(slot)
 				slot.queue_free()
 				empty_slots -= 1
@@ -170,10 +170,11 @@ func update_slots() -> void:
 func create_slot() -> void:
 	# as of 75742ac, duplicate isn't duplicating fields, so manually copy them
 	var slot: Node = self.template_slot.duplicate()
-	slot.allowed_types = self.template_slot.allowed_types.duplicate()
+	slot.from_template = true
 	slot.progress = self.template_slot.progress
 	slot.required = self.template_slot.required
 	slot.consumed = self.template_slot.consumed
+	slot.allowed_types = self.template_slot.allowed_types.duplicate()
 	self.add_slot(slot)
 
 
@@ -192,6 +193,19 @@ func remove_slot(slot: Node) -> void:
 	self.label_dirty = true
 	if self.autohide and len(self.slots) == 0:
 		self.hide()
+
+
+func add_entity(entity: Node) -> void:
+	var success := false
+	for slot in self.slots:
+		if slot.entity == null and entity.type in slot.allowed_types:
+			slot.add_entity(entity)
+			success = true
+			break
+	assert(success)
+	self.update_slots()
+	self.show()
+
 
 
 func request(slot: Node) -> void:

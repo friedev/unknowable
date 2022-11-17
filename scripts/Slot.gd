@@ -5,6 +5,7 @@ signal request
 
 
 var allowed_types: Array
+var from_template := false
 var progress := 1
 var required := false
 var consumed := false
