@@ -4,9 +4,9 @@ extends Node
 const SOUND_BUS := 1
 const MUSIC_BUS := 2
 
-enum Types {FOLLOWER, ARTIFACT, WEALTH, SUSPICION}
-var TYPE_NAMES := ["follower", "artifact", "wealth", "suspicion"]
-var RESOURCE_TYPES := [Types.WEALTH, Types.SUSPICION]
+enum Types {FOLLOWER, ARTIFACT, WEALTH, SUSPICION, INVESTIGATOR}
+const TYPE_NAMES := ["follower", "artifact", "wealth", "suspicion", "investigator"]
+var DRAGGABLE_TYPES := [Types.FOLLOWER, Types.ARTIFACT, Types.WEALTH, Types.SUSPICION]
 
 enum AssignmentTypes {GENERIC, ARTIFACT_QUEST}
 

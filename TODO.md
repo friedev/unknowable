@@ -1,14 +1,13 @@
 # TODO
 
 - Mechanics
+	- Generate assignments to bribe or kill investigators
+		- Remove bribery to reduce suspicion
+	- Quality of life: automatically move suspicion to the consumed slot
+		- Do this after processing consumed slots at end of turn
 	- Locked slots
 		- Entities cannot be moved out of locked slots until the assignment is completed
 		- Example use case: quests; followers can't return until the quest is over
-	- Enemies (watch inspectors, rival cultists, eldritch abominations)
-		- Separate type
-		- Contribute toward negative tasks
-		- Can't be moved
-		- Each generate an associated assignment to kill them (or, eventually, capture them, etc.)
 	- Rework investigations
 		- Suspicion contributes toward generating an investigator
 		- Investigators contribute toward an investigation assignment
@@ -72,6 +71,7 @@
 		- Drop to stack more
 		- Allows for the UI to collapse more compactly
 	- Right click anything to open an info panel on the bottom of the screen
+	- Drag on top of something to swap
 	- Full keyboard controls
 		- Tab/backtab or arrows/WASD to focus
 		- Space to select an entity to move, release to move the selected entity to the cursor

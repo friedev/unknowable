@@ -34,6 +34,7 @@ const artifact_amulet_textures := [preload("res://sprites/entities/artifacts/art
 const artifact_crown_textures := [preload("res://sprites/entities/artifacts/artifact5.png")]
 const male_textures := [preload("res://sprites/entities/followers/male_face1.png"), preload("res://sprites/entities/followers/male_face2.png")]
 const female_textures := [preload("res://sprites/entities/followers/female_face1.png"), preload("res://sprites/entities/followers/female_face2.png")]
+const investigator_textures := [preload("res://sprites/entities/investigator.png")]
 
 var type: int
 var text := ""
@@ -152,6 +153,12 @@ func _make_artifact() -> void:
 	self.set_text(self.generate_artifact_name(artifact_object))
 
 
+func _make_investigator():
+	# TODO more investigator sprites
+	self.set_text(self.generate_male_name())
+	self.set_texture(Global.choice(investigator_textures))
+
+
 func make_type(type: int) -> void:
 	self.set_type(type)
 	match type:
@@ -163,7 +170,8 @@ func make_type(type: int) -> void:
 			self._make_follower()
 		Global.Types.ARTIFACT:
 			self._make_artifact()
-
+		Global.Types.INVESTIGATOR:
+			self._make_investigator()
 
 func create_preview() -> Control:
 	var preview: Container = self.duplicate()
@@ -176,6 +184,8 @@ func create_preview() -> Control:
 
 
 func get_drag_data(position: Vector2):
+	if not self.type in Global.DRAGGABLE_TYPES:
+		return null
 	self.emit_signal("drag")
 	self.set_drag_preview(self.create_preview())
 	self.hide()

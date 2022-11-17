@@ -21,6 +21,7 @@ const assignment_scene := preload("res://scenes/Assignment.tscn")
 const slot_scene := preload("res://scenes/Slot.tscn")
 const entity_scene := preload("res://scenes/Entity.tscn")
 
+const rumors_texture := preload("res://sprites/assignments/rumors.png")
 const investigation_texture := preload("res://sprites/assignments/investigation.png")
 const recruit_texture := preload("res://sprites/assignments/recruit.png")
 const work_texture := preload("res://sprites/assignments/work.png")
@@ -251,6 +252,44 @@ func create_assignments():
 	assignment.hide()
 	self.default_assignments[Global.Types.SUSPICION] = assignment
 
+
+#	assignment = self.create_assignment(
+#		Global.AssignmentTypes.GENERIC,
+#		self.assignment_container1
+#	)
+#	assignment.set_text("Rumors")
+#	assignment.set_max_progress(20)
+#	assignment.type_deltas = {
+#		Global.Types.INVESTIGATOR: +1,
+#	}
+#	slot = self.slot_scene.instance()
+#	slot.consumed = true
+#	slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.add_slot(slot)
+#	assignment.template_slot = self.slot_scene.instance()
+#	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.set_texture(self.rumors_texture)
+#	assignment.label_dirty = true
+#	assignment.update_slots()
+#	assignment.hide()
+#	self.default_assignments[Global.Types.SUSPICION] = assignment
+#
+#	assignment = self.create_assignment(
+#		Global.AssignmentTypes.GENERIC,
+#		self.assignment_container1
+#	)
+#	assignment.set_text("Investigation")
+#	assignment.set_max_progress(10)
+#	assignment.raid = true
+#	assignment.template_slot = self.slot_scene.instance()
+#	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
+#	assignment.template_slot.consumed = true
+#	assignment.set_texture(self.investigation_texture)
+#	assignment.label_dirty = true
+#	assignment.update_slots()
+#	assignment.hide()
+#	self.default_assignments[Global.Types.INVESTIGATOR] = assignment
+
 	assignment = self.create_assignment(
 		Global.AssignmentTypes.GENERIC,
 		self.assignment_container1
@@ -400,8 +439,9 @@ func _on_EndTurnButton_pressed():
 			if assignment.raid:
 				raids += completions
 
-			for assignment_type in assignment.gained_assignments:
-				self.create_assignment(assignment_type)
+			for _i in range(completions):
+				for assignment_type in assignment.gained_assignments:
+					self.create_assignment(assignment_type)
 
 			for entity in assignment.gained_entities:
 				self.add_entity(entity)
@@ -494,12 +534,14 @@ func _on_Assignment_request(slot: Node):
 	if not slot.assignment in self.default_assignments.values():
 		for type in slot.allowed_types:
 			var assignment: Node = self.default_assignments[type]
-			var entity: Node = assignment.slots[0].entity
-			if entity != null:
-				entity.slot.remove_entity()
-				slot.add_entity(entity)
-				self.drag_sound.play()
-				return
+			for i in range(len(assignment.slots) - 1, -1, -1):
+				var source_slot: Node = assignment.slots[i]
+				var entity: Node = source_slot.entity
+				if entity != null:
+					source_slot.remove_entity()
+					slot.add_entity(entity)
+					self.drag_sound.play()
+					return
 	self.cancel_sound.play()
 
 
