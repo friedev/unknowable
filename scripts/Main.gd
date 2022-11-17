@@ -61,6 +61,7 @@ func create_entity(type: int) -> Node:
 	entity.connect("drag", self, "_on_Entity_drag")
 	entity.connect("drop", self, "_on_Entity_drop")
 	entity.connect("cancel", self, "_on_Entity_cancel")
+	entity.connect("request", self, "_on_Entity_request")
 	return entity
 
 
@@ -87,6 +88,11 @@ func change_resource(type: int, delta: int) -> void:
 			self.destroy_resource(type)
 		else:
 			self.add_entity(self.create_entity(type))
+
+
+func return_entity(entity: Node) -> void:
+	entity.slot.remove_entity()
+	self.add_entity(entity)
 
 
 func get_slots() -> Array:
@@ -183,9 +189,9 @@ func game_over(text: String):
 
 func destroy_assignment(assignment: Node) -> void:
 	for entity in assignment.get_entities():
-		entity.slot.remove_entity()
-		self.add_entity(entity)
+		self.return_entity(entity)
 	self.assignments.erase(assignment)
+	assignment.template_slot.queue_free()
 	assignment.queue_free()
 
 
@@ -193,6 +199,7 @@ func create_assignment(type := Global.AssignmentTypes.GENERIC) -> Node:
 	var assignment = self.assignment_scene.instance()
 	self.assignments.append(assignment)
 	self.assignment_container.add_child(assignment)
+	assignment.connect("request", self, "_on_Assignment_request")
 
 	assignment.type = type
 	match type:
@@ -338,9 +345,12 @@ func _on_EndTurnButton_pressed():
 	self.end_turn_sound.play()
 
 	var raids := 0
-	for assignment in self.assignments:
+	var i := 0
+	while i < len(self.assignments):
+		var assignment: Node = self.assignments[i]
 		var entities: Array = assignment.get_entities()
 		if assignment.max_progress == 0 or len(entities) == 0:
+			i += 1
 			continue
 		var new_progress := len(entities)
 		var total_progress: int = assignment.progress + new_progress
@@ -365,6 +375,8 @@ func _on_EndTurnButton_pressed():
 			entities = assignment.get_entities()
 			if assignment.exhausts:
 				self.destroy_assignment(assignment)
+				continue
+		i += 1
 
 	var entities := self.get_entities()
 
@@ -423,6 +435,27 @@ func _on_Entity_drop():
 
 
 func _on_Entity_cancel():
+	self.cancel_sound.play()
+
+
+func _on_Entity_request(entity: Node):
+	if entity.slot.assignment == self.default_assignments[entity.type]:
+		self.cancel_sound.play()
+	else:
+		self.return_entity(entity)
+		self.drop_sound.play()
+
+
+func _on_Assignment_request(slot: Node):
+	if not slot.assignment in self.default_assignments.values():
+		for type in slot.allowed_types:
+			var assignment: Node = self.default_assignments[type]
+			var entity: Node = assignment.slots[0].entity
+			if entity != null:
+				entity.slot.remove_entity()
+				slot.add_entity(entity)
+				self.drag_sound.play()
+				return
 	self.cancel_sound.play()
 
 

@@ -4,6 +4,7 @@ extends VBoxContainer
 signal drag
 signal drop
 signal cancel
+signal request(entity)
 
 
 # TODO capitalize constants
@@ -193,6 +194,12 @@ func _notification(notification) -> void:
 			self.slot.empty.hide()
 			self.show()
 			self.slot.assignment.slots_dirty = true
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and not event.is_pressed():
+			self.emit_signal("request", self)
 
 
 func _ready() -> void:

@@ -1,12 +1,25 @@
 # TODO
 
 - Mechanics
-	- Bribery gets more expensive the more use you use it?
+	- Balance
+		- Make bribery more expensive each time use you use it?
+		- Limit bribery to 1 wealth per turn?
+		- Excess wealth generates suspicion each turn?
+		- Artifacts generate suspicion each turn?
+		- Wealth upkeep cost based on number of cultists?
 	- Enemies (watch inspectors, rival cultists, eldritch abominations)
 		- Separate type
 		- Contribute toward negative tasks
 		- Can't be moved
 		- Each generate an associated assignment to kill them (or, eventually, capture them, etc.)
+	- Rework investigations
+		- Suspicion contributes toward generating an investigator
+		- Investigators contribute toward an investigation assignment
+		- Raid happens when investigation assignment is completed
+		- Investigator can be killed, but this generates lots of suspicion
+		- If all investigators are killed, the investigation is reset
+		- Suspicion is harder to deal with but its effects manifest more slowly
+		- Suspicion has a long lifetime that counts down, or just have a task that lets you freely remove it at a very slow rate
 	- Artifact powers, usable in assignments
 		- Followers will still be required to perform the task
 		- Artifacts can't "die", but if the last person in the task dies, the artifact is lost?
@@ -49,7 +62,6 @@
 			- Summon entities which can be used as powerful followers, but only for certain tasks
 			- Sacrifice followers and/or artifacts
 - UI
-	- Click a slot to auto-fill from storage/return to storage
 	- Collapse/stack homogeneous resources (e.g. "Wealth x9" instead of "Wealth, Wealth, Wealth..."
 		- Drag to take one from the top
 		- Drop to stack more
@@ -79,7 +91,7 @@
 - Procgen end text?
 - Procgen art
 	- Modulate artifact colors (split into 2 TextureRects: colored and uncolored)
-	- Modulate wealth
+	- Modulate wealth?
 	- Faces
 		- Modulate colors
 			- Skin color

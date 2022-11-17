@@ -1,6 +1,9 @@
 extends CenterContainer
 
 
+signal request
+
+
 var allowed_types: Array
 var consumed := false
 var entity: Node = null
@@ -57,6 +60,12 @@ func drop_data(position: Vector2, data) -> void:
 	if entity != self.entity:
 		entity.slot.remove_entity()
 		self.add_entity(entity)
+
+
+func _gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton:
+		if event.button_index == BUTTON_LEFT and not event.is_pressed():
+			self.assignment.request(self)
 
 
 func _ready():

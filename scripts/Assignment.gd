@@ -1,6 +1,9 @@
 extends PanelContainer
 
 
+signal request(slot)
+
+
 var text: String
 var progress := 0
 var max_progress: int
@@ -169,6 +172,10 @@ func remove_slot(slot: Node) -> void:
 	self.label_dirty = true
 	if self.autohide and len(self.slots) == 0:
 		self.hide()
+
+
+func request(slot: Node) -> void:
+	self.emit_signal("request", slot)
 
 
 func _ready():
