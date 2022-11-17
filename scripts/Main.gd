@@ -7,10 +7,6 @@ const TEXT_LOSE_NO_FOLLOWERS := "The last of your followers has fallen. With non
 const TEXT_LOSE_SURRENDER := "Reluctantly, you submit yourself and your accomplices to arrest. Many years will pass as you languish in the cold, stone jails of the Watch, wistfully watching the constellations whirl from behind iron bars.\n\nFAILURE..."
 const TEXT_RAID := "The wolves are at the door.\n\nYour conjurations and clandestine operations were not as well concealed as you had hoped. Investigators from the Watch have picked up your trail. A truncheon knocks upon the door of your secret chamber and ultimatums are shouted.\n\nHow shall you respond?"
 
-const raid_costs := {
-	Global.Types.FOLLOWER: 2,
-	Global.Types.ARTIFACT: 1,
-}
 var raid_losses := {
 	Global.Types.FOLLOWER: [],
 	Global.Types.ARTIFACT: [],
@@ -30,6 +26,7 @@ const recruit_texture := preload("res://sprites/recruit.png")
 const work_texture := preload("res://sprites/work.png")
 const seek_texture := preload("res://sprites/seek.png")
 const conceal_texture := preload("res://sprites/conceal.png")
+const research_texture := preload("res://sprites/research.png")
 
 var default_assignments := {}
 
@@ -58,18 +55,20 @@ func set_turn(turn: int) -> void:
 	self.turn_label.text = "Week %d of %d" % [self.turn + 1, self.max_turn]
 
 
-func create_entity(type: int) -> void:
+func create_entity(type: int) -> Node:
 	var entity := self.entity_scene.instance()
-	var assignment: Node = self.default_assignments[type]
-
-	# TODO make this process less fragile by adding an add_entity to assignment
-	assignment.slots[-1].add_entity(entity)
-	assignment.update_slots()
-
 	entity.make_type(type)
 	entity.connect("drag", self, "_on_Entity_drag")
 	entity.connect("drop", self, "_on_Entity_drop")
 	entity.connect("cancel", self, "_on_Entity_cancel")
+	return entity
+
+
+func add_entity(entity: Node) -> void:
+	var assignment: Node = self.default_assignments[entity.type]
+	# TODO make this process less fragile by adding an add_entity to assignment
+	assignment.slots[-1].add_entity(entity)
+	assignment.update_slots()
 
 
 func destroy_resource(type: int) -> void:
@@ -87,7 +86,7 @@ func change_resource(type: int, delta: int) -> void:
 		if delta < 0:
 			self.destroy_resource(type)
 		else:
-			self.create_entity(type)
+			self.add_entity(self.create_entity(type))
 
 
 func get_slots() -> Array:
@@ -106,15 +105,6 @@ func get_entities() -> Dictionary:
 		if slot.entity != null:
 			entities[slot.entity.type].append(slot.entity)
 	return entities
-
-
-func create_assignment(text: String) -> Node:
-	var assignment = self.assignment_scene.instance()
-	assignment.name = "%sAssignment" % text.replace(" ", "_")
-	assignment.text = text
-	self.assignments.append(assignment)
-	self.assignment_container.add_child(assignment)
-	return assignment
 
 
 func set_raid_option(
@@ -191,106 +181,129 @@ func game_over(text: String):
 	self.popup.popup_centered()
 
 
+func destroy_assignment(assignment: Node) -> void:
+	for entity in assignment.get_entities():
+		entity.slot.remove_entity()
+		self.add_entity(entity)
+	self.assignments.erase(assignment)
+	assignment.queue_free()
+
+
+func create_assignment(type := Global.AssignmentTypes.GENERIC) -> Node:
+	var assignment = self.assignment_scene.instance()
+	self.assignments.append(assignment)
+	self.assignment_container.add_child(assignment)
+
+	assignment.type = type
+	match type:
+		Global.AssignmentTypes.ARTIFACT_QUEST:
+			var artifact := self.create_entity(Global.Types.ARTIFACT)
+			assignment.gained_entities.append(artifact)
+			assignment.set_text("Seek the %s" % artifact.text)
+			assignment.set_texture(artifact.texture)
+			# TODO balance quest difficulty with artifact power
+			assignment.set_max_progress(randi() % 6 * 2 + 10)
+			assignment.exhausts = true
+			assignment.type_deltas = {
+				Global.Types.WEALTH: max(0, randi() % 6 * 2 - 4),
+				Global.Types.SUSPICION: randi() % 4 + 2,
+			}
+			assignment.risk = randi() % 8 + 3
+			assignment.max_death_chance = float(randi() % 6 + 5) * 0.10
+			assignment.min_death_chance = float(randi() % 3 + 1) * 0.10
+			assignment.template_slot = self.slot_scene.instance()
+			assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
+			assignment.label_dirty = true
+			assignment.update_slots()
+	return assignment
+
+
 func create_assignments():
 	var assignment: Node
-	var slot: Node
 
-	assignment = self.create_assignment("Investigation")
+	assignment = self.create_assignment()
+	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.SUSPICION]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.set_texture(self.investigation_texture)
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
 	self.default_assignments[Global.Types.SUSPICION] = assignment
 
-	assignment = self.create_assignment("Wealth")
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.WEALTH]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment = self.create_assignment()
+	assignment.set_text("Wealth")
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
 	self.default_assignments[Global.Types.WEALTH] = assignment
 
-	assignment = self.create_assignment("Artifacts")
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.ARTIFACT]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment = self.create_assignment()
+	assignment.set_text("Artifacts")
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.ARTIFACT]
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
 	self.default_assignments[Global.Types.ARTIFACT] = assignment
 
-	assignment = self.create_assignment("Idle")
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.FOLLOWER]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment = self.create_assignment()
+	assignment.set_text("Idle")
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 	self.default_assignments[Global.Types.FOLLOWER] = assignment
 
-	assignment = self.create_assignment("Recruit follower")
+	assignment = self.create_assignment()
+	assignment.set_text("Recruit follower")
 	assignment.set_texture(self.recruit_texture)
 	assignment.set_max_progress(3)
 	assignment.type_deltas = {
 		Global.Types.FOLLOWER: +1,
 		Global.Types.SUSPICION: +1,
 	}
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.FOLLOWER]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment("Work")
+	assignment = self.create_assignment()
+	assignment.set_text("Work")
 	assignment.set_texture(self.work_texture)
 	assignment.set_max_progress(2)
 	assignment.type_deltas = {
 		Global.Types.WEALTH: +1,
 	}
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.FOLLOWER]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment("Seek artifact")
-	assignment.set_texture(self.seek_texture)
-	assignment.set_max_progress(12)
-	assignment.type_deltas = {
-		Global.Types.ARTIFACT: +1,
-		Global.Types.SUSPICION: +2,
-	}
-	assignment.risk = 4
-	assignment.max_death_chance = 1.00
-	assignment.min_death_chance = 0.20
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.FOLLOWER]
-	slot.consumed = false
-	assignment.template_slot = slot
+	assignment = self.create_assignment()
+	assignment.set_text("Research artifacts")
+	assignment.set_texture(self.research_texture)
+	assignment.set_max_progress(8)
+	assignment.gained_assignments = [Global.AssignmentTypes.ARTIFACT_QUEST]
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment("Bribe the Watch")
+	assignment = self.create_assignment()
+	assignment.set_text("Bribe the Watch")
 	assignment.set_texture(self.conceal_texture)
 	assignment.set_max_progress(1)
 	assignment.type_deltas = {
 		Global.Types.SUSPICION: -1,
 	}
-	slot = self.slot_scene.instance()
-	slot.allowed_types = [Global.Types.WEALTH]
-	slot.consumed = true
-	assignment.template_slot = slot
+	assignment.template_slot = self.slot_scene.instance()
+	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
+	assignment.template_slot.consumed = true
 	assignment.label_dirty = true
 	assignment.update_slots()
 
@@ -306,7 +319,7 @@ func start():
 	self.is_game_over = false
 	self.set_turn(0)
 	self.create_assignments()
-	self.create_entity(Global.Types.FOLLOWER)
+	self.add_entity(self.create_entity(Global.Types.FOLLOWER))
 
 
 func _init():
@@ -333,19 +346,25 @@ func _on_EndTurnButton_pressed():
 		var total_progress: int = assignment.progress + new_progress
 		var completions: int = total_progress / assignment.max_progress
 		assignment.set_progress(total_progress % assignment.max_progress)
+		if randf() < assignment.get_death_chance() and len(entities) > 0:
+			var entity: Node = Global.choice(entities)
+			entity.slot.remove_entity()
+			entity.queue_free()
 		if completions > 0:
 			if assignment.raid:
 				raids += completions
+			for assignment_type in assignment.gained_assignments:
+				self.create_assignment(assignment_type)
+			for entity in assignment.gained_entities:
+				self.add_entity(entity)
 			for type in assignment.type_deltas:
 				self.change_resource(type, assignment.type_deltas[type] * completions)
 			for slot in assignment.slots:
 				if slot.consumed and slot.entity != null:
 					slot.remove_entity().queue_free()
 			entities = assignment.get_entities()
-		if randf() < assignment.get_death_chance() and len(entities) > 0:
-			var entity: Node = Global.choice(entities)
-			entity.slot.remove_entity()
-			entity.queue_free()
+			if assignment.exhausts:
+				self.destroy_assignment(assignment)
 
 	var entities := self.get_entities()
 

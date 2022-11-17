@@ -11,7 +11,12 @@ var raid := false
 var risk := 0
 var max_death_chance := 0.0
 var min_death_chance := 0.0
+
+var type: int
 var type_deltas := {}
+var gained_assignments := []
+var gained_entities := []
+var exhausts := false
 
 var slots := []
 var template_slot: Node = null
@@ -142,7 +147,11 @@ func update_slots() -> void:
 
 
 func create_slot() -> void:
-	self.add_slot(self.template_slot.duplicate())
+	# as of the commit after 3b2d5c9, duplicate isn't duplicating fields, so manually copy them
+	var slot: Node = self.template_slot.duplicate()
+	slot.allowed_types = self.template_slot.allowed_types.duplicate()
+	slot.consumed = self.template_slot.consumed
+	self.add_slot(slot)
 
 
 func add_slot(slot: Node) -> void:

@@ -1,7 +1,6 @@
 # TODO
 
 - Mechanics
-	- Research to discover quests of varying difficulty and requirements
 	- Bribery gets more expensive the more use you use it?
 	- Enemies (watch inspectors, rival cultists, eldritch abominations)
 		- Separate type

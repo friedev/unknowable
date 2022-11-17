@@ -54,13 +54,15 @@ func update_tooltip() -> void:
 
 func set_text(text: String) -> void:
 	self.text = text
-	self.label.text = self.text
+	if self.label != null:
+		self.label.text = self.text
 	self.tooltip_dirty = true
 
 
 func set_texture(texture: Texture) -> void:
 	self.texture = texture
-	self.texture_rect.texture = texture
+	if self.texture_rect != null:
+		self.texture_rect.texture = texture
 
 
 func set_type(type: int) -> void:

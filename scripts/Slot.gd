@@ -2,7 +2,7 @@ extends CenterContainer
 
 
 var allowed_types: Array
-var consumed: bool
+var consumed := false
 var entity: Node = null
 var assignment: Node = null
 
@@ -30,6 +30,7 @@ func add_entity(entity: Node) -> void:
 	self.add_child(self.entity)
 	self.entity.slot = self
 	self.assignment.slots_dirty = true
+	self.assignment.label_dirty = true
 
 
 func remove_entity() -> Node:
@@ -39,6 +40,7 @@ func remove_entity() -> Node:
 	self.entity = null
 	self.empty.show()
 	self.assignment.slots_dirty = true
+	self.assignment.label_dirty = true
 	return entity
 
 

@@ -8,6 +8,8 @@ enum Types {FOLLOWER, ARTIFACT, WEALTH, SUSPICION}
 var TYPE_NAMES := ["follower", "artifact", "wealth", "suspicion"]
 var RESOURCE_TYPES := [Types.WEALTH, Types.SUSPICION]
 
+enum AssignmentTypes {GENERIC, ARTIFACT_QUEST}
+
 const COLOR_PREVIEW := Color(0.5, 0.5, 0.5)
 const COLOR_BAD := Color(1.0, 0.0, 0.0)
 
