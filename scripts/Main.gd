@@ -192,7 +192,6 @@ func destroy_assignment(assignment: Node) -> void:
 	for entity in assignment.get_entities():
 		self.return_entity(entity)
 	self.assignments.erase(assignment)
-	assignment.template_slot.queue_free()
 	assignment.queue_free()
 
 
@@ -222,7 +221,7 @@ func create_assignment(
 			assignment.risk = randi() % 8 + 3
 			assignment.max_death_chance = float(randi() % 6 + 5) * 0.10
 			assignment.min_death_chance = float(randi() % 3 + 1) * 0.10
-			assignment.template_slot = self.slot_scene.instance()
+			assignment.set_template_slot(self.slot_scene.instance())
 			assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 			assignment.label_dirty = true
 			assignment.update_slots()
@@ -244,7 +243,7 @@ func create_assignments():
 	slot.consumed = true
 	slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.add_slot(slot)
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.set_texture(self.investigation_texture)
 	assignment.label_dirty = true
@@ -266,7 +265,7 @@ func create_assignments():
 #	slot.consumed = true
 #	slot.allowed_types = [Global.Types.SUSPICION]
 #	assignment.add_slot(slot)
-#	assignment.template_slot = self.slot_scene.instance()
+#	assignment.set_template_slot(self.slot_scene.instance()
 #	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 #	assignment.set_texture(self.rumors_texture)
 #	assignment.label_dirty = true
@@ -281,7 +280,7 @@ func create_assignments():
 #	assignment.set_text("Investigation")
 #	assignment.set_max_progress(10)
 #	assignment.raid = true
-#	assignment.template_slot = self.slot_scene.instance()
+#	assignment.set_template_slot(self.slot_scene.instance()
 #	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
 #	assignment.template_slot.consumed = true
 #	assignment.set_texture(self.investigation_texture)
@@ -295,7 +294,7 @@ func create_assignments():
 		self.assignment_container1
 	)
 	assignment.set_text("Wealth")
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -307,7 +306,7 @@ func create_assignments():
 		self.assignment_container1
 	)
 	assignment.set_text("Artifacts")
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.ARTIFACT]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -319,7 +318,7 @@ func create_assignments():
 		self.assignment_container1
 	)
 	assignment.set_text("Idle")
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -333,7 +332,7 @@ func create_assignments():
 		Global.Types.FOLLOWER: +1,
 		Global.Types.SUSPICION: +1,
 	}
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -345,7 +344,7 @@ func create_assignments():
 	assignment.type_deltas = {
 		Global.Types.WEALTH: +1,
 	}
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -355,7 +354,7 @@ func create_assignments():
 	assignment.set_texture(self.research_texture)
 	assignment.set_max_progress(8)
 	assignment.gained_assignments = [Global.AssignmentTypes.ARTIFACT_QUEST]
-	assignment.template_slot = self.slot_scene.instance()
+	assignment.set_template_slot(self.slot_scene.instance())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()

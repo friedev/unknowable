@@ -32,6 +32,7 @@ onready var texture_container: Container = self.find_node("TextureContainer")
 onready var texture_rect: TextureRect = self.find_node("TextureRect")
 onready var progress_bar: ProgressBar = self.find_node("ProgressBar")
 onready var expanded_container: Container = self.find_node("ExpandedContainer")
+onready var template_container: Control = self.find_node("TemplateContainer")
 
 
 func get_entities() -> Array:
@@ -140,6 +141,11 @@ func set_max_progress(max_progress: int) -> void:
 	else:
 		self.progress_bar.show()
 	self.label_dirty = true
+
+
+func set_template_slot(template_slot: Node) -> void:
+	self.template_slot = template_slot
+	self.template_container.add_child(self.template_slot)
 
 
 func update_slots() -> void:

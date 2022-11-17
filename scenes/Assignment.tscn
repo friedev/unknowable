@@ -100,3 +100,10 @@ theme = ExtResource( 1 )
 step = 1.0
 rounded = true
 percent_visible = false
+
+[node name="TemplateContainer" type="Control" parent="."]
+visible = false
+margin_left = 4.0
+margin_top = 4.0
+margin_right = 968.0
+margin_bottom = 131.0
