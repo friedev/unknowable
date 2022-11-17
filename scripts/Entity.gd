@@ -34,10 +34,9 @@ const artifact_crown_textures := [preload("res://sprites/artifact5.png")]
 const male_textures := [preload("res://sprites/male_face1.png"), preload("res://sprites/male_face2.png")]
 const female_textures := [preload("res://sprites/female_face1.png"), preload("res://sprites/female_face2.png")]
 
-export var type: int
-export var text := ""
-export var texture: Texture = null
-
+var type: int
+var text := ""
+var texture: Texture = null
 var slot: Node = null
 var tooltip_dirty := false
 

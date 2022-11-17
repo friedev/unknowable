@@ -1,17 +1,17 @@
 extends PanelContainer
 
 
-export var text: String
-export var progress := 0
-export var max_progress: int
-export var texture: Texture = null
+var text: String
+var progress := 0
+var max_progress: int
+var texture: Texture = null
 
-export var autohide := false
-export var raid := false
-export var risk := 0
-export var max_death_chance := 0.0
-export var min_death_chance := 0.0
-export var type_deltas := {}
+var autohide := false
+var raid := false
+var risk := 0
+var max_death_chance := 0.0
+var min_death_chance := 0.0
+var type_deltas := {}
 
 var slots := []
 var template_slot: Node = null

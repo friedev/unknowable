@@ -1,16 +1,14 @@
 extends CenterContainer
 
 
-export var allowed_types: Array
-export var consumed: bool
+var allowed_types: Array
+var consumed: bool
+var entity: Node = null
+var assignment: Node = null
 
-# TODO consider using an entity to visually represent an empty slot
 onready var empty: Node = self.find_node("Empty")
 onready var label: Label = self.find_node("Label")
 onready var consumed_texture: TextureRect = self.find_node("ConsumedTexture")
-
-var entity: Node = null
-var assignment: Node = null
 
 
 func set_consumed(consumed: bool) -> void:
