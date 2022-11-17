@@ -1,8 +1,8 @@
 extends HBoxContainer
 
 
-const expanded_texture := preload("res://sprites/dropdown_expanded.png")
-const collapsed_texture := preload("res://sprites/dropdown_collapsed.png")
+const expanded_texture := preload("res://sprites/ui/dropdown_expanded.png")
+const collapsed_texture := preload("res://sprites/ui/dropdown_collapsed.png")
 
 onready var assignment: Node = self.find_parent("*Assignment*")
 onready var dropdown_arrow: TextureRect = self.find_node("DropdownArrow")

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/intelligence_icon.png-300e3675fd4a879c9b7fc4a7b1c7fb43.stex"
+path="res://.import/intelligence_icon.png-b09277a4a064393f70b0f2270aac8108.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/intelligence_icon.png"
-dest_files=[ "res://.import/intelligence_icon.png-300e3675fd4a879c9b7fc4a7b1c7fb43.stex" ]
+source_file="res://sprites/stats/intelligence_icon.png"
+dest_files=[ "res://.import/intelligence_icon.png-b09277a4a064393f70b0f2270aac8108.stex" ]
 
 [params]
 

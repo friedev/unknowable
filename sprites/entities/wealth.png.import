@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/seek.png-d7697320ddf7472dce9a45a872076adc.stex"
+path="res://.import/wealth.png-48921f51813fc05e2ff4e2b4a7d427ad.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/seek.png"
-dest_files=[ "res://.import/seek.png-d7697320ddf7472dce9a45a872076adc.stex" ]
+source_file="res://sprites/entities/wealth.png"
+dest_files=[ "res://.import/wealth.png-48921f51813fc05e2ff4e2b4a7d427ad.stex" ]
 
 [params]
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/suspicion.png-7c699620e5cb3d85ce87966b040b4769.stex"
+path="res://.import/suspicion.png-1b82dd95c00022b753b602aeb24a766d.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/suspicion.png"
-dest_files=[ "res://.import/suspicion.png-7c699620e5cb3d85ce87966b040b4769.stex" ]
+source_file="res://sprites/entities/suspicion.png"
+dest_files=[ "res://.import/suspicion.png-1b82dd95c00022b753b602aeb24a766d.stex" ]
 
 [params]
 

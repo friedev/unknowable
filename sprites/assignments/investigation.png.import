@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/dropdown_expanded.png-daf84f45997085d6498db8194a87cde2.stex"
+path="res://.import/investigation.png-593390c17a09660365a5ea1626d80883.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/dropdown_expanded.png"
-dest_files=[ "res://.import/dropdown_expanded.png-daf84f45997085d6498db8194a87cde2.stex" ]
+source_file="res://sprites/assignments/investigation.png"
+dest_files=[ "res://.import/investigation.png-593390c17a09660365a5ea1626d80883.stex" ]
 
 [params]
 

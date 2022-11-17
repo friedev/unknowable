@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/artifact5.png-de5d9005ed919c31cab0838ac72baa42.stex"
+path="res://.import/conceal.png-d809ceaf9a3a9e14e00b0f9fb7eb3342.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/artifact5.png"
-dest_files=[ "res://.import/artifact5.png-de5d9005ed919c31cab0838ac72baa42.stex" ]
+source_file="res://sprites/assignments/conceal.png"
+dest_files=[ "res://.import/conceal.png-d809ceaf9a3a9e14e00b0f9fb7eb3342.stex" ]
 
 [params]
 

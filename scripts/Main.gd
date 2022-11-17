@@ -21,12 +21,12 @@ const assignment_scene := preload("res://scenes/Assignment.tscn")
 const slot_scene := preload("res://scenes/Slot.tscn")
 const entity_scene := preload("res://scenes/Entity.tscn")
 
-const investigation_texture := preload("res://sprites/investigation.png")
-const recruit_texture := preload("res://sprites/recruit.png")
-const work_texture := preload("res://sprites/work.png")
-const seek_texture := preload("res://sprites/seek.png")
-const conceal_texture := preload("res://sprites/conceal.png")
-const research_texture := preload("res://sprites/research.png")
+const investigation_texture := preload("res://sprites/assignments/investigation.png")
+const recruit_texture := preload("res://sprites/assignments/recruit.png")
+const work_texture := preload("res://sprites/assignments/work.png")
+const seek_texture := preload("res://sprites/assignments/seek.png")
+const conceal_texture := preload("res://sprites/assignments/conceal.png")
+const research_texture := preload("res://sprites/assignments/research.png")
 
 var default_assignments := {}
 

@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/female_face2.png-ea4bb4156dccec93fc45e5b6b303e697.stex"
+path="res://.import/seek.png-329d1068655960f688f988be97614702.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/female_face2.png"
-dest_files=[ "res://.import/female_face2.png-ea4bb4156dccec93fc45e5b6b303e697.stex" ]
+source_file="res://sprites/assignments/seek.png"
+dest_files=[ "res://.import/seek.png-329d1068655960f688f988be97614702.stex" ]
 
 [params]
 

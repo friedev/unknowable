@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/recruit.png-522f110ef5f6f279bc8fbcdf6362c1e0.stex"
+path="res://.import/artifact2.png-6b07677fe4d4a351588d9e730803ced9.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/recruit.png"
-dest_files=[ "res://.import/recruit.png-522f110ef5f6f279bc8fbcdf6362c1e0.stex" ]
+source_file="res://sprites/entities/artifacts/artifact2.png"
+dest_files=[ "res://.import/artifact2.png-6b07677fe4d4a351588d9e730803ced9.stex" ]
 
 [params]
 

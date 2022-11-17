@@ -25,15 +25,15 @@ const artifact_adjectives := ["Ravening", "Ethereal", "Undying", "Burning", "Fro
 const artifact_nouns := ["Souls", "Blood", "Flame", "Time", "Death", "Shadows", "Eternity", "Undeath", "Night", "Madness", "Chaos", "Beyond", "Secrets", "Thorns", "Tears", "Sorrow", "Pain", "Despair", "Infinity", "Frost", "Hatred", "Bone"]
 
 # TODO generalize artifact types as a dict/list of objects so fewer variables are needed
-const suspicion_texture := preload("res://sprites/suspicion.png")
-const wealth_texture := preload("res://sprites/wealth.png")
-const artifact_ring_textures := [preload("res://sprites/artifact1.png")]
-const artifact_staff_textures := [preload("res://sprites/artifact2.png")]
-const artifact_blade_textures := [preload("res://sprites/artifact3.png")]
-const artifact_amulet_textures := [preload("res://sprites/artifact4.png")]
-const artifact_crown_textures := [preload("res://sprites/artifact5.png")]
-const male_textures := [preload("res://sprites/male_face1.png"), preload("res://sprites/male_face2.png")]
-const female_textures := [preload("res://sprites/female_face1.png"), preload("res://sprites/female_face2.png")]
+const suspicion_texture := preload("res://sprites/entities/suspicion.png")
+const wealth_texture := preload("res://sprites/entities/wealth.png")
+const artifact_ring_textures := [preload("res://sprites/entities/artifacts/artifact1.png")]
+const artifact_staff_textures := [preload("res://sprites/entities/artifacts/artifact2.png")]
+const artifact_blade_textures := [preload("res://sprites/entities/artifacts/artifact3.png")]
+const artifact_amulet_textures := [preload("res://sprites/entities/artifacts/artifact4.png")]
+const artifact_crown_textures := [preload("res://sprites/entities/artifacts/artifact5.png")]
+const male_textures := [preload("res://sprites/entities/followers/male_face1.png"), preload("res://sprites/entities/followers/male_face2.png")]
+const female_textures := [preload("res://sprites/entities/followers/female_face1.png"), preload("res://sprites/entities/followers/female_face2.png")]
 
 var type: int
 var text := ""
