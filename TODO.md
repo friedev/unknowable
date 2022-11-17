@@ -65,10 +65,8 @@
 	- Collapse/stack homogeneous resources (e.g. "Wealth x9" instead of "Wealth, Wealth, Wealth..."
 		- Drag to take one from the top
 		- Drop to stack more
+		- Allows for the UI to collapse more compactly
 	- Rich custom tooltips, or right click to open an info panel
-	- Better way to flow assignments to fit more on the screen
-		- HFlow/VFlow cause ugly wrapping by default
-		- Idea: Lay out tasks on
 	- Full keyboard controls
 		- Tab/backtab or arrows/WASD to focus
 		- Space to select an entity to move, release to move the selected entity to the cursor

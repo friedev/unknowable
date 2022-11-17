@@ -31,7 +31,8 @@ const research_texture := preload("res://sprites/research.png")
 var default_assignments := {}
 
 onready var turn_label: Label = self.find_node("TurnLabel")
-onready var assignment_container: Container = self.find_node("AssignmentContainer")
+onready var assignment_container1: Container = self.find_node("AssignmentContainer1")
+onready var assignment_container2: Container = self.find_node("AssignmentContainer2")
 onready var popup: Popup = self.find_node("Popup")
 onready var popup_label: Label = self.find_node("PopupLabel")
 onready var popup_spacer: Label = self.find_node("PopupSpacer")
@@ -195,10 +196,13 @@ func destroy_assignment(assignment: Node) -> void:
 	assignment.queue_free()
 
 
-func create_assignment(type := Global.AssignmentTypes.GENERIC) -> Node:
+func create_assignment(
+	type := Global.AssignmentTypes.GENERIC,
+	container := self.assignment_container2
+) -> Node:
 	var assignment = self.assignment_scene.instance()
 	self.assignments.append(assignment)
-	self.assignment_container.add_child(assignment)
+	container.add_child(assignment)
 	assignment.connect("request", self, "_on_Assignment_request")
 
 	assignment.type = type
@@ -228,7 +232,10 @@ func create_assignment(type := Global.AssignmentTypes.GENERIC) -> Node:
 func create_assignments():
 	var assignment: Node
 
-	assignment = self.create_assignment()
+	assignment = self.create_assignment(
+		Global.AssignmentTypes.GENERIC,
+		self.assignment_container1
+	)
 	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
@@ -240,7 +247,10 @@ func create_assignments():
 	assignment.hide()
 	self.default_assignments[Global.Types.SUSPICION] = assignment
 
-	assignment = self.create_assignment()
+	assignment = self.create_assignment(
+		Global.AssignmentTypes.GENERIC,
+		self.assignment_container1
+	)
 	assignment.set_text("Wealth")
 	assignment.template_slot = self.slot_scene.instance()
 	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
@@ -249,7 +259,10 @@ func create_assignments():
 	assignment.hide()
 	self.default_assignments[Global.Types.WEALTH] = assignment
 
-	assignment = self.create_assignment()
+	assignment = self.create_assignment(
+		Global.AssignmentTypes.GENERIC,
+		self.assignment_container1
+	)
 	assignment.set_text("Artifacts")
 	assignment.template_slot = self.slot_scene.instance()
 	assignment.template_slot.allowed_types = [Global.Types.ARTIFACT]
@@ -258,7 +271,10 @@ func create_assignments():
 	assignment.hide()
 	self.default_assignments[Global.Types.ARTIFACT] = assignment
 
-	assignment = self.create_assignment()
+	assignment = self.create_assignment(
+		Global.AssignmentTypes.GENERIC,
+		self.assignment_container1
+	)
 	assignment.set_text("Idle")
 	assignment.template_slot = self.slot_scene.instance()
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
