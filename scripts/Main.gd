@@ -231,6 +231,7 @@ func create_assignment(
 
 func create_assignments():
 	var assignment: Node
+	var slot: Node
 
 	assignment = self.create_assignment(
 		Global.AssignmentTypes.GENERIC,
@@ -321,12 +322,18 @@ func create_assignments():
 	assignment.set_text("Bribe the Watch")
 	assignment.set_texture(self.conceal_texture)
 	assignment.set_max_progress(1)
-	assignment.type_deltas = {
-		Global.Types.SUSPICION: -1,
-	}
-	assignment.template_slot = self.slot_scene.instance()
-	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
-	assignment.template_slot.consumed = true
+	slot = self.slot_scene.instance()
+	slot.progress = 1
+	slot.required = true
+	slot.consumed = true
+	slot.allowed_types = [Global.Types.WEALTH]
+	assignment.add_slot(slot)
+	slot = self.slot_scene.instance()
+	slot.progress = 0
+	slot.required = true
+	slot.consumed = true
+	slot.allowed_types = [Global.Types.SUSPICION]
+	assignment.add_slot(slot)
 	assignment.label_dirty = true
 	assignment.update_slots()
 

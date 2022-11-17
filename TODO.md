@@ -39,7 +39,6 @@
 	- For atmosphere and ease of learning: only reveal assignments when you first gain their corresponding resource(s) (e.g. reveal bribe when you have wealth and suspicion)
 - Balance
 	- Make bribery more expensive each time use you use it?
-	- Limit bribery to 1 wealth per turn?
 	- Excess wealth generates suspicion each turn?
 	- Artifacts generate suspicion each turn?
 	- Wealth upkeep cost based on number of cultists?
