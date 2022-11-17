@@ -5,24 +5,23 @@ signal request(slot)
 
 
 var text: String
+var texture: Texture = null
+var autohide := false
+var expanded := true
+
+var type: int
 var progress := 0
 var max_progress: int
-var texture: Texture = null
-
-var autohide := false
 var raid := false
+var exhausts := false
 var risk := 0
 var max_death_chance := 0.0
 var min_death_chance := 0.0
-
-var type: int
 var type_deltas := {}
 var gained_assignments := []
 var gained_entities := []
-var exhausts := false
-
-var slots := []
 var template_slot: Node = null
+var slots := []
 
 var label_dirty := false
 var slots_dirty := false
@@ -32,6 +31,7 @@ onready var label: RichTextLabel = self.find_node("Label")
 onready var texture_container: Container = self.find_node("TextureContainer")
 onready var texture_rect: TextureRect = self.find_node("TextureRect")
 onready var progress_bar: ProgressBar = self.find_node("ProgressBar")
+onready var expanded_container: Container = self.find_node("ExpandedContainer")
 
 
 func get_entities() -> Array:
@@ -71,6 +71,8 @@ func update_label() -> void:
 			self.label.add_text("%d+" % len(entities))
 			self.label.pop()
 		self.label.add_text("%d/%d) " % [self.progress, self.max_progress])
+	else:
+		self.label.add_text(" (%d) " % len(entities))
 
 	if self.risk != 0 and len(entities) > 0:
 		self.label.push_color(Global.COLOR_BAD)
@@ -105,6 +107,11 @@ func set_texture(texture: Texture) -> void:
 		self.texture_container.show()
 	else:
 		self.texture_container.hide()
+
+
+func set_expanded(expanded: bool) -> void:
+	self.expanded = expanded
+	self.expanded_container.visible = expanded
 
 
 func set_progress(progress: int) -> void:
