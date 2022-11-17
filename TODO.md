@@ -1,9 +1,6 @@
 # TODO
 
 - Mechanics
-	- Count up total resource deltas before applying changes
-		- Makes assignment ordering much less important
-		- Makes it possible to immediately counteract suspicion from artifacts (good for balance consistency, at least for now)
 	- Required slots
 		- If not all required slots are filled, no progress is made
 		- Example use case: task with an optional artifact but a required follower

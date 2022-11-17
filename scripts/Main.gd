@@ -360,6 +360,9 @@ func _ready():
 func _on_EndTurnButton_pressed():
 	self.end_turn_sound.play()
 
+	var type_deltas := {}
+	for type in Global.Types.values():
+		type_deltas[type] = 0
 	var raids := 0
 	var i := 0
 	while i < len(self.assignments):
@@ -384,7 +387,7 @@ func _on_EndTurnButton_pressed():
 			for entity in assignment.gained_entities:
 				self.add_entity(entity)
 			for type in assignment.type_deltas:
-				self.change_resource(type, assignment.type_deltas[type] * completions)
+				type_deltas[type] += assignment.type_deltas[type] * completions
 			for slot in assignment.slots:
 				if slot.consumed and slot.entity != null:
 					slot.remove_entity().queue_free()
@@ -393,6 +396,10 @@ func _on_EndTurnButton_pressed():
 				self.destroy_assignment(assignment)
 				continue
 		i += 1
+
+	for type in type_deltas:
+		self.change_resource(type, type_deltas[type])
+
 
 	var entities := self.get_entities()
 
