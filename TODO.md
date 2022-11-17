@@ -1,12 +1,15 @@
 # TODO
 
 - Mechanics
-	- Balance
-		- Make bribery more expensive each time use you use it?
-		- Limit bribery to 1 wealth per turn?
-		- Excess wealth generates suspicion each turn?
-		- Artifacts generate suspicion each turn?
-		- Wealth upkeep cost based on number of cultists?
+	- Count up total resource deltas before applying changes
+		- Makes assignment ordering much less important
+		- Makes it possible to immediately counteract suspicion from artifacts (good for balance consistency, at least for now)
+	- Required slots
+		- If not all required slots are filled, no progress is made
+		- Example use case: task with an optional artifact but a required follower
+	- Locked slots
+		- Entities cannot be moved out of locked slots until the assignment is completed
+		- Example use case: quests; followers can't return until the quest is over
 	- Enemies (watch inspectors, rival cultists, eldritch abominations)
 		- Separate type
 		- Contribute toward negative tasks
@@ -37,12 +40,18 @@
 		- Unavailable (on a quest)
 	- Follower, artifact, and wealth capacity?
 		- Spend wealth to upgrade
-	- Random events?
-		- Shouldn't be too powerful, to avoid upsetting the balance
-		- Random discoveries during quests
-		- Guaranteed events throughout the year/as you progress
-	- Only reveal assignments when you first gain their corresponding resource(s) (e.g. reveal bribe when you get wealth)
+	- Pantheon of gods?
+	- Research to find out win condition?
+	- For atmosphere and ease of learning: only reveal assignments when you first gain their corresponding resource(s) (e.g. reveal bribe when you get wealth)
+- Balance
+	- Make bribery more expensive each time use you use it?
+	- Limit bribery to 1 wealth per turn?
+	- Excess wealth generates suspicion each turn?
+	- Artifacts generate suspicion each turn?
+	- Wealth upkeep cost based on number of cultists?
 - Content
+	- Summoning ritual to win the game
+		- Requires certain number of artifacts, wealth, and followers
 	- New raid options
 		- Fight them off
 			- Gain suspicion
@@ -61,6 +70,9 @@
 		- Rituals
 			- Summon entities which can be used as powerful followers, but only for certain tasks
 			- Sacrifice followers and/or artifacts
+			- Need to be researched
+		- Buy artifacts in auctions?
+			- Spend lots of wealth to get an artifact and some suspicion, but no chance of death
 - UI
 	- Collapse/stack homogeneous resources (e.g. "Wealth x9" instead of "Wealth, Wealth, Wealth..."
 		- Drag to take one from the top
