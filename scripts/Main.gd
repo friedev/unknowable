@@ -1,4 +1,5 @@
 extends Control
+class_name Main
 
 
 const TEXT_WIN := "The conjunction is at hand.\n\nThrough secretive and tireless search, you have gathered %d artifacts. Harnessing their ancient energies, you tear a rift in the planes, whenceforth cometh eldritch beings of ineffable might.\n\nVICTORY?"
@@ -57,8 +58,8 @@ func set_turn(turn: int) -> void:
 	self.turn_label.text = "Week %d of %d" % [self.turn + 1, self.max_turn]
 
 
-func create_entity(type: int) -> Node:
-	var entity := self.entity_scene.instance()
+func create_entity(type: int) -> Entity:
+	var entity: Entity = self.entity_scene.instance()
 	entity.make_type(type)
 	entity.connect("drag", self, "_on_Entity_drag")
 	entity.connect("drop", self, "_on_Entity_drop")
@@ -67,17 +68,17 @@ func create_entity(type: int) -> Node:
 	return entity
 
 
-func add_entity(entity: Node) -> void:
-	var assignment: Node = self.default_assignments[entity.type]
+func add_entity(entity: Entity) -> void:
+	var assignment: Assignment = self.default_assignments[entity.type]
 	# TODO make this process less fragile by adding an add_entity to assignment
 	assignment.add_entity(entity)
 
 
 func destroy_resource(type: int) -> void:
-	var assignment: Node = self.default_assignments[type]
-	var slot: Node = assignment.slots[0]
+	var assignment: Assignment = self.default_assignments[type]
+	var slot: Slot = assignment.slots[0]
 	if slot.entity != null:
-		var entity: Node = slot.entity
+		var entity: Entity = slot.entity
 		slot.remove_entity()
 		entity.queue_free()
 		assignment.update_slots()
@@ -91,7 +92,7 @@ func change_resource(type: int, delta: int) -> void:
 			self.add_entity(self.create_entity(type))
 
 
-func return_entity(entity: Node) -> void:
+func return_entity(entity: Entity) -> void:
 	entity.slot.remove_entity()
 	self.add_entity(entity)
 
@@ -188,7 +189,7 @@ func game_over(text: String):
 	self.popup.popup_centered()
 
 
-func destroy_assignment(assignment: Node) -> void:
+func destroy_assignment(assignment: Assignment) -> void:
 	for entity in assignment.get_entities():
 		self.return_entity(entity)
 	self.assignments.erase(assignment)
@@ -198,7 +199,7 @@ func destroy_assignment(assignment: Node) -> void:
 func create_assignment(
 	type := Global.AssignmentTypes.GENERIC,
 	container := self.assignment_container2
-) -> Node:
+) -> Assignment:
 	var assignment = self.assignment_scene.instance()
 	self.assignments.append(assignment)
 	container.add_child(assignment)
@@ -229,8 +230,8 @@ func create_assignment(
 
 
 func create_assignments():
-	var assignment: Node
-	var slot: Node
+	var assignment: Assignment
+	var slot: Slot
 
 	assignment = self.create_assignment(
 		Global.AssignmentTypes.GENERIC,
@@ -414,7 +415,7 @@ func _on_EndTurnButton_pressed():
 	var raids := 0
 	var i := 0
 	while i < len(self.assignments):
-		var assignment: Node = self.assignments[i]
+		var assignment: Assignment = self.assignments[i]
 		if assignment.max_progress == 0:
 			i += 1
 			continue
@@ -430,7 +431,7 @@ func _on_EndTurnButton_pressed():
 		assignment.set_progress(total_progress % assignment.max_progress)
 
 		if randf() < assignment.get_death_chance() and len(entities) > 0:
-			var entity: Node = Global.choice(entities)
+			var entity: Entity = Global.choice(entities)
 			entity.slot.remove_entity()
 			entity.queue_free()
 
@@ -521,7 +522,7 @@ func _on_Entity_cancel():
 	self.cancel_sound.play()
 
 
-func _on_Entity_request(entity: Node):
+func _on_Entity_request(entity: Entity):
 	if entity.slot.assignment == self.default_assignments[entity.type]:
 		self.cancel_sound.play()
 	else:
@@ -529,13 +530,13 @@ func _on_Entity_request(entity: Node):
 		self.drop_sound.play()
 
 
-func _on_Assignment_request(slot: Node):
+func _on_Assignment_request(slot: Slot):
 	if not slot.assignment in self.default_assignments.values():
 		for type in slot.allowed_types:
-			var assignment: Node = self.default_assignments[type]
+			var assignment: Assignment = self.default_assignments[type]
 			for i in range(len(assignment.slots) - 1, -1, -1):
-				var source_slot: Node = assignment.slots[i]
-				var entity: Node = source_slot.entity
+				var source_slot: Slot = assignment.slots[i]
+				var entity: Entity = source_slot.entity
 				if entity != null:
 					source_slot.remove_entity()
 					slot.add_entity(entity)

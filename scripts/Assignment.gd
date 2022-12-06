@@ -1,4 +1,5 @@
 extends PanelContainer
+class_name Assignment
 
 
 signal request(slot)
@@ -20,7 +21,7 @@ var min_death_chance := 0.0
 var type_deltas := {}
 var gained_assignments := []
 var gained_entities := []
-var template_slot: Node = null
+var template_slot: Slot = null
 var slots := []
 
 var label_dirty := false
@@ -143,7 +144,7 @@ func set_max_progress(max_progress: int) -> void:
 	self.label_dirty = true
 
 
-func set_template_slot(template_slot: Node) -> void:
+func set_template_slot(template_slot: Slot) -> void:
 	self.template_slot = template_slot
 	self.template_container.add_child(self.template_slot)
 
@@ -162,7 +163,7 @@ func update_slots() -> void:
 	):
 		var i := 0
 		while i < len(self.slots):
-			var slot: Node = self.slots[i]
+			var slot: Slot = self.slots[i]
 			if slot.from_template and slot.entity == null:
 				self.remove_slot(slot)
 				slot.queue_free()
@@ -175,7 +176,7 @@ func update_slots() -> void:
 
 func create_slot() -> void:
 	# as of 75742ac, duplicate isn't duplicating fields, so manually copy them
-	var slot: Node = self.template_slot.duplicate()
+	var slot: Slot = self.template_slot.duplicate()
 	slot.from_template = true
 	slot.progress = self.template_slot.progress
 	slot.required = self.template_slot.required
@@ -184,7 +185,7 @@ func create_slot() -> void:
 	self.add_slot(slot)
 
 
-func add_slot(slot: Node) -> void:
+func add_slot(slot: Slot) -> void:
 	self.slots.append(slot)
 	self.slot_container.add_child(slot)
 	slot.assignment = self
@@ -192,7 +193,7 @@ func add_slot(slot: Node) -> void:
 	self.show()
 
 
-func remove_slot(slot: Node) -> void:
+func remove_slot(slot: Slot) -> void:
 	slot.assignment = null
 	self.slots.erase(slot)
 	self.slot_container.remove_child(slot)
@@ -201,7 +202,7 @@ func remove_slot(slot: Node) -> void:
 		self.hide()
 
 
-func add_entity(entity: Node) -> void:
+func add_entity(entity: Entity) -> void:
 	var success := false
 	for slot in self.slots:
 		if slot.entity == null and entity.type in slot.allowed_types:
@@ -214,11 +215,11 @@ func add_entity(entity: Node) -> void:
 
 
 
-func request(slot: Node) -> void:
+func request(slot: Slot) -> void:
 	self.emit_signal("request", slot)
 
 
-func _ready():
+func _ready() -> void:
 	self.set_text(text)
 	self.set_texture(texture)
 	self.set_max_progress(self.max_progress)

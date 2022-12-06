@@ -1,4 +1,5 @@
 extends CenterContainer
+class_name Slot
 
 
 signal request
@@ -9,10 +10,10 @@ var from_template := false
 var progress := 1
 var required := false
 var consumed := false
-var entity: Node = null
+var entity: Entity = null
 var assignment: Node = null
 
-onready var empty: Node = self.find_node("Empty")
+onready var empty: Control = self.find_node("Empty")
 onready var label: Label = self.find_node("Label")
 onready var consumed_texture: TextureRect = self.find_node("ConsumedTexture")
 onready var required_texture: TextureRect = self.find_node("RequiredTexture")
@@ -36,7 +37,7 @@ func set_allowed_types(allowed_types: Array) -> void:
 	self.label.text = "/".join(allowed_type_names)
 
 
-func add_entity(entity: Node) -> void:
+func add_entity(entity: Entity) -> void:
 	self.empty.hide()
 	self.entity = entity
 	self.add_child(self.entity)
@@ -45,7 +46,7 @@ func add_entity(entity: Node) -> void:
 	self.assignment.label_dirty = true
 
 
-func remove_entity() -> Node:
+func remove_entity() -> Entity:
 	var entity = self.entity
 	self.entity.slot = null
 	self.remove_child(self.entity)
@@ -58,7 +59,7 @@ func remove_entity() -> Node:
 
 func can_drop_data(position: Vector2, data) -> bool:
 	# TODO allow dropping on top of an entity to swap them, or return to storage
-	var entity: Node = data
+	var entity: Entity = data
 	return (
 		self.entity == null
 		or self.entity == entity

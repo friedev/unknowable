@@ -1,4 +1,5 @@
 extends VBoxContainer
+class_name Entity
 
 
 signal drag

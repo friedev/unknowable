@@ -8,6 +8,40 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "PanelContainer",
+"class": "Assignment",
+"language": "GDScript",
+"path": "res://scripts/Assignment.gd"
+}, {
+"base": "HBoxContainer",
+"class": "DropdownArea",
+"language": "GDScript",
+"path": "res://scripts/DropdownArea.gd"
+}, {
+"base": "VBoxContainer",
+"class": "Entity",
+"language": "GDScript",
+"path": "res://scripts/Entity.gd"
+}, {
+"base": "Control",
+"class": "Main",
+"language": "GDScript",
+"path": "res://scripts/Main.gd"
+}, {
+"base": "CenterContainer",
+"class": "Slot",
+"language": "GDScript",
+"path": "res://scripts/Slot.gd"
+} ]
+_global_script_class_icons={
+"Assignment": "",
+"DropdownArea": "",
+"Entity": "",
+"Main": "",
+"Slot": ""
+}
+
 [application]
 
 config/name="UNKNOWABLE"
