@@ -1,20 +1,15 @@
 # TODO
 
 - Mechanics
-	- Generate assignments to bribe or kill investigators
-		- Remove bribery to reduce suspicion
 	- Quality of life: automatically move suspicion to the consumed slot
 		- Do this after processing consumed slots at end of turn
 	- Locked slots
 		- Entities cannot be moved out of locked slots until the assignment is completed
 		- Example use case: quests; followers can't return until the quest is over
 	- Rework investigations
-		- Suspicion contributes toward generating an investigator
-		- Investigators contribute toward an investigation assignment
-		- Raid happens when investigation assignment is completed
-		- Investigator can be killed, but this generates lots of suspicion
+		- Generate assignments to bribe or kill investigators
+		- Remove bribery to reduce suspicion
 		- If all investigators are killed, the investigation is reset
-		- Suspicion is harder to deal with but its effects manifest more slowly
 		- Suspicion has a long lifetime that counts down, or just have a task that lets you freely remove it at a very slow rate
 	- Artifact powers, usable in assignments
 		- Followers will still be required to perform the task
@@ -41,7 +36,10 @@
 	- Excess wealth generates suspicion each turn?
 	- Artifacts generate suspicion each turn?
 	- Wealth upkeep cost based on number of cultists?
+	- Make artifact quest difficulty proportional to reward?
 - Content
+	- New resource: captives
+		- 
 	- Summoning ritual to win the game
 		- Requires certain number of artifacts, wealth, and followers
 	- New raid options
@@ -61,11 +59,14 @@
 			- Sacrifice a follower to reduce suspicion
 		- Rituals
 			- Summon entities which can be used as powerful followers, but only for certain tasks
-			- Sacrifice followers and/or artifacts
+			- Sacrifice followers or prisoners and/or artifacts
 			- Need to be researched
 		- Buy artifacts in auctions?
 			- Spend lots of wealth to get an artifact and some suspicion, but no chance of death
-- UI
+		- Capture prisoner
+			- Generate lots of suspicion to get a captive
+- UI/UX
+	- Shift+click to move all unassigned resources to a task, or unassign
 	- Collapse/stack homogeneous resources (e.g. "Wealth x9" instead of "Wealth, Wealth, Wealth..."
 		- Drag to take one from the top
 		- Drop to stack more
