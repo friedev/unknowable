@@ -1,13 +1,14 @@
 [remap]
 
 importer="wav"
-type="AudioStreamSample"
-path="res://.import/end_turn.wav-101994d7f0736542c57b0e9392128749.sample"
+type="AudioStreamWAV"
+uid="uid://dv4gvsbjk0s2n"
+path="res://.godot/imported/end_turn.wav-101994d7f0736542c57b0e9392128749.sample"
 
 [deps]
 
 source_file="res://sound/end_turn.wav"
-dest_files=[ "res://.import/end_turn.wav-101994d7f0736542c57b0e9392128749.sample" ]
+dest_files=["res://.godot/imported/end_turn.wav-101994d7f0736542c57b0e9392128749.sample"]
 
 [params]
 

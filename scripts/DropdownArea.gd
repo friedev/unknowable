@@ -5,8 +5,8 @@ class_name DropdownArea
 const expanded_texture := preload("res://sprites/ui/dropdown_expanded.png")
 const collapsed_texture := preload("res://sprites/ui/dropdown_collapsed.png")
 
-onready var assignment: Assignment = self.find_parent("*Assignment*")
-onready var dropdown_arrow: TextureRect = self.find_node("DropdownArrow")
+@onready var assignment: Assignment = self.find_parent("*Assignment*")
+@onready var dropdown_arrow: TextureRect = self.find_child("DropdownArrow")
 
 
 func set_expanded(expanded: bool) -> void:
@@ -20,5 +20,5 @@ func set_expanded(expanded: bool) -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and not event.is_pressed():
+		if event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
 			self.set_expanded(not self.assignment.expanded)

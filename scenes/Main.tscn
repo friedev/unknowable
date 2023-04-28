@@ -1,267 +1,198 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=10 format=3 uid="uid://c437hmfl2g3qy"]
 
-[ext_resource path="res://ui/theme.tres" type="Theme" id=1]
-[ext_resource path="res://scripts/Main.gd" type="Script" id=2]
-[ext_resource path="res://sound/end_turn.wav" type="AudioStream" id=3]
-[ext_resource path="res://sound/drag.wav" type="AudioStream" id=4]
-[ext_resource path="res://sound/drop.wav" type="AudioStream" id=5]
-[ext_resource path="res://sound/cancel.wav" type="AudioStream" id=6]
-[ext_resource path="res://sound/unknowable.ogg" type="AudioStream" id=7]
+[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="1"]
+[ext_resource type="Script" path="res://scripts/Main.gd" id="2"]
+[ext_resource type="AudioStream" uid="uid://dv4gvsbjk0s2n" path="res://sound/end_turn.wav" id="3"]
+[ext_resource type="AudioStream" uid="uid://0bf5lx4s11dm" path="res://sound/drag.wav" id="4"]
+[ext_resource type="AudioStream" uid="uid://ch3ql6p33kjyy" path="res://sound/drop.wav" id="5"]
+[ext_resource type="AudioStream" uid="uid://bncijwemr38if" path="res://sound/cancel.wav" id="6"]
+[ext_resource type="AudioStream" uid="uid://cplchsg5unsko" path="res://sound/unknowable.ogg" id="7"]
 
-[sub_resource type="InputEventAction" id=1]
-action = "end_turn"
+[sub_resource type="InputEventAction" id="InputEventAction_314pg"]
+action = &"end_turn"
 
-[sub_resource type="ShortCut" id=2]
-shortcut = SubResource( 1 )
+[sub_resource type="Shortcut" id="Shortcut_ow38y"]
+events = [SubResource("InputEventAction_314pg")]
 
 [node name="Main" type="Control"]
+layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
-script = ExtResource( 2 )
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1")
+script = ExtResource("2")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 0
 anchor_right = 1.0
 anchor_bottom = 1.0
-theme = ExtResource( 1 )
+theme = ExtResource("1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer"]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 1008.0
-margin_bottom = 584.0
-theme = ExtResource( 1 )
-custom_constants/separation = 12
+layout_mode = 2
+theme = ExtResource("1")
+theme_override_constants/separation = 12
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer/VBoxContainer"]
-margin_right = 992.0
-margin_bottom = 34.0
-theme = ExtResource( 1 )
-custom_constants/separation = 16
+layout_mode = 2
+theme = ExtResource("1")
+theme_override_constants/separation = 16
 
 [node name="EndTurnButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 108.0
-margin_bottom = 34.0
-hint_tooltip = "Shortcut: Space/Enter"
-focus_mode = 0
+layout_mode = 2
 size_flags_horizontal = 0
-theme = ExtResource( 1 )
+tooltip_text = "Shortcut: Space/Enter"
+focus_mode = 0
+theme = ExtResource("1")
+shortcut = SubResource("Shortcut_ow38y")
 shortcut_in_tooltip = false
-enabled_focus_mode = 0
-shortcut = SubResource( 2 )
 text = "End Turn"
 
 [node name="TurnLabel" type="Label" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 124.0
-margin_top = 8.0
-margin_right = 608.0
-margin_bottom = 26.0
-hint_tooltip = "Suspicion"
-mouse_filter = 0
+layout_mode = 2
 size_flags_horizontal = 3
-theme = ExtResource( 1 )
+tooltip_text = "Suspicion"
+mouse_filter = 0
+theme = ExtResource("1")
 text = "Week 1 of 52"
-valign = 1
 
 [node name="SoundButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 624.0
-margin_right = 702.0
-margin_bottom = 34.0
+layout_mode = 2
 focus_mode = 0
-theme = ExtResource( 1 )
+theme = ExtResource("1")
 toggle_mode = true
-pressed = true
-enabled_focus_mode = 0
 text = "Sound"
 
 [node name="MusicButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 718.0
-margin_right = 788.0
-margin_bottom = 34.0
+layout_mode = 2
 focus_mode = 0
-theme = ExtResource( 1 )
+theme = ExtResource("1")
 toggle_mode = true
-pressed = true
-enabled_focus_mode = 0
 text = "Music"
 
 [node name="FullscreenButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 804.0
-margin_right = 922.0
-margin_bottom = 34.0
+layout_mode = 2
 focus_mode = 0
-theme = ExtResource( 1 )
+theme = ExtResource("1")
 toggle_mode = true
-pressed = true
-enabled_focus_mode = 0
 text = "Fullscreen"
 
 [node name="QuitButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 938.0
-margin_right = 992.0
-margin_bottom = 34.0
+layout_mode = 2
 focus_mode = 0
-theme = ExtResource( 1 )
-enabled_focus_mode = 0
+theme = ExtResource("1")
 text = "Quit"
 
 [node name="HSplitContainer" type="HSplitContainer" parent="MarginContainer/VBoxContainer"]
-margin_top = 46.0
-margin_right = 992.0
-margin_bottom = 568.0
-mouse_filter = 1
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
-margin_right = 490.0
-margin_bottom = 522.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 1 )
-scroll_horizontal_enabled = false
+theme = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ScrollContainer"]
-margin_right = 490.0
-margin_bottom = 522.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 8
-custom_constants/margin_top = 0
-custom_constants/margin_left = 0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
 
 [node name="AssignmentContainer1" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ScrollContainer/MarginContainer"]
-margin_right = 482.0
-margin_bottom = 506.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ScrollContainer2" type="ScrollContainer" parent="MarginContainer/VBoxContainer/HSplitContainer"]
-margin_left = 502.0
-margin_right = 992.0
-margin_bottom = 522.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme = ExtResource( 1 )
-scroll_horizontal_enabled = false
+theme = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ScrollContainer2"]
-margin_right = 490.0
-margin_bottom = 522.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-custom_constants/margin_right = 8
-custom_constants/margin_top = 0
-custom_constants/margin_left = 0
+theme_override_constants/margin_left = 0
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 8
 
 [node name="AssignmentContainer2" type="VBoxContainer" parent="MarginContainer/VBoxContainer/HSplitContainer/ScrollContainer2/MarginContainer"]
-margin_right = 482.0
-margin_bottom = 506.0
+layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="Popup" type="Popup" parent="MarginContainer"]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 1008.0
-margin_bottom = 584.0
-grow_horizontal = 2
-grow_vertical = 2
-size_flags_horizontal = 3
-theme = ExtResource( 1 )
-popup_exclusive = true
+exclusive = true
+theme = ExtResource("1")
 
 [node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Popup"]
+custom_minimum_size = Vector2(640, 0)
+anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
-rect_min_size = Vector2( 640, 0 )
-theme = ExtResource( 1 )
+theme = ExtResource("1")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Popup/PanelContainer"]
-margin_left = 4.0
-margin_top = 4.0
-margin_right = 636.0
-margin_bottom = 190.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource( 1 )
+layout_mode = 2
+theme = ExtResource("1")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Popup/PanelContainer/MarginContainer"]
-margin_left = 16.0
-margin_top = 16.0
-margin_right = 616.0
-margin_bottom = 170.0
+layout_mode = 2
 
 [node name="PopupLabel" type="Label" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
-margin_right = 600.0
-margin_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource( 1 )
+layout_mode = 2
+theme = ExtResource("1")
 text = "You have died."
-valign = 1
-autowrap = true
 
 [node name="PopupSpacer" type="Label" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 22.0
-margin_right = 600.0
-margin_bottom = 40.0
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource( 1 )
-valign = 1
-autowrap = true
+layout_mode = 2
+theme = ExtResource("1")
 
 [node name="PopupButton1" type="Button" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 44.0
-margin_right = 600.0
-margin_bottom = 78.0
+layout_mode = 2
 focus_mode = 0
-enabled_focus_mode = 0
 text = "Lose Alice Adams and Bob Baker"
-align = 0
 
 [node name="PopupButton2" type="Button" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 82.0
-margin_right = 600.0
-margin_bottom = 116.0
+layout_mode = 2
 focus_mode = 0
-enabled_focus_mode = 0
 text = "Lose the Eye of Cthulhu"
-align = 0
 
 [node name="PopupButton3" type="Button" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
-margin_top = 120.0
-margin_right = 600.0
-margin_bottom = 154.0
+layout_mode = 2
 focus_mode = 0
-enabled_focus_mode = 0
 text = "Surrender"
-align = 0
 
 [node name="DragSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 4 )
-bus = "Sound"
+stream = ExtResource("4")
+bus = &"Sound"
 
 [node name="DropSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 5 )
-bus = "Sound"
+stream = ExtResource("5")
+bus = &"Sound"
 
 [node name="CancelSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 6 )
-bus = "Sound"
+stream = ExtResource("6")
+bus = &"Sound"
 
 [node name="EndTurnSound" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 3 )
-bus = "Sound"
+stream = ExtResource("3")
+bus = &"Sound"
 
 [node name="Music" type="AudioStreamPlayer" parent="."]
-stream = ExtResource( 7 )
-bus = "Music"
+stream = ExtResource("7")
+bus = &"Music"
 
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/EndTurnButton" to="." method="_on_EndTurnButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/SoundButton" to="." method="_on_SoundButton_pressed"]

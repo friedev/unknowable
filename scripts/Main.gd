@@ -32,25 +32,25 @@ const research_texture := preload("res://sprites/assignments/research.png")
 
 var default_assignments := {}
 
-onready var turn_label: Label = self.find_node("TurnLabel")
-onready var assignment_container1: Container = self.find_node("AssignmentContainer1")
-onready var assignment_container2: Container = self.find_node("AssignmentContainer2")
-onready var popup: Popup = self.find_node("Popup")
-onready var popup_label: Label = self.find_node("PopupLabel")
-onready var popup_spacer: Label = self.find_node("PopupSpacer")
-onready var popup_button1: Button = self.find_node("PopupButton1")
-onready var popup_button2: Button = self.find_node("PopupButton2")
-onready var popup_button3: Button = self.find_node("PopupButton3")
-onready var quit_button: Button = self.find_node("QuitButton")
-onready var sound_button: Button = self.find_node("SoundButton")
-onready var music_button: Button = self.find_node("MusicButton")
-onready var fullscreen_button: Button = self.find_node("FullscreenButton")
+@onready var turn_label: Label = self.find_child("TurnLabel")
+@onready var assignment_container1: Container = self.find_child("AssignmentContainer1")
+@onready var assignment_container2: Container = self.find_child("AssignmentContainer2")
+@onready var popup: Popup = self.find_child("Popup")
+@onready var popup_label: Label = self.find_child("PopupLabel")
+@onready var popup_spacer: Label = self.find_child("PopupSpacer")
+@onready var popup_button1: Button = self.find_child("PopupButton1")
+@onready var popup_button2: Button = self.find_child("PopupButton2")
+@onready var popup_button3: Button = self.find_child("PopupButton3")
+@onready var quit_button: Button = self.find_child("QuitButton")
+@onready var sound_button: Button = self.find_child("SoundButton")
+@onready var music_button: Button = self.find_child("MusicButton")
+@onready var fullscreen_button: Button = self.find_child("FullscreenButton")
 
-onready var drag_sound: AudioStreamPlayer = self.find_node("DragSound")
-onready var drop_sound: AudioStreamPlayer = self.find_node("DropSound")
-onready var cancel_sound: AudioStreamPlayer = self.find_node("CancelSound")
-onready var end_turn_sound: AudioStreamPlayer = self.find_node("EndTurnSound")
-onready var music: AudioStreamPlayer = self.find_node("Music")
+@onready var drag_sound: AudioStreamPlayer = self.find_child("DragSound")
+@onready var drop_sound: AudioStreamPlayer = self.find_child("DropSound")
+@onready var cancel_sound: AudioStreamPlayer = self.find_child("CancelSound")
+@onready var end_turn_sound: AudioStreamPlayer = self.find_child("EndTurnSound")
+@onready var music: AudioStreamPlayer = self.find_child("Music")
 
 
 func set_turn(turn: int) -> void:
@@ -59,12 +59,12 @@ func set_turn(turn: int) -> void:
 
 
 func create_entity(type: int) -> Entity:
-	var entity: Entity = self.entity_scene.instance()
+	var entity: Entity = self.entity_scene.instantiate()
 	entity.make_type(type)
-	entity.connect("drag", self, "_on_Entity_drag")
-	entity.connect("drop", self, "_on_Entity_drop")
-	entity.connect("cancel", self, "_on_Entity_cancel")
-	entity.connect("request", self, "_on_Entity_request")
+	entity.connect("drag", Callable(self, "_on_Entity_drag"))
+	entity.connect("drop", Callable(self, "_on_Entity_drop"))
+	entity.connect("cancel", Callable(self, "_on_Entity_cancel"))
+	entity.connect("request", Callable(self, "_on_Entity_request"))
 	return entity
 
 
@@ -200,10 +200,10 @@ func create_assignment(
 	type := Global.AssignmentTypes.GENERIC,
 	container := self.assignment_container2
 ) -> Assignment:
-	var assignment = self.assignment_scene.instance()
+	var assignment = self.assignment_scene.instantiate()
 	self.assignments.append(assignment)
 	container.add_child(assignment)
-	assignment.connect("request", self, "_on_Assignment_request")
+	assignment.connect("request", Callable(self, "_on_Assignment_request"))
 
 	assignment.type = type
 	match type:
@@ -222,7 +222,7 @@ func create_assignment(
 			assignment.risk = randi() % 8 + 3
 			assignment.max_death_chance = float(randi() % 6 + 5) * 0.10
 			assignment.min_death_chance = float(randi() % 3 + 1) * 0.10
-			assignment.set_template_slot(self.slot_scene.instance())
+			assignment.set_template_slot(self.slot_scene.instantiate())
 			assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 			assignment.label_dirty = true
 			assignment.update_slots()
@@ -240,11 +240,11 @@ func create_assignments():
 	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
-	slot = self.slot_scene.instance()
+	slot = self.slot_scene.instantiate()
 	slot.consumed = true
 	slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.add_slot(slot)
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.set_texture(self.investigation_texture)
 	assignment.label_dirty = true
@@ -295,7 +295,7 @@ func create_assignments():
 		self.assignment_container1
 	)
 	assignment.set_text("Wealth")
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -307,7 +307,7 @@ func create_assignments():
 		self.assignment_container1
 	)
 	assignment.set_text("Artifacts")
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.ARTIFACT]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -319,7 +319,7 @@ func create_assignments():
 		self.assignment_container1
 	)
 	assignment.set_text("Idle")
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -333,7 +333,7 @@ func create_assignments():
 		Global.Types.FOLLOWER: +1,
 		Global.Types.SUSPICION: +1,
 	}
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -345,7 +345,7 @@ func create_assignments():
 	assignment.type_deltas = {
 		Global.Types.WEALTH: +1,
 	}
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -355,7 +355,7 @@ func create_assignments():
 	assignment.set_texture(self.research_texture)
 	assignment.set_max_progress(8)
 	assignment.gained_assignments = [Global.AssignmentTypes.ARTIFACT_QUEST]
-	assignment.set_template_slot(self.slot_scene.instance())
+	assignment.set_template_slot(self.slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
@@ -364,13 +364,13 @@ func create_assignments():
 	assignment.set_text("Bribe the Watch")
 	assignment.set_texture(self.conceal_texture)
 	assignment.set_max_progress(1)
-	slot = self.slot_scene.instance()
+	slot = self.slot_scene.instantiate()
 	slot.progress = 1
 	slot.required = true
 	slot.consumed = true
 	slot.allowed_types = [Global.Types.WEALTH]
 	assignment.add_slot(slot)
-	slot = self.slot_scene.instance()
+	slot = self.slot_scene.instantiate()
 	slot.progress = 0
 	slot.required = true
 	slot.consumed = true
@@ -402,7 +402,7 @@ func _ready():
 	self.music.play(0.0)
 	if OS.get_name() == "HTML5":
 		self.quit_button.hide()
-		self.fullscreen_button.pressed = false
+		self.fullscreen_button.button_pressed = false
 	start()
 
 
@@ -546,15 +546,15 @@ func _on_Assignment_request(slot: Slot):
 
 
 func _on_SoundButton_pressed():
-	AudioServer.set_bus_mute(Global.SOUND_BUS, not self.sound_button.pressed)
+	AudioServer.set_bus_mute(Global.SOUND_BUS, not self.sound_button.button_pressed)
 
 
 func _on_MusicButton_pressed():
-	AudioServer.set_bus_mute(Global.MUSIC_BUS, not self.music_button.pressed)
+	AudioServer.set_bus_mute(Global.MUSIC_BUS, not self.music_button.button_pressed)
 
 
 func _on_FullscreenButton_pressed():
-	OS.window_fullscreen = self.fullscreen_button.pressed
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (self.fullscreen_button.pressed) else Window.MODE_WINDOWED
 
 
 func _on_QuitButton_pressed():

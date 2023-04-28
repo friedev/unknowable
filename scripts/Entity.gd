@@ -39,20 +39,20 @@ const investigator_textures := [preload("res://sprites/entities/investigator.png
 
 var type: int
 var text := ""
-var texture: Texture = null
+var texture: Texture2D = null
 var slot: Node = null
 var tooltip_dirty := false
 
-onready var label: Label = self.find_node("Label")
-onready var texture_rect: TextureRect = self.find_node("TextureRect")
+@onready var label: Label = self.find_child("Label")
+@onready var texture_rect: TextureRect = self.find_child("TextureRect")
 
 
 func update_tooltip() -> void:
 	var type_name: String = Global.TYPE_NAMES[self.type]
 	if self.text.nocasecmp_to(type_name) == 0:
-		self.hint_tooltip = self.text
+		self.tooltip_text = self.text
 	else:
-		self.hint_tooltip = "%s, %s" % [self.text, type_name]
+		self.tooltip_text = "%s, %s" % [self.text, type_name]
 
 
 func set_text(text: String) -> void:
@@ -62,7 +62,7 @@ func set_text(text: String) -> void:
 	self.tooltip_dirty = true
 
 
-func set_texture(texture: Texture) -> void:
+func set_texture(texture: Texture2D) -> void:
 	self.texture = texture
 	if self.texture_rect != null:
 		self.texture_rect.texture = texture
@@ -180,11 +180,11 @@ func create_preview() -> Control:
 	# The Control's position is set to the mouse, but we can offset the entity
 	var parent := Control.new()
 	parent.add_child(preview)
-	preview.rect_position = -preview.rect_size / 2
+	preview.position = -preview.size / 2
 	return parent
 
 
-func get_drag_data(position: Vector2):
+func _get_drag_data(position: Vector2):
 	if not self.type in Global.DRAGGABLE_TYPES:
 		return null
 	self.emit_signal("drag")
@@ -209,7 +209,7 @@ func _notification(notification) -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and not event.is_pressed():
+		if event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
 			self.emit_signal("request", self)
 
 

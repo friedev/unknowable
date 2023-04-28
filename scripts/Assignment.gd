@@ -6,7 +6,7 @@ signal request(slot)
 
 
 var text: String
-var texture: Texture = null
+var texture: Texture2D = null
 var autohide := false
 var expanded := true
 
@@ -27,13 +27,13 @@ var slots := []
 var label_dirty := false
 var slots_dirty := false
 
-onready var slot_container: Container = self.find_node("SlotContainer")
-onready var label: RichTextLabel = self.find_node("Label")
-onready var texture_container: Container = self.find_node("TextureContainer")
-onready var texture_rect: TextureRect = self.find_node("TextureRect")
-onready var progress_bar: ProgressBar = self.find_node("ProgressBar")
-onready var expanded_container: Container = self.find_node("ExpandedContainer")
-onready var template_container: Control = self.find_node("TemplateContainer")
+@onready var slot_container: Container = self.find_child("SlotContainer")
+@onready var label: RichTextLabel = self.find_child("Label")
+@onready var texture_container: Container = self.find_child("TextureContainer")
+@onready var texture_rect: TextureRect = self.find_child("TextureRect")
+@onready var progress_bar: ProgressBar = self.find_child("ProgressBar")
+@onready var expanded_container: Container = self.find_child("ExpandedContainer")
+@onready var template_container: Control = self.find_child("TemplateContainer")
 
 
 func get_entities() -> Array:
@@ -49,8 +49,8 @@ func get_death_chance() -> float:
 		return 0.0
 	if self.risk < 0.0:
 		return self.max_death_chance
-	var effective_entities := max(0, len(self.get_entities()) - 1)
-	var actual_risk := max(0, self.risk - effective_entities)
+	var effective_entities: int = max(0, len(self.get_entities()) - 1)
+	var actual_risk: int = max(0, self.risk - effective_entities)
 	var death_chance := (self.max_death_chance - self.min_death_chance) * float(actual_risk) / float(self.risk)
 	return self.min_death_chance + death_chance
 
@@ -113,7 +113,7 @@ func set_text(text: String) -> void:
 	self.label_dirty = true
 
 
-func set_texture(texture: Texture) -> void:
+func set_texture(texture: Texture2D) -> void:
 	self.texture = texture
 	if texture != null:
 		self.texture_rect.texture = texture
@@ -215,7 +215,7 @@ func add_entity(entity: Entity) -> void:
 
 
 
-func request(slot: Slot) -> void:
+func send_request(slot: Slot) -> void:
 	self.emit_signal("request", slot)
 
 

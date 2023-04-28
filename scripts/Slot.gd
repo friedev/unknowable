@@ -13,10 +13,10 @@ var consumed := false
 var entity: Entity = null
 var assignment: Node = null
 
-onready var empty: Control = self.find_node("Empty")
-onready var label: Label = self.find_node("Label")
-onready var consumed_texture: TextureRect = self.find_node("ConsumedTexture")
-onready var required_texture: TextureRect = self.find_node("RequiredTexture")
+@onready var empty: Control = self.find_child("Empty")
+@onready var label: Label = self.find_child("Label")
+@onready var consumed_texture: TextureRect = self.find_child("ConsumedTexture")
+@onready var required_texture: TextureRect = self.find_child("RequiredTexture")
 
 
 func set_required(required: bool) -> void:
@@ -57,7 +57,7 @@ func remove_entity() -> Entity:
 	return entity
 
 
-func can_drop_data(position: Vector2, data) -> bool:
+func _can_drop_data(position: Vector2, data) -> bool:
 	# TODO allow dropping on top of an entity to swap them, or return to storage
 	var entity: Entity = data
 	return (
@@ -66,7 +66,7 @@ func can_drop_data(position: Vector2, data) -> bool:
 	) and entity.type in self.allowed_types
 
 
-func drop_data(position: Vector2, data) -> void:
+func _drop_data(position: Vector2, data) -> void:
 	var entity = data
 	if entity != self.entity:
 		entity.slot.remove_entity()
@@ -75,8 +75,8 @@ func drop_data(position: Vector2, data) -> void:
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
-		if event.button_index == BUTTON_LEFT and not event.is_pressed():
-			self.assignment.request(self)
+		if event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
+			self.assignment.send_request(self)
 
 
 func _ready():
