@@ -35,7 +35,7 @@ var default_assignments := {}
 @onready var turn_label: Label = self.find_child("TurnLabel")
 @onready var assignment_container1: Container = self.find_child("AssignmentContainer1")
 @onready var assignment_container2: Container = self.find_child("AssignmentContainer2")
-@onready var popup: Popup = self.find_child("Popup")
+@onready var popup: Control = self.find_child("Popup")
 @onready var popup_label: Label = self.find_child("PopupLabel")
 @onready var popup_spacer: Label = self.find_child("PopupSpacer")
 @onready var popup_button1: Button = self.find_child("PopupButton1")
@@ -172,7 +172,7 @@ func raid() -> void:
 	self.popup_button3.disabled = false
 	self.popup_button3.text = "Surrender: GAME OVER"
 
-	self.popup.popup_centered()
+	self.popup.show()
 
 
 func game_over(text: String):
@@ -186,7 +186,7 @@ func game_over(text: String):
 	self.popup_button1.show()
 	self.popup_button2.visible = OS.get_name() != "HTML5"
 	self.popup_button3.hide()
-	self.popup.popup_centered()
+	self.popup.show()
 
 
 func destroy_assignment(assignment: Assignment) -> void:
@@ -407,6 +407,9 @@ func _ready():
 
 
 func _on_EndTurnButton_pressed():
+	if self.popup.visible:
+		return
+
 	self.end_turn_sound.play()
 
 	var type_deltas := {}

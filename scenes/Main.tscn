@@ -130,48 +130,51 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 
-[node name="Popup" type="Popup" parent="MarginContainer"]
-exclusive = true
+[node name="Popup" type="Control" parent="MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="CenterContainer" type="CenterContainer" parent="MarginContainer/Popup"]
+layout_mode = 2
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 1136.0
+offset_bottom = 632.0
 theme = ExtResource("1")
 
-[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Popup"]
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/Popup/CenterContainer"]
 custom_minimum_size = Vector2(640, 0)
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-grow_horizontal = 2
-grow_vertical = 2
-theme = ExtResource("1")
-
-[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Popup/PanelContainer"]
 layout_mode = 2
 theme = ExtResource("1")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Popup/PanelContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="PopupLabel" type="Label" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("1")
-text = "You have died."
-
-[node name="PopupSpacer" type="Label" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer/Popup/CenterContainer/PanelContainer"]
 layout_mode = 2
 theme = ExtResource("1")
 
-[node name="PopupButton1" type="Button" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="PopupLabel" type="Label" parent="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1")
+text = "This is a long example message to test text wrapping in this popup."
+autowrap_mode = 3
+
+[node name="PopupSpacer" type="Label" parent="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1")
+
+[node name="PopupButton1" type="Button" parent="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
 text = "Lose Alice Adams and Bob Baker"
 
-[node name="PopupButton2" type="Button" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PopupButton2" type="Button" parent="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
 text = "Lose the Eye of Cthulhu"
 
-[node name="PopupButton3" type="Button" parent="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer"]
+[node name="PopupButton3" type="Button" parent="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer"]
 layout_mode = 2
 focus_mode = 0
 text = "Surrender"
@@ -201,6 +204,6 @@ bus = &"Music"
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/MusicButton" to="." method="_on_MusicButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/FullscreenButton" to="." method="_on_FullscreenButton_pressed"]
 [connection signal="pressed" from="MarginContainer/VBoxContainer/HBoxContainer/QuitButton" to="." method="_on_QuitButton_pressed"]
-[connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton1" to="." method="_on_PopupButton1_pressed"]
-[connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton2" to="." method="_on_PopupButton2_pressed"]
-[connection signal="pressed" from="MarginContainer/Popup/PanelContainer/MarginContainer/VBoxContainer/PopupButton3" to="." method="_on_PopupButton3_pressed"]
+[connection signal="pressed" from="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PopupButton1" to="." method="_on_PopupButton1_pressed"]
+[connection signal="pressed" from="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PopupButton2" to="." method="_on_PopupButton2_pressed"]
+[connection signal="pressed" from="MarginContainer/Popup/CenterContainer/PanelContainer/MarginContainer/VBoxContainer/PopupButton3" to="." method="_on_PopupButton3_pressed"]
