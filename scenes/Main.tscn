@@ -63,6 +63,7 @@ layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1")
 toggle_mode = true
+button_pressed = true
 text = "Sound"
 
 [node name="MusicButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
@@ -70,6 +71,7 @@ layout_mode = 2
 focus_mode = 0
 theme = ExtResource("1")
 toggle_mode = true
+button_pressed = true
 text = "Music"
 
 [node name="FullscreenButton" type="Button" parent="MarginContainer/VBoxContainer/HBoxContainer"]
