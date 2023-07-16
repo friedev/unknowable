@@ -1,5 +1,4 @@
-extends Control
-class_name Assignment
+class_name Assignment extends Control
 
 
 signal request(slot)

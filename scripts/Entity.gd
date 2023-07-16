@@ -1,5 +1,4 @@
-extends Control
-class_name Entity
+class_name Entity extends Control
 
 
 signal drag

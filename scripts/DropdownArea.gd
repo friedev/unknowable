@@ -1,5 +1,4 @@
-extends Control
-class_name DropdownArea
+class_name DropdownArea extends Control
 
 
 const expanded_texture := preload("res://sprites/ui/dropdown_expanded.png")

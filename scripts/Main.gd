@@ -1,5 +1,4 @@
-extends Control
-class_name Main
+class_name Main extends Control
 
 
 const TEXT_WIN := "The conjunction is at hand.\n\nThrough secretive and tireless search, you have gathered %d artifacts. Harnessing their ancient energies, you tear a rift in the planes, whenceforth cometh eldritch beings of ineffable might.\n\nVICTORY?"
