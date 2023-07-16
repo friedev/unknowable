@@ -1,18 +1,18 @@
 [gd_scene load_steps=7 format=3 uid="uid://v2rwat7j03f1"]
 
-[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="1"]
-[ext_resource type="Texture2D" uid="uid://dfklkfs4dmy0b" path="res://sprites/assignments/recruit.png" id="2"]
-[ext_resource type="Script" path="res://scenes/Assignment.gd" id="2_1hrci"]
-[ext_resource type="Script" path="res://scenes/DropdownArea.gd" id="3_hlt66"]
-[ext_resource type="Texture2D" uid="uid://hhpujad41sf8" path="res://sprites/ui/dropdown_expanded.png" id="4"]
-[ext_resource type="Texture2D" uid="uid://c8r8l2a2hieho" path="res://sprites/ui/dropdown_collapsed.png" id="5_vdvt0"]
+[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="1_5jjb5"]
+[ext_resource type="Script" path="res://scenes/assignment/Assignment.gd" id="2_q282n"]
+[ext_resource type="Script" path="res://scenes/assignment/DropdownArea.gd" id="3_b87bv"]
+[ext_resource type="Texture2D" uid="uid://hhpujad41sf8" path="res://sprites/ui/dropdown_expanded.png" id="4_83no2"]
+[ext_resource type="Texture2D" uid="uid://c8r8l2a2hieho" path="res://sprites/ui/dropdown_collapsed.png" id="5_wdk3j"]
+[ext_resource type="Texture2D" uid="uid://dfklkfs4dmy0b" path="res://sprites/assignments/recruit.png" id="6_x1oib"]
 
 [node name="Assignment" type="PanelContainer"]
 offset_right = 972.0
 offset_bottom = 108.0
 mouse_filter = 1
-theme = ExtResource("1")
-script = ExtResource("2_1hrci")
+theme = ExtResource("1_5jjb5")
+script = ExtResource("2_q282n")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -26,21 +26,21 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
-theme = ExtResource("1")
+theme = ExtResource("1_5jjb5")
 theme_override_constants/separation = 8
 
 [node name="DropdownArea" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("assignment")]
 layout_mode = 2
-script = ExtResource("3_hlt66")
-expanded_texture = ExtResource("4")
-collapsed_texture = ExtResource("5_vdvt0")
+script = ExtResource("3_b87bv")
+expanded_texture = ExtResource("4_83no2")
+collapsed_texture = ExtResource("5_wdk3j")
 assignment = NodePath("../../../..")
 
 [node name="DropdownArrow" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/DropdownArea"]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 2
-texture = ExtResource("4")
+texture = ExtResource("4_83no2")
 expand_mode = 1
 stretch_mode = 5
 
@@ -62,7 +62,7 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme = ExtResource("1")
+theme = ExtResource("1_5jjb5")
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/ExpandedContainer/TextureContainer"]
 unique_name_in_owner = true
@@ -70,7 +70,7 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("2")
+texture = ExtResource("6_x1oib")
 
 [node name="SlotContainer" type="HFlowContainer" parent="VBoxContainer/MarginContainer/VBoxContainer/ExpandedContainer"]
 unique_name_in_owner = true
@@ -83,7 +83,7 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 1
-theme = ExtResource("1")
+theme = ExtResource("1_5jjb5")
 step = 1.0
 rounded = true
 show_percentage = false

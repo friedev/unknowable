@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://bd21ae7bkbca1"]
 
-[ext_resource type="Script" path="res://scenes/Entity.gd" id="1_i0d54"]
-[ext_resource type="Texture2D" uid="uid://clxbdmwbkmvi5" path="res://sprites/entities/followers/male_face1.png" id="2"]
-[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="3"]
+[ext_resource type="Script" path="res://scenes/entity/Entity.gd" id="1_xjici"]
+[ext_resource type="Texture2D" uid="uid://clxbdmwbkmvi5" path="res://sprites/entities/followers/male_face1.png" id="2_4tur4"]
+[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="3_mofj6"]
 
 [node name="Entity" type="VBoxContainer"]
 custom_minimum_size = Vector2(128, 0)
@@ -10,7 +10,7 @@ offset_right = 40.0
 offset_bottom = 40.0
 mouse_filter = 0
 alignment = 1
-script = ExtResource("1_i0d54")
+script = ExtResource("1_xjici")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 unique_name_in_owner = true
@@ -18,13 +18,13 @@ custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
-texture = ExtResource("2")
+texture = ExtResource("2_4tur4")
 
 [node name="Label" type="Label" parent="."]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("3")
+theme = ExtResource("3_mofj6")
 text = "Llewellyn Robinson"
 horizontal_alignment = 1
 max_lines_visible = 2
