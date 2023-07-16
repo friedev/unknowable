@@ -1,4 +1,4 @@
-extends PanelContainer
+extends Control
 class_name Assignment
 
 
@@ -27,13 +27,13 @@ var slots := []
 var label_dirty := false
 var slots_dirty := false
 
-@onready var slot_container: Container = self.find_child("SlotContainer")
-@onready var label: RichTextLabel = self.find_child("Label")
-@onready var texture_container: Container = self.find_child("TextureContainer")
-@onready var texture_rect: TextureRect = self.find_child("TextureRect")
-@onready var progress_bar: ProgressBar = self.find_child("ProgressBar")
-@onready var expanded_container: Container = self.find_child("ExpandedContainer")
-@onready var template_container: Control = self.find_child("TemplateContainer")
+@onready var slot_container: Container = %SlotContainer
+@onready var label: RichTextLabel = %Label
+@onready var texture_container: Container = %TextureContainer
+@onready var texture_rect: TextureRect = %TextureRect
+@onready var progress_bar: ProgressBar = %ProgressBar
+@onready var expanded_container: Container = %ExpandedContainer
+@onready var template_container: Control = %TemplateContainer
 
 
 func get_entities() -> Array:

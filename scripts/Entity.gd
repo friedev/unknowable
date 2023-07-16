@@ -1,4 +1,4 @@
-extends VBoxContainer
+extends Control
 class_name Entity
 
 
@@ -43,8 +43,8 @@ var texture: Texture2D = null
 var slot: Node = null
 var tooltip_dirty := false
 
-@onready var label: Label = self.find_child("Label")
-@onready var texture_rect: TextureRect = self.find_child("TextureRect")
+@onready var label: Label = %Label
+@onready var texture_rect: TextureRect = %TextureRect
 
 
 func update_tooltip() -> void:

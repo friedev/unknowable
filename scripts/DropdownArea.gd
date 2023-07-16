@@ -1,12 +1,13 @@
-extends HBoxContainer
+extends Control
 class_name DropdownArea
 
 
 const expanded_texture := preload("res://sprites/ui/dropdown_expanded.png")
 const collapsed_texture := preload("res://sprites/ui/dropdown_collapsed.png")
 
-@onready var assignment: Assignment = self.find_parent("*Assignment*")
-@onready var dropdown_arrow: TextureRect = self.find_child("DropdownArrow")
+@export var assignment: Assignment
+
+@onready var dropdown_arrow: TextureRect = %DropdownArrow
 
 
 func set_expanded(expanded: bool) -> void:

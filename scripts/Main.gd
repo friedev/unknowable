@@ -32,25 +32,25 @@ const research_texture := preload("res://sprites/assignments/research.png")
 
 var default_assignments := {}
 
-@onready var turn_label: Label = self.find_child("TurnLabel")
-@onready var assignment_container1: Container = self.find_child("AssignmentContainer1")
-@onready var assignment_container2: Container = self.find_child("AssignmentContainer2")
-@onready var popup: Control = self.find_child("Popup")
-@onready var popup_label: Label = self.find_child("PopupLabel")
-@onready var popup_spacer: Label = self.find_child("PopupSpacer")
-@onready var popup_button1: Button = self.find_child("PopupButton1")
-@onready var popup_button2: Button = self.find_child("PopupButton2")
-@onready var popup_button3: Button = self.find_child("PopupButton3")
-@onready var quit_button: Button = self.find_child("QuitButton")
-@onready var sound_button: Button = self.find_child("SoundButton")
-@onready var music_button: Button = self.find_child("MusicButton")
-@onready var fullscreen_button: Button = self.find_child("FullscreenButton")
+@onready var turn_label: Label = %TurnLabel
+@onready var assignment_container1: Container = %AssignmentContainer1
+@onready var assignment_container2: Container = %AssignmentContainer2
+@onready var popup: Control = %Popup
+@onready var popup_label: Label = %PopupLabel
+@onready var popup_spacer: Label = %PopupSpacer
+@onready var popup_button1: Button = %PopupButton1
+@onready var popup_button2: Button = %PopupButton2
+@onready var popup_button3: Button = %PopupButton3
+@onready var quit_button: Button = %QuitButton
+@onready var sound_button: Button = %SoundButton
+@onready var music_button: Button = %MusicButton
+@onready var fullscreen_button: Button = %FullscreenButton
 
-@onready var drag_sound: AudioStreamPlayer = self.find_child("DragSound")
-@onready var drop_sound: AudioStreamPlayer = self.find_child("DropSound")
-@onready var cancel_sound: AudioStreamPlayer = self.find_child("CancelSound")
-@onready var end_turn_sound: AudioStreamPlayer = self.find_child("EndTurnSound")
-@onready var music: AudioStreamPlayer = self.find_child("Music")
+@onready var drag_sound: AudioStreamPlayer = %DragSound
+@onready var drop_sound: AudioStreamPlayer = %DropSound
+@onready var cancel_sound: AudioStreamPlayer = %CancelSound
+@onready var end_turn_sound: AudioStreamPlayer = %EndTurnSound
+@onready var music: AudioStreamPlayer = %Music
 
 
 func set_turn(turn: int) -> void:
@@ -233,47 +233,6 @@ func create_assignments():
 	var assignment: Assignment
 	var slot: Slot
 
-	assignment = self.create_assignment(
-		Global.AssignmentTypes.GENERIC,
-		self.assignment_container1
-	)
-	assignment.set_text("Investigation")
-	assignment.set_max_progress(10)
-	assignment.raid = true
-	slot = self.slot_scene.instantiate()
-	slot.consumed = true
-	slot.allowed_types = [Global.Types.SUSPICION]
-	assignment.add_slot(slot)
-	assignment.set_template_slot(self.slot_scene.instantiate())
-	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-	assignment.set_texture(self.investigation_texture)
-	assignment.label_dirty = true
-	assignment.update_slots()
-	assignment.hide()
-	self.default_assignments[Global.Types.SUSPICION] = assignment
-
-
-#	assignment = self.create_assignment(
-#		Global.AssignmentTypes.GENERIC,
-#		self.assignment_container1
-#	)
-#	assignment.set_text("Rumors")
-#	assignment.set_max_progress(20)
-#	assignment.type_deltas = {
-#		Global.Types.INVESTIGATOR: +1,
-#	}
-#	slot = self.slot_scene.instance()
-#	slot.consumed = true
-#	slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.add_slot(slot)
-#	assignment.set_template_slot(self.slot_scene.instance()
-#	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.set_texture(self.rumors_texture)
-#	assignment.label_dirty = true
-#	assignment.update_slots()
-#	assignment.hide()
-#	self.default_assignments[Global.Types.SUSPICION] = assignment
-#
 #	assignment = self.create_assignment(
 #		Global.AssignmentTypes.GENERIC,
 #		self.assignment_container1
@@ -281,14 +240,55 @@ func create_assignments():
 #	assignment.set_text("Investigation")
 #	assignment.set_max_progress(10)
 #	assignment.raid = true
-#	assignment.set_template_slot(self.slot_scene.instance()
-#	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
-#	assignment.template_slot.consumed = true
+#	slot = self.slot_scene.instantiate()
+#	slot.consumed = true
+#	slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.add_slot(slot)
+#	assignment.set_template_slot(self.slot_scene.instantiate())
+#	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 #	assignment.set_texture(self.investigation_texture)
 #	assignment.label_dirty = true
 #	assignment.update_slots()
 #	assignment.hide()
-#	self.default_assignments[Global.Types.INVESTIGATOR] = assignment
+#	self.default_assignments[Global.Types.SUSPICION] = assignment
+
+
+	assignment = self.create_assignment(
+		Global.AssignmentTypes.GENERIC,
+		self.assignment_container1
+	)
+	assignment.set_text("Rumors")
+	assignment.set_max_progress(20)
+	assignment.type_deltas = {
+		Global.Types.INVESTIGATOR: +1,
+	}
+	slot = self.slot_scene.instantiate()
+	slot.consumed = true
+	slot.allowed_types = [Global.Types.SUSPICION]
+	assignment.add_slot(slot)
+	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
+	assignment.set_texture(self.rumors_texture)
+	assignment.label_dirty = true
+	assignment.update_slots()
+	assignment.hide()
+	self.default_assignments[Global.Types.SUSPICION] = assignment
+
+	assignment = self.create_assignment(
+		Global.AssignmentTypes.GENERIC,
+		self.assignment_container1
+	)
+	assignment.set_text("Investigation")
+	assignment.set_max_progress(10)
+	assignment.raid = true
+	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
+	assignment.template_slot.consumed = true
+	assignment.set_texture(self.investigation_texture)
+	assignment.label_dirty = true
+	assignment.update_slots()
+	assignment.hide()
+	self.default_assignments[Global.Types.INVESTIGATOR] = assignment
 
 	assignment = self.create_assignment(
 		Global.AssignmentTypes.GENERIC,
@@ -360,24 +360,24 @@ func create_assignments():
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment()
-	assignment.set_text("Bribe the Watch")
-	assignment.set_texture(self.conceal_texture)
-	assignment.set_max_progress(1)
-	slot = self.slot_scene.instantiate()
-	slot.progress = 1
-	slot.required = true
-	slot.consumed = true
-	slot.allowed_types = [Global.Types.WEALTH]
-	assignment.add_slot(slot)
-	slot = self.slot_scene.instantiate()
-	slot.progress = 0
-	slot.required = true
-	slot.consumed = true
-	slot.allowed_types = [Global.Types.SUSPICION]
-	assignment.add_slot(slot)
-	assignment.label_dirty = true
-	assignment.update_slots()
+#	assignment = self.create_assignment()
+#	assignment.set_text("Bribe the Watch")
+#	assignment.set_texture(self.conceal_texture)
+#	assignment.set_max_progress(1)
+#	slot = self.slot_scene.instantiate()
+#	slot.progress = 1
+#	slot.required = true
+#	slot.consumed = true
+#	slot.allowed_types = [Global.Types.WEALTH]
+#	assignment.add_slot(slot)
+#	slot = self.slot_scene.instantiate()
+#	slot.progress = 0
+#	slot.required = true
+#	slot.consumed = true
+#	slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.add_slot(slot)
+#	assignment.label_dirty = true
+#	assignment.update_slots()
 
 
 func start():

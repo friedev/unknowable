@@ -1,4 +1,4 @@
-extends CenterContainer
+extends Control
 class_name Slot
 
 
@@ -13,10 +13,10 @@ var consumed := false
 var entity: Entity = null
 var assignment: Node = null
 
-@onready var empty: Control = self.find_child("Empty")
-@onready var label: Label = self.find_child("Label")
-@onready var consumed_texture: TextureRect = self.find_child("ConsumedTexture")
-@onready var required_texture: TextureRect = self.find_child("RequiredTexture")
+@onready var empty: Control = %Empty
+@onready var label: Label = %Label
+@onready var consumed_texture: TextureRect = %ConsumedTexture
+@onready var required_texture: TextureRect = %RequiredTexture
 
 
 func set_required(required: bool) -> void:
