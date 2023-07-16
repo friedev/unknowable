@@ -1,11 +1,9 @@
 class_name Entity extends Control
 
-
 signal drag
 signal drop
 signal cancel
 signal request(entity)
-
 
 # TODO capitalize constants
 # https://www.victorians.co.uk/victorian-names

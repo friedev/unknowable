@@ -1,8 +1,6 @@
 class_name Slot extends Control
 
-
 signal request
-
 
 var allowed_types: Array
 var from_template := false

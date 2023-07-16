@@ -1,6 +1,5 @@
 class_name DropdownArea extends Control
 
-
 const expanded_texture := preload("res://sprites/ui/dropdown_expanded.png")
 const collapsed_texture := preload("res://sprites/ui/dropdown_collapsed.png")
 
@@ -15,7 +14,6 @@ func set_expanded(expanded: bool) -> void:
 		self.dropdown_arrow.texture = expanded_texture
 	else:
 		self.dropdown_arrow.texture = collapsed_texture
-
 
 
 func _gui_input(event: InputEvent) -> void:

@@ -1,8 +1,6 @@
 class_name Assignment extends Control
 
-
 signal request(slot)
-
 
 var text: String
 var texture: Texture2D = null
