@@ -1,10 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://c437hmfl2g3qy"]
+[gd_scene load_steps=13 format=3 uid="uid://c437hmfl2g3qy"]
 
 [ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="1"]
 [ext_resource type="Script" path="res://scenes/Main.gd" id="2_mpwb1"]
 [ext_resource type="AudioStream" uid="uid://dv4gvsbjk0s2n" path="res://sound/end_turn.wav" id="3"]
+[ext_resource type="PackedScene" uid="uid://v2rwat7j03f1" path="res://scenes/Assignment.tscn" id="3_2e64k"]
 [ext_resource type="AudioStream" uid="uid://0bf5lx4s11dm" path="res://sound/drag.wav" id="4"]
+[ext_resource type="PackedScene" uid="uid://dv7pppiovjinb" path="res://scenes/Slot.tscn" id="4_ww10k"]
 [ext_resource type="AudioStream" uid="uid://ch3ql6p33kjyy" path="res://sound/drop.wav" id="5"]
+[ext_resource type="PackedScene" uid="uid://bd21ae7bkbca1" path="res://scenes/Entity.tscn" id="5_t61if"]
 [ext_resource type="AudioStream" uid="uid://bncijwemr38if" path="res://sound/cancel.wav" id="6"]
 [ext_resource type="AudioStream" uid="uid://cplchsg5unsko" path="res://sound/unknowable.ogg" id="7"]
 
@@ -23,6 +26,9 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1")
 script = ExtResource("2_mpwb1")
+assignment_scene = ExtResource("3_2e64k")
+slot_scene = ExtResource("4_ww10k")
+entity_scene = ExtResource("5_t61if")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 0

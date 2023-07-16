@@ -16,9 +16,9 @@ const max_turn := 52
 var assignments := []
 var is_game_over := false
 
-const assignment_scene := preload("res://scenes/Assignment.tscn")
-const slot_scene := preload("res://scenes/Slot.tscn")
-const entity_scene := preload("res://scenes/Entity.tscn")
+@export var assignment_scene: PackedScene
+@export var slot_scene: PackedScene
+@export var entity_scene: PackedScene
 
 const rumors_texture := preload("res://sprites/assignments/rumors.png")
 const investigation_texture := preload("res://sprites/assignments/investigation.png")

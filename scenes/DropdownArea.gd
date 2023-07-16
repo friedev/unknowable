@@ -1,7 +1,7 @@
 class_name DropdownArea extends Control
 
-const expanded_texture := preload("res://sprites/ui/dropdown_expanded.png")
-const collapsed_texture := preload("res://sprites/ui/dropdown_collapsed.png")
+@export var expanded_texture: Texture2D
+@export var collapsed_texture: Texture2D
 
 @export var assignment: Assignment
 
