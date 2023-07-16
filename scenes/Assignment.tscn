@@ -2,16 +2,16 @@
 
 [ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="1"]
 [ext_resource type="Texture2D" uid="uid://dfklkfs4dmy0b" path="res://sprites/assignments/recruit.png" id="2"]
-[ext_resource type="Script" path="res://scripts/Assignment.gd" id="3"]
+[ext_resource type="Script" path="res://scenes/Assignment.gd" id="2_1hrci"]
+[ext_resource type="Script" path="res://scenes/DropdownArea.gd" id="3_hlt66"]
 [ext_resource type="Texture2D" uid="uid://hhpujad41sf8" path="res://sprites/ui/dropdown_expanded.png" id="4"]
-[ext_resource type="Script" path="res://scripts/DropdownArea.gd" id="5"]
 
 [node name="Assignment" type="PanelContainer"]
 offset_right = 972.0
 offset_bottom = 108.0
 mouse_filter = 1
 theme = ExtResource("1")
-script = ExtResource("3")
+script = ExtResource("2_1hrci")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -30,7 +30,7 @@ theme_override_constants/separation = 8
 
 [node name="DropdownArea" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" node_paths=PackedStringArray("assignment")]
 layout_mode = 2
-script = ExtResource("5")
+script = ExtResource("3_hlt66")
 assignment = NodePath("../../../..")
 
 [node name="DropdownArrow" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/DropdownArea"]

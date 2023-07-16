@@ -1,13 +1,13 @@
 [gd_scene load_steps=6 format=3 uid="uid://dv7pppiovjinb"]
 
-[ext_resource type="Script" path="res://scripts/Slot.gd" id="1"]
+[ext_resource type="Script" path="res://scenes/Slot.gd" id="1_usm1e"]
 [ext_resource type="Texture2D" uid="uid://d0745q3gswycx" path="res://sprites/slots/slot.png" id="2"]
 [ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://ui/theme.tres" id="3"]
 [ext_resource type="Texture2D" uid="uid://bfhibcav7r4f4" path="res://sprites/slots/consumed.png" id="4"]
 [ext_resource type="Texture2D" uid="uid://ds8lpaablmnja" path="res://sprites/slots/required.png" id="5"]
 
 [node name="Slot" type="CenterContainer"]
-script = ExtResource("1")
+script = ExtResource("1_usm1e")
 
 [node name="Empty" type="VBoxContainer" parent="."]
 unique_name_in_owner = true

@@ -16,7 +16,7 @@ config/features=PackedStringArray("4.1")
 
 [autoload]
 
-Global="*res://scripts/Global.gd"
+Global="*res://scenes/Global.gd"
 
 [display]
 
