@@ -1,5 +1,8 @@
 # TODO
 
+- Refactoring
+	- Replace assignment and entity generation code in `Main` with inherited scenes
+	- Use `snake_case` file names
 - Mechanics
 	- Quality of life: automatically move suspicion to the consumed slot
 		- Do this after processing consumed slots at end of turn

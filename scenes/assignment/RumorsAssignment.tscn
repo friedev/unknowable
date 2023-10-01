@@ -1,0 +1,9 @@
+[gd_scene load_steps=3 format=3 uid="uid://r3uprs1718o4"]
+
+[ext_resource type="PackedScene" uid="uid://v2rwat7j03f1" path="res://scenes/assignment/Assignment.tscn" id="1_1ty5g"]
+[ext_resource type="Texture2D" uid="uid://b0pdun0j887f5" path="res://sprites/assignments/rumors.png" id="2_qcl7i"]
+
+[node name="RumorsAssignment" instance=ExtResource("1_1ty5g")]
+text = "Rumors"
+texture = ExtResource("2_qcl7i")
+max_progress = 20

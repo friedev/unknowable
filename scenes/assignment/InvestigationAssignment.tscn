@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7l630xqyqwvm"]
+
+[ext_resource type="PackedScene" uid="uid://v2rwat7j03f1" path="res://scenes/assignment/Assignment.tscn" id="1_iisk5"]
+[ext_resource type="Texture2D" uid="uid://bpmn2x28q57rp" path="res://sprites/assignments/investigation.png" id="2_5nhfb"]
+
+[node name="InvestigationAssignment" instance=ExtResource("1_iisk5")]
+text = "Investigation"
+texture = ExtResource("2_5nhfb")
+max_progress = 10
+raid = true

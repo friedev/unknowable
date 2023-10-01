@@ -2,25 +2,25 @@ class_name Assignment extends Control
 
 signal request(slot)
 
-var text: String
-var texture: Texture2D = null
-var autohide := false
-var expanded := true
+@export var text: String
+@export var texture: Texture2D = null
+@export var autohide := false
+@export var expanded := true
 
-var type: int
-var progress := 0
-var max_progress: int
-var raid := false
-var exhausts := false
-var risk := 0
-var max_death_chance := 0.0
-var min_death_chance := 0.0
+@export var type: Global.AssignmentTypes
+@export var max_progress: int
+@export var raid := false
+@export var exhausts := false
+@export var risk := 0
+@export var max_death_chance := 0.0
+@export var min_death_chance := 0.0
 var type_deltas := {}
 var gained_assignments := []
 var gained_entities := []
 var template_slot: Slot = null
 var slots := []
 
+var progress := 0
 var label_dirty := false
 var slots_dirty := false
 
