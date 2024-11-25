@@ -1,4 +1,4 @@
-# UNKNOWABLE
+# Unknowable
 
 The celestial conjunction is nigh.
 
@@ -9,7 +9,7 @@ For the version of the game completed during the jam, checkout tag `v0.1.0`.
 
 ## How to Play
 
-In UNKNOWABLE, your goal is gather 5 artifacts before the celestial conjunction in one year (52 weeks).
+In Unknowable, your goal is gather 5 artifacts before the celestial conjunction in one year (52 weeks).
 
 Every turn, each cultist will contribute toward their task's progress.
 Drag a cultist to a task to reassign them.
@@ -17,7 +17,7 @@ When you are content with your cultists' assignments, press "End Turn" to pass t
 
 ### Controls
 
-UNKNOWABLE can be played using only the mouse.
+Unknowable can be played using only the mouse.
 
 Keyboard shortcuts:
 
@@ -25,7 +25,7 @@ Keyboard shortcuts:
 
 ## Credits
 
-UNKNOWABLE was created by [Aaron Friesen](https://frie.dev).
+Unknowable was created by [Aaron Friesen](https://frie.dev).
 
 - Engine: [Godot Engine 3.5](https://godotengine.org)
 - Art: [GIMP](https://gimp.org)
