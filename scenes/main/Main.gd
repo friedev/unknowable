@@ -182,7 +182,7 @@ func game_over(text: String):
 	self.popup_button2.disabled = false
 	self.popup_spacer.show()
 	self.popup_button1.show()
-	self.popup_button2.visible = OS.get_name() != "HTML5"
+	self.popup_button2.visible = OS.get_name() != "Web"
 	self.popup_button3.hide()
 	self.popup.show()
 
@@ -398,7 +398,7 @@ func _init():
 
 func _ready():
 	self.music.play(0.0)
-	if OS.get_name() == "HTML5":
+	if OS.get_name() == "Web":
 		self.quit_button.hide()
 		self.fullscreen_button.button_pressed = false
 	start()
