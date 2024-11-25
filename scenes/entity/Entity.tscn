@@ -27,4 +27,5 @@ layout_mode = 2
 theme = ExtResource("3_mofj6")
 text = "Llewellyn Robinson"
 horizontal_alignment = 1
+autowrap_mode = 3
 max_lines_visible = 2
