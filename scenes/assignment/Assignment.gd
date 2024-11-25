@@ -9,6 +9,7 @@ signal request(slot)
 
 @export var type: Global.AssignmentTypes
 @export var max_progress: int
+@export var max_slots := -1
 @export var raid := false
 @export var exhausts := false
 @export var risk := 0
@@ -167,7 +168,7 @@ func update_slots() -> void:
 				empty_slots -= 1
 			else:
 				i += 1
-	if empty_slots == 0:
+	if empty_slots == 0 and (self.max_slots < 0 or len(self.slots) < self.max_slots):
 		self.create_slot()
 
 

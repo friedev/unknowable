@@ -6,10 +6,7 @@ const TEXT_LOSE_NO_FOLLOWERS := "The last of your followers has fallen. With non
 const TEXT_LOSE_SURRENDER := "Reluctantly, you submit yourself and your accomplices to arrest. Many years will pass as you languish in the cold, stone jails of the Watch, wistfully watching the constellations whirl from behind iron bars.\n\nFAILURE..."
 const TEXT_RAID := "The wolves are at the door.\n\nYour conjurations and clandestine operations were not as well concealed as you had hoped. Investigators from the Watch have picked up your trail. A truncheon knocks upon the door of your secret chamber and ultimatums are shouted.\n\nHow shall you respond?"
 
-var raid_losses := {
-	Global.Types.FOLLOWER: [],
-	Global.Types.ARTIFACT: [],
-}
+var raid_losses := {}
 
 var turn := 0
 const max_turn := 52
@@ -123,16 +120,21 @@ func set_raid_option(
 	if len(entities[type]) >= cost:
 		button.disabled = false
 		var indices := Global.get_unique_random_numbers(cost, len(entities[type]))
-		self.raid_losses[type].clear()
+		if type in self.raid_losses:
+			self.raid_losses[type].clear()
+		else:
+			self.raid_losses[type] = []
 		var entity_names := []
 		for i in indices:
 			var entity = entities[type][i]
 			self.raid_losses[type].append(entity)
 			entity_names.append(entity.text)
 
-		button.text = "%s: lose %s" % [
+		# Reverted from a version that named all entities
+		button.text = "%s: lose %d %s" % [
 			option_text,
-			Global.array_to_prose(entity_names),
+			cost,
+			Global.plural(Global.TYPE_NAMES[type], cost),
 		]
 	else:
 		button.disabled = true
@@ -155,20 +157,20 @@ func raid() -> void:
 		self.popup_button1,
 		entities,
 		Global.Types.FOLLOWER,
-		2,
+		10,
 		"Offer scapegoats"
 	)
 
 	self.set_raid_option(
 		self.popup_button2,
 		entities,
-		Global.Types.ARTIFACT,
-		1,
-		"Invoke artifact"
+		Global.Types.WEALTH,
+		10,
+		"Pay ransom"
 	)
 
 	self.popup_button3.disabled = false
-	self.popup_button3.text = "Surrender: GAME OVER"
+	self.popup_button3.text = "Turn yourselves in: GAME OVER"
 
 	self.popup.show()
 
@@ -231,47 +233,6 @@ func create_assignments():
 	var assignment: Assignment
 	var slot: Slot
 
-#	assignment = self.create_assignment(
-#		Global.AssignmentTypes.GENERIC,
-#		self.assignment_container1
-#	)
-#	assignment.set_text("Investigation")
-#	assignment.set_max_progress(10)
-#	assignment.raid = true
-#	slot = self.slot_scene.instantiate()
-#	slot.consumed = true
-#	slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.add_slot(slot)
-#	assignment.set_template_slot(self.slot_scene.instantiate())
-#	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.set_texture(self.investigation_texture)
-#	assignment.label_dirty = true
-#	assignment.update_slots()
-#	assignment.hide()
-#	self.default_assignments[Global.Types.SUSPICION] = assignment
-
-
-	assignment = self.create_assignment(
-		Global.AssignmentTypes.GENERIC,
-		self.assignment_container1
-	)
-	assignment.set_text("Rumors")
-	assignment.set_max_progress(20)
-	assignment.type_deltas = {
-		Global.Types.INVESTIGATOR: +1,
-	}
-	slot = self.slot_scene.instantiate()
-	slot.consumed = true
-	slot.allowed_types = [Global.Types.SUSPICION]
-	assignment.add_slot(slot)
-	assignment.set_template_slot(self.slot_scene.instantiate())
-	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-	assignment.set_texture(self.rumors_texture)
-	assignment.label_dirty = true
-	assignment.update_slots()
-	assignment.hide()
-	self.default_assignments[Global.Types.SUSPICION] = assignment
-
 	assignment = self.create_assignment(
 		Global.AssignmentTypes.GENERIC,
 		self.assignment_container1
@@ -279,14 +240,54 @@ func create_assignments():
 	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
+#	slot = self.slot_scene.instantiate()
+#	slot.consumed = true
+#	slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.add_slot(slot)
 	assignment.set_template_slot(self.slot_scene.instantiate())
-	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
-	assignment.template_slot.consumed = true
+	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.set_texture(self.investigation_texture)
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
-	self.default_assignments[Global.Types.INVESTIGATOR] = assignment
+	self.default_assignments[Global.Types.SUSPICION] = assignment
+
+#	assignment = self.create_assignment(
+#		Global.AssignmentTypes.GENERIC,
+#		self.assignment_container1
+#	)
+#	assignment.set_text("Rumors")
+#	assignment.set_max_progress(20)
+#	assignment.type_deltas = {
+#		Global.Types.INVESTIGATOR: +1,
+#	}
+#	slot = self.slot_scene.instantiate()
+#	slot.consumed = true
+#	slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.add_slot(slot)
+#	assignment.set_template_slot(self.slot_scene.instantiate())
+#	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
+#	assignment.set_texture(self.rumors_texture)
+#	assignment.label_dirty = true
+#	assignment.update_slots()
+#	assignment.hide()
+#	self.default_assignments[Global.Types.SUSPICION] = assignment
+#
+#	assignment = self.create_assignment(
+#		Global.AssignmentTypes.GENERIC,
+#		self.assignment_container1
+#	)
+#	assignment.set_text("Investigation")
+#	assignment.set_max_progress(10)
+#	assignment.raid = true
+#	assignment.set_template_slot(self.slot_scene.instantiate())
+#	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
+#	assignment.template_slot.consumed = true
+#	assignment.set_texture(self.investigation_texture)
+#	assignment.label_dirty = true
+#	assignment.update_slots()
+#	assignment.hide()
+#	self.default_assignments[Global.Types.INVESTIGATOR] = assignment
 
 	assignment = self.create_assignment(
 		Global.AssignmentTypes.GENERIC,
@@ -327,6 +328,7 @@ func create_assignments():
 	assignment.set_text("Recruit follower")
 	assignment.set_texture(self.recruit_texture)
 	assignment.set_max_progress(3)
+	assignment.max_slots = 9
 	assignment.type_deltas = {
 		Global.Types.FOLLOWER: +1,
 		Global.Types.SUSPICION: +1,
@@ -340,6 +342,7 @@ func create_assignments():
 	assignment.set_text("Work")
 	assignment.set_texture(self.work_texture)
 	assignment.set_max_progress(2)
+	assignment.max_slots = 10
 	assignment.type_deltas = {
 		Global.Types.WEALTH: +1,
 	}
@@ -358,24 +361,24 @@ func create_assignments():
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-#	assignment = self.create_assignment()
-#	assignment.set_text("Bribe the Watch")
-#	assignment.set_texture(self.conceal_texture)
-#	assignment.set_max_progress(1)
-#	slot = self.slot_scene.instantiate()
-#	slot.progress = 1
-#	slot.required = true
-#	slot.consumed = true
-#	slot.allowed_types = [Global.Types.WEALTH]
-#	assignment.add_slot(slot)
-#	slot = self.slot_scene.instantiate()
-#	slot.progress = 0
-#	slot.required = true
-#	slot.consumed = true
-#	slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.add_slot(slot)
-#	assignment.label_dirty = true
-#	assignment.update_slots()
+	assignment = self.create_assignment()
+	assignment.set_text("Bribe the Watch")
+	assignment.set_texture(self.conceal_texture)
+	assignment.set_max_progress(1)
+	slot = self.slot_scene.instantiate()
+	slot.progress = 1
+	slot.required = true
+	slot.consumed = true
+	slot.allowed_types = [Global.Types.WEALTH]
+	assignment.add_slot(slot)
+	slot = self.slot_scene.instantiate()
+	slot.progress = 0
+	slot.required = true
+	slot.consumed = true
+	slot.allowed_types = [Global.Types.SUSPICION]
+	assignment.add_slot(slot)
+	assignment.label_dirty = true
+	assignment.update_slots()
 
 
 func start():
@@ -490,6 +493,7 @@ func destroy_raid_losses(type: int) -> void:
 
 func _on_PopupButton1_pressed():
 	popup.hide()
+	# TODO don't hard code this
 	if self.is_game_over:
 		self.start()
 	else:
@@ -500,14 +504,16 @@ func _on_PopupButton1_pressed():
 
 func _on_PopupButton2_pressed():
 	popup.hide()
+	# TODO don't hard code this
 	if self.is_game_over:
 		self.get_tree().quit()
 	else:
-		self.destroy_raid_losses(Global.Types.ARTIFACT)
+		self.destroy_raid_losses(Global.Types.WEALTH)
 
 
 func _on_PopupButton3_pressed():
 	popup.hide()
+	# TODO don't hard code this
 	self.game_over(self.TEXT_LOSE_SURRENDER)
 
 
