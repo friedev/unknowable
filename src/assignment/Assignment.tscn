@@ -1,6 +1,5 @@
 [gd_scene format=3 uid="uid://v2rwat7j03f1"]
 
-[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://assets/ui/theme.tres" id="1_5jjb5"]
 [ext_resource type="Script" uid="uid://bohnsc85h4yyv" path="res://src/assignment/Assignment.gd" id="2_q282n"]
 [ext_resource type="Script" uid="uid://hlj73dvk5upj" path="res://src/assignment/DropdownArea.gd" id="3_b87bv"]
 [ext_resource type="Texture2D" uid="uid://hhpujad41sf8" path="res://assets/images/ui/dropdown_expanded.png" id="4_83no2"]
@@ -11,7 +10,6 @@
 offset_right = 972.0
 offset_bottom = 108.0
 mouse_filter = 1
-theme = ExtResource("1_5jjb5")
 script = ExtResource("2_q282n")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=329707592]
@@ -26,7 +24,6 @@ theme_override_constants/margin_bottom = 8
 
 [node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=1958576623]
 layout_mode = 2
-theme = ExtResource("1_5jjb5")
 theme_override_constants/separation = 8
 
 [node name="DropdownArea" type="HBoxContainer" parent="VBoxContainer/MarginContainer/VBoxContainer" unique_id=1251681178 node_paths=PackedStringArray("assignment")]
@@ -62,7 +59,6 @@ unique_name_in_owner = true
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 0
-theme = ExtResource("1_5jjb5")
 
 [node name="TextureRect" type="TextureRect" parent="VBoxContainer/MarginContainer/VBoxContainer/ExpandedContainer/TextureContainer" unique_id=1816945937]
 unique_name_in_owner = true
@@ -83,7 +79,6 @@ unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 8)
 layout_mode = 2
 mouse_filter = 1
-theme = ExtResource("1_5jjb5")
 step = 1.0
 rounded = true
 show_percentage = false

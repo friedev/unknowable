@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://buwjq05uqvxto" path="res://src/entity/Entity.gd" id="1_xjici"]
 [ext_resource type="Texture2D" uid="uid://clxbdmwbkmvi5" path="res://assets/images/entities/followers/male_face1.png" id="2_4tur4"]
-[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://assets/ui/theme.tres" id="3_mofj6"]
 
 [node name="Entity" type="VBoxContainer" unique_id=1076775742]
 custom_minimum_size = Vector2(128, 0)
@@ -24,7 +23,6 @@ texture = ExtResource("2_4tur4")
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
-theme = ExtResource("3_mofj6")
 text = "Llewellyn Robinson"
 horizontal_alignment = 1
 autowrap_mode = 3

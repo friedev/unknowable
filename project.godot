@@ -37,6 +37,8 @@ window/size/fullscreen=true
 
 [gui]
 
+theme/custom="uid://cmpv0dsks28x3"
+theme/custom_font="uid://dmxt0th25bg0v"
 common/drop_mouse_on_gui_input_disabled=true
 
 [input]
