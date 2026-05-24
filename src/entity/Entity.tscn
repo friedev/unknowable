@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://bd21ae7bkbca1"]
+
+[ext_resource type="Script" uid="uid://buwjq05uqvxto" path="res://src/entity/Entity.gd" id="1_xjici"]
+[ext_resource type="Texture2D" uid="uid://clxbdmwbkmvi5" path="res://assets/images/entities/followers/male_face1.png" id="2_4tur4"]
+[ext_resource type="Theme" uid="uid://cmpv0dsks28x3" path="res://assets/ui/theme.tres" id="3_mofj6"]
+
+[node name="Entity" type="VBoxContainer" unique_id=1076775742]
+custom_minimum_size = Vector2(128, 0)
+offset_right = 40.0
+offset_bottom = 40.0
+mouse_filter = 0
+alignment = 1
+script = ExtResource("1_xjici")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=981715140]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(64, 64)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("2_4tur4")
+
+[node name="Label" type="Label" parent="." unique_id=1826109804]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+theme = ExtResource("3_mofj6")
+text = "Llewellyn Robinson"
+horizontal_alignment = 1
+autowrap_mode = 3
+max_lines_visible = 2

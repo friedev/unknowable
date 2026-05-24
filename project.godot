@@ -16,13 +16,13 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 
 config/name="Unknowable"
 config/version="0.2.1"
-run/main_scene="res://scenes/main/Main.tscn"
+run/main_scene="res://src/main/Main.tscn"
 config/features=PackedStringArray("4.6")
 config/icon="res://icon.png"
 
 [autoload]
 
-Global="*res://scenes/Global.gd"
+Global="*res://src/Global.gd"
 
 [debug]
 
