@@ -18,40 +18,40 @@ var assignment: Node = null
 
 func set_required(required: bool) -> void:
 	self.required = required
-	self.required_texture.visible = self.required
+	required_texture.visible = required
 
 
 func set_consumed(consumed: bool) -> void:
 	self.consumed = consumed
-	self.consumed_texture.visible = self.consumed
+	consumed_texture.visible = consumed
 
 
 func set_allowed_types(allowed_types: Array) -> void:
 	self.allowed_types = allowed_types
 	var allowed_type_names := []
-	for allowed_type in self.allowed_types:
+	for allowed_type in allowed_types:
 		allowed_type_names.append(Global.TYPE_NAMES[allowed_type].capitalize())
-	self.label.text = "/".join(allowed_type_names)
+	label.text = "/".join(allowed_type_names)
 
 
 func add_entity(entity: Entity) -> void:
-	self.empty.hide()
+	empty.hide()
 	self.entity = entity
-	self.add_child(self.entity)
-	self.entity.slot = self
-	self.assignment.slots_dirty = true
-	self.assignment.label_dirty = true
+	add_child(entity)
+	entity.slot = self
+	assignment.slots_dirty = true
+	assignment.label_dirty = true
 
 
 func remove_entity() -> Entity:
-	var entity = self.entity
-	self.entity.slot = null
-	self.remove_child(self.entity)
-	self.entity = null
-	self.empty.show()
-	self.assignment.slots_dirty = true
-	self.assignment.label_dirty = true
-	return entity
+	var old_entity = entity
+	entity.slot = null
+	remove_child(entity)
+	entity = null
+	empty.show()
+	assignment.slots_dirty = true
+	assignment.label_dirty = true
+	return old_entity
 
 
 func _can_drop_data(position: Vector2, data) -> bool:
@@ -60,23 +60,23 @@ func _can_drop_data(position: Vector2, data) -> bool:
 	return (
 		self.entity == null
 		or self.entity == entity
-	) and entity.type in self.allowed_types
+	) and entity.type in allowed_types
 
 
 func _drop_data(position: Vector2, data) -> void:
 	var entity = data
 	if entity != self.entity:
 		entity.slot.remove_entity()
-		self.add_entity(entity)
+		add_entity(entity)
 
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
-			self.assignment.send_request(self)
+			assignment.send_request(self)
 
 
 func _ready():
-	self.set_required(self.required)
-	self.set_consumed(self.consumed)
-	self.set_allowed_types(self.allowed_types)
+	set_required(required)
+	set_consumed(consumed)
+	set_allowed_types(allowed_types)

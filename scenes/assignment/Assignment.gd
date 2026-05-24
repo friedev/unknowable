@@ -36,26 +36,26 @@ var slots_dirty := false
 
 func get_entities() -> Array:
 	var entities := []
-	for slot in self.slots:
+	for slot in slots:
 		if slot.entity != null:
 			entities.append(slot.entity)
 	return entities
 
 
 func get_death_chance() -> float:
-	if self.risk == 0:
+	if risk == 0:
 		return 0.0
-	if self.risk < 0.0:
-		return self.max_death_chance
-	var effective_entities: int = max(0, len(self.get_entities()) - 1)
-	var actual_risk: int = max(0, self.risk - effective_entities)
-	var death_chance := (self.max_death_chance - self.min_death_chance) * float(actual_risk) / float(self.risk)
-	return self.min_death_chance + death_chance
+	if risk < 0.0:
+		return max_death_chance
+	var effective_entities: int = max(0, len(get_entities()) - 1)
+	var actual_risk: int = max(0, risk - effective_entities)
+	var death_chance := (max_death_chance - min_death_chance) * float(actual_risk) / float(risk)
+	return min_death_chance + death_chance
 
 
 func get_added_progress() -> int:
 	var added_progress := 0
-	for slot in self.slots:
+	for slot in slots:
 		if slot.entity != null:
 			added_progress += slot.progress
 		elif slot.required:
@@ -64,35 +64,35 @@ func get_added_progress() -> int:
 
 
 func update_label() -> void:
-	var entities := self.get_entities()
+	var entities := get_entities()
 
-	self.label.clear()
+	label.clear()
 
-	if self.raid:
-		self.label.push_color(Global.COLOR_BAD)
-	self.label.add_text(self.text)
-	if self.raid:
-		self.label.pop()
+	if raid:
+		label.push_color(Global.COLOR_BAD)
+	label.add_text(text)
+	if raid:
+		label.pop()
 
-	if self.max_progress > 0:
-		self.label.add_text(" (")
-		var added_progress := self.get_added_progress()
+	if max_progress > 0:
+		label.add_text(" (")
+		var added_progress := get_added_progress()
 		if added_progress > 0:
-			self.label.push_color(Global.COLOR_PREVIEW)
-			self.label.add_text("%d+" % added_progress)
-			self.label.pop()
-		self.label.add_text("%d/%d) " % [self.progress, self.max_progress])
+			label.push_color(Global.COLOR_PREVIEW)
+			label.add_text("%d+" % added_progress)
+			label.pop()
+		label.add_text("%d/%d) " % [progress, max_progress])
 	else:
-		self.label.add_text(" (%d) " % len(entities))
+		label.add_text(" (%d) " % len(entities))
 
-	if self.risk != 0 and len(entities) > 0:
-		self.label.push_color(Global.COLOR_BAD)
-		self.label.add_text("%d%% Chance of Death " % Global.percent(self.get_death_chance()))
-		self.label.pop()
+	if risk != 0 and len(entities) > 0:
+		label.push_color(Global.COLOR_BAD)
+		label.add_text("%d%% Chance of Death " % Global.percent(get_death_chance()))
+		label.pop()
 
 	var previews := []
 	for type in Global.Types.values():
-		var delta = self.type_deltas.get(type)
+		var delta = type_deltas.get(type)
 		if delta != null and delta != 0:
 			previews.append("%s %s" % [
 					Global.delta(delta),
@@ -101,133 +101,133 @@ func update_label() -> void:
 			)
 
 	if len(previews) > 0:
-		self.label.push_color(Global.COLOR_PREVIEW)
-		self.label.add_text(", ".join(previews))
-		self.label.pop()
+		label.push_color(Global.COLOR_PREVIEW)
+		label.add_text(", ".join(previews))
+		label.pop()
 
 
 func set_text(text: String) -> void:
 	self.text = text
-	self.label_dirty = true
+	label_dirty = true
 
 
 func set_texture(texture: Texture2D) -> void:
 	self.texture = texture
 	if texture != null:
-		self.texture_rect.texture = texture
-		self.texture_container.show()
+		texture_rect.texture = texture
+		texture_container.show()
 	else:
-		self.texture_container.hide()
+		texture_container.hide()
 
 
 func set_expanded(expanded: bool) -> void:
 	self.expanded = expanded
-	self.expanded_container.visible = expanded
+	expanded_container.visible = expanded
 
 
 func set_progress(progress: int) -> void:
-	self.progress = min(progress, self.max_progress)
-	self.progress_bar.value = self.progress
-	self.label_dirty = true
+	self.progress = min(progress, max_progress)
+	progress_bar.value = self.progress
+	label_dirty = true
 
 
 func set_max_progress(max_progress: int) -> void:
 	self.max_progress = max_progress
-	self.progress_bar.max_value = self.max_progress
-	self.set_progress(min(self.progress, self.max_progress))
-	if self.max_progress == 0:
-		self.progress_bar.hide()
+	progress_bar.max_value = max_progress
+	set_progress(min(progress, max_progress))
+	if max_progress == 0:
+		progress_bar.hide()
 	else:
-		self.progress_bar.show()
-	self.label_dirty = true
+		progress_bar.show()
+	label_dirty = true
 
 
 func set_template_slot(template_slot: Slot) -> void:
 	self.template_slot = template_slot
-	self.template_container.add_child(self.template_slot)
+	template_container.add_child(template_slot)
 
 
 func update_slots() -> void:
-	if self.template_slot == null:
+	if template_slot == null:
 		return
 
 	var empty_slots := 0
-	for slot in self.slots:
+	for slot in slots:
 		if slot.from_template and slot.empty.visible:
 			empty_slots += 1
 	if empty_slots > 1 or (
 		empty_slots == 1
-		and not self.slots[-1].empty.visible
+		and not slots[-1].empty.visible
 	):
 		var i := 0
-		while i < len(self.slots):
-			var slot: Slot = self.slots[i]
+		while i < len(slots):
+			var slot: Slot = slots[i]
 			if slot.from_template and slot.entity == null:
-				self.remove_slot(slot)
+				remove_slot(slot)
 				slot.queue_free()
 				empty_slots -= 1
 			else:
 				i += 1
-	if empty_slots == 0 and (self.max_slots < 0 or len(self.slots) < self.max_slots):
-		self.create_slot()
+	if empty_slots == 0 and (max_slots < 0 or len(slots) < max_slots):
+		create_slot()
 
 
 func create_slot() -> void:
 	# as of 75742ac, duplicate isn't duplicating fields, so manually copy them
-	var slot: Slot = self.template_slot.duplicate()
+	var slot: Slot = template_slot.duplicate()
 	slot.from_template = true
-	slot.progress = self.template_slot.progress
-	slot.required = self.template_slot.required
-	slot.consumed = self.template_slot.consumed
-	slot.allowed_types = self.template_slot.allowed_types.duplicate()
-	self.add_slot(slot)
+	slot.progress = template_slot.progress
+	slot.required = template_slot.required
+	slot.consumed = template_slot.consumed
+	slot.allowed_types = template_slot.allowed_types.duplicate()
+	add_slot(slot)
 
 
 func add_slot(slot: Slot) -> void:
-	self.slots.append(slot)
-	self.slot_container.add_child(slot)
+	slots.append(slot)
+	slot_container.add_child(slot)
 	slot.assignment = self
-	self.label_dirty = true
-	self.show()
+	label_dirty = true
+	show()
 
 
 func remove_slot(slot: Slot) -> void:
 	slot.assignment = null
-	self.slots.erase(slot)
-	self.slot_container.remove_child(slot)
-	self.label_dirty = true
-	if self.autohide and len(self.slots) == 0:
-		self.hide()
+	slots.erase(slot)
+	slot_container.remove_child(slot)
+	label_dirty = true
+	if autohide and len(slots) == 0:
+		hide()
 
 
 func add_entity(entity: Entity) -> void:
 	var success := false
-	for slot in self.slots:
+	for slot in slots:
 		if slot.entity == null and entity.type in slot.allowed_types:
 			slot.add_entity(entity)
 			success = true
 			break
 	assert(success)
-	self.update_slots()
-	self.show()
+	update_slots()
+	show()
 
 
 
 func send_request(slot: Slot) -> void:
-	self.emit_signal("request", slot)
+	emit_signal("request", slot)
 
 
 func _ready() -> void:
-	self.set_text(text)
-	self.set_texture(texture)
-	self.set_max_progress(self.max_progress)
-	self.set_progress(self.progress)
+	set_text(text)
+	set_texture(texture)
+	set_max_progress(max_progress)
+	set_progress(progress)
 
 
 func _process(delta: float) -> void:
-	if self.slots_dirty:
-		self.update_slots()
-		self.slots_dirty = false
-	if self.label_dirty:
-		self.update_label()
-		self.label_dirty = false
+	if slots_dirty:
+		update_slots()
+		slots_dirty = false
+	if label_dirty:
+		update_label()
+		label_dirty = false

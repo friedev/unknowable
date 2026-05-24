@@ -45,29 +45,29 @@ var tooltip_dirty := false
 
 
 func update_tooltip() -> void:
-	var type_name: String = Global.TYPE_NAMES[self.type]
-	if self.text.nocasecmp_to(type_name) == 0:
-		self.tooltip_text = self.text
+	var type_name: String = Global.TYPE_NAMES[type]
+	if text.nocasecmp_to(type_name) == 0:
+		tooltip_text = text
 	else:
-		self.tooltip_text = "%s, %s" % [self.text, type_name]
+		tooltip_text = "%s, %s" % [text, type_name]
 
 
 func set_text(text: String) -> void:
 	self.text = text
-	if self.label != null:
-		self.label.text = self.text
-	self.tooltip_dirty = true
+	if label != null:
+		label.text = text
+	tooltip_dirty = true
 
 
 func set_texture(texture: Texture2D) -> void:
 	self.texture = texture
-	if self.texture_rect != null:
-		self.texture_rect.texture = texture
+	if texture_rect != null:
+		texture_rect.texture = texture
 
 
 func set_type(type: int) -> void:
 	self.type = type
-	self.tooltip_dirty = true
+	tooltip_dirty = true
 
 
 func generate_male_name() -> String:
@@ -75,7 +75,7 @@ func generate_male_name() -> String:
 
 
 func generate_female_name() -> String:
-	return "%s %s" % [Global.choice(self.female_first_names), Global.choice(last_names)]
+	return "%s %s" % [Global.choice(female_first_names), Global.choice(last_names)]
 
 
 func generate_god_name() -> String:
@@ -90,89 +90,89 @@ func generate_god_name() -> String:
 				morphemes.append("'")
 				vowel = not vowel
 		if vowel:
-			morphemes.append(Global.choice(self.god_vowels))
+			morphemes.append(Global.choice(god_vowels))
 			vowel = false
 		else:
 			if len(morphemes) == 0:
-				morphemes.append(Global.choice(self.god_start_consonants))
+				morphemes.append(Global.choice(god_start_consonants))
 			else:
-				morphemes.append(Global.choice(self.god_consonants))
+				morphemes.append(Global.choice(god_consonants))
 			vowel = true
 	return "".join(morphemes).capitalize()
 
 
 func generate_artifact_name(artifact_object: String) -> String:
 	if randi() % 2 == 0:
-		return "%s of %s" % [artifact_object, self.generate_god_name()]
+		return "%s of %s" % [artifact_object, generate_god_name()]
 	else:
 		if randi() % 2 == 0:
-			return "%s %s" % [Global.choice(self.artifact_adjectives), artifact_object]
+			return "%s %s" % [Global.choice(artifact_adjectives), artifact_object]
 		else:
-			return "%s of %s" % [artifact_object, Global.choice(self.artifact_nouns)]
+			return "%s of %s" % [artifact_object, Global.choice(artifact_nouns)]
 
 
 func _make_suspicion() -> void:
-	self.set_text("Suspicion")
-	self.set_texture(self.suspicion_texture)
+	set_text("Suspicion")
+	set_texture(suspicion_texture)
 
 
 func _make_wealth() -> void:
-	self.set_text("Wealth")
-	self.set_texture(self.wealth_texture)
+	set_text("Wealth")
+	set_texture(wealth_texture)
 
 
 func _make_follower():
 	if randi() % 2 == 0:
-		self.set_text(self.generate_male_name())
-		self.set_texture(Global.choice(male_textures))
+		set_text(generate_male_name())
+		set_texture(Global.choice(male_textures))
 	else:
-		self.set_text(self.generate_female_name())
-		self.set_texture(Global.choice(self.female_textures))
+		set_text(generate_female_name())
+		set_texture(Global.choice(female_textures))
 
 
 func _make_artifact() -> void:
 	var artifact_object: String
 	match randi() % 5:
 		0:
-			artifact_object = Global.choice(self.artifact_rings)
-			self.set_texture(Global.choice(self.artifact_ring_textures))
+			artifact_object = Global.choice(artifact_rings)
+			set_texture(Global.choice(artifact_ring_textures))
 		1:
-			artifact_object = Global.choice(self.artifact_staves)
-			self.set_texture(Global.choice(self.artifact_staff_textures))
+			artifact_object = Global.choice(artifact_staves)
+			set_texture(Global.choice(artifact_staff_textures))
 		2:
-			artifact_object = Global.choice(self.artifact_blades)
-			self.set_texture(Global.choice(self.artifact_blade_textures))
+			artifact_object = Global.choice(artifact_blades)
+			set_texture(Global.choice(artifact_blade_textures))
 		3:
-			artifact_object = Global.choice(self.artifact_amulets)
-			self.set_texture(Global.choice(self.artifact_amulet_textures))
+			artifact_object = Global.choice(artifact_amulets)
+			set_texture(Global.choice(artifact_amulet_textures))
 		4:
-			artifact_object = Global.choice(self.artifact_crowns)
-			self.set_texture(Global.choice(self.artifact_crown_textures))
-	self.set_text(self.generate_artifact_name(artifact_object))
+			artifact_object = Global.choice(artifact_crowns)
+			set_texture(Global.choice(artifact_crown_textures))
+	set_text(generate_artifact_name(artifact_object))
 
 
 func _make_investigator():
 	# TODO more investigator sprites
-	self.set_text(self.generate_male_name())
-	self.set_texture(Global.choice(investigator_textures))
+	set_text(generate_male_name())
+	set_texture(Global.choice(investigator_textures))
 
 
 func make_type(type: int) -> void:
-	self.set_type(type)
+	set_type(type)
 	match type:
 		Global.Types.SUSPICION:
-			self._make_suspicion()
+			_make_suspicion()
 		Global.Types.WEALTH:
-			self._make_wealth()
+			_make_wealth()
 		Global.Types.FOLLOWER:
-			self._make_follower()
+			_make_follower()
 		Global.Types.ARTIFACT:
-			self._make_artifact()
+			_make_artifact()
 		Global.Types.INVESTIGATOR:
-			self._make_investigator()
+			_make_investigator()
 
 func create_preview() -> Control:
-	var preview: Container = self.duplicate()
+	var preview: Container = duplicate()
 	# Wrap preview in a parent Control node
 	# The Control's position is set to the mouse, but we can offset the entity
 	var parent := Control.new()
@@ -182,42 +182,42 @@ func create_preview() -> Control:
 
 
 func _get_drag_data(position: Vector2):
-	if not self.type in Global.DRAGGABLE_TYPES:
+	if not type in Global.DRAGGABLE_TYPES:
 		return null
-	self.emit_signal("drag")
-	self.set_drag_preview(self.create_preview())
-	self.hide()
-	self.slot.empty.show()
-	self.slot.assignment.slots_dirty = true
+	emit_signal("drag")
+	set_drag_preview(create_preview())
+	hide()
+	slot.empty.show()
+	slot.assignment.slots_dirty = true
 	return self
 
 
 func _notification(notification) -> void:
 	match notification:
 		NOTIFICATION_DRAG_END:
-			if self.is_drag_successful():
-				self.emit_signal("drop")
+			if is_drag_successful():
+				emit_signal("drop")
 			else:
-				self.emit_signal("cancel")
-			self.slot.empty.hide()
-			self.show()
-			self.slot.assignment.slots_dirty = true
+				emit_signal("cancel")
+			slot.empty.hide()
+			show()
+			slot.assignment.slots_dirty = true
 
 
 func _gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and not event.is_pressed():
-			self.emit_signal("request", self)
+			emit_signal("request", self)
 
 
 func _ready() -> void:
-	if self.text != "" and self.text != null:
-		self.set_text(self.text)
-	if self.texture != null:
-		self.set_texture(self.texture)
+	if text != "" and text != null:
+		set_text(text)
+	if texture != null:
+		set_texture(texture)
 
 
 func _process(delta: float) -> void:
-	if self.tooltip_dirty:
-		self.update_tooltip()
-		self.tooltip_dirty = false
+	if tooltip_dirty:
+		update_tooltip()
+		tooltip_dirty = false

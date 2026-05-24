@@ -49,12 +49,12 @@ var default_assignments := {}
 
 
 func set_turn(turn: int) -> void:
-	self.turn = clamp(0, turn, self.max_turn)
-	self.turn_label.text = "Week %d of %d" % [self.turn + 1, self.max_turn]
+	self.turn = clamp(0, turn, max_turn)
+	turn_label.text = "Week %d of %d" % [self.turn + 1, max_turn]
 
 
 func create_entity(type: int) -> Entity:
-	var entity: Entity = self.entity_scene.instantiate()
+	var entity: Entity = entity_scene.instantiate()
 	entity.make_type(type)
 	entity.connect("drag", Callable(self, "_on_Entity_drag"))
 	entity.connect("drop", Callable(self, "_on_Entity_drop"))
@@ -64,13 +64,13 @@ func create_entity(type: int) -> Entity:
 
 
 func add_entity(entity: Entity) -> void:
-	var assignment: Assignment = self.default_assignments[entity.type]
+	var assignment: Assignment = default_assignments[entity.type]
 	# TODO make this process less fragile by adding an add_entity to assignment
 	assignment.add_entity(entity)
 
 
 func destroy_resource(type: int) -> void:
-	var assignment: Assignment = self.default_assignments[type]
+	var assignment: Assignment = default_assignments[type]
 	var slot: Slot = assignment.slots[0]
 	if slot.entity != null:
 		var entity: Entity = slot.entity
@@ -82,19 +82,19 @@ func destroy_resource(type: int) -> void:
 func change_resource(type: int, delta: int) -> void:
 	for _i in range(abs(delta)):
 		if delta < 0:
-			self.destroy_resource(type)
+			destroy_resource(type)
 		else:
-			self.add_entity(self.create_entity(type))
+			add_entity(create_entity(type))
 
 
 func return_entity(entity: Entity) -> void:
 	entity.slot.remove_entity()
-	self.add_entity(entity)
+	add_entity(entity)
 
 
 func get_slots() -> Array:
 	var slots := []
-	for assignment in self.assignments:
+	for assignment in assignments:
 		for slot in assignment.slots:
 			slots.append(slot)
 	return slots
@@ -104,7 +104,7 @@ func get_entities() -> Dictionary:
 	var entities := {}
 	for type in Global.Types.values():
 		entities[type] = []
-	for slot in self.get_slots():
+	for slot in get_slots():
 		if slot.entity != null:
 			entities[slot.entity.type].append(slot.entity)
 	return entities
@@ -120,14 +120,14 @@ func set_raid_option(
 	if len(entities[type]) >= cost:
 		button.disabled = false
 		var indices := Global.get_unique_random_numbers(cost, len(entities[type]))
-		if type in self.raid_losses:
-			self.raid_losses[type].clear()
+		if type in raid_losses:
+			raid_losses[type].clear()
 		else:
-			self.raid_losses[type] = []
+			raid_losses[type] = []
 		var entity_names := []
 		for i in indices:
 			var entity = entities[type][i]
-			self.raid_losses[type].append(entity)
+			raid_losses[type].append(entity)
 			entity_names.append(entity.text)
 
 		# Reverted from a version that named all entities
@@ -145,70 +145,70 @@ func set_raid_option(
 		]
 
 func raid() -> void:
-	self.popup_label.text = self.TEXT_RAID
-	self.popup_spacer.show()
-	self.popup_button1.show()
-	self.popup_button2.show()
-	self.popup_button3.show()
+	popup_label.text = TEXT_RAID
+	popup_spacer.show()
+	popup_button1.show()
+	popup_button2.show()
+	popup_button3.show()
 
-	var entities := self.get_entities()
+	var entities := get_entities()
 
-	self.set_raid_option(
-		self.popup_button1,
+	set_raid_option(
+		popup_button1,
 		entities,
 		Global.Types.FOLLOWER,
 		10,
 		"Offer scapegoats"
 	)
 
-	self.set_raid_option(
-		self.popup_button2,
+	set_raid_option(
+		popup_button2,
 		entities,
 		Global.Types.WEALTH,
 		10,
 		"Pay ransom"
 	)
 
-	self.popup_button3.disabled = false
-	self.popup_button3.text = "Turn yourselves in: GAME OVER"
+	popup_button3.disabled = false
+	popup_button3.text = "Turn yourselves in: GAME OVER"
 
-	self.popup.show()
+	popup.show()
 
 
 func game_over(text: String):
-	self.is_game_over = true
-	self.popup_label.text = text
-	self.popup_button1.text = "Restart"
-	self.popup_button2.text = "Quit"
-	self.popup_button1.disabled = false
-	self.popup_button2.disabled = false
-	self.popup_spacer.show()
-	self.popup_button1.show()
-	self.popup_button2.visible = OS.get_name() != "Web"
-	self.popup_button3.hide()
-	self.popup.show()
+	is_game_over = true
+	popup_label.text = text
+	popup_button1.text = "Restart"
+	popup_button2.text = "Quit"
+	popup_button1.disabled = false
+	popup_button2.disabled = false
+	popup_spacer.show()
+	popup_button1.show()
+	popup_button2.visible = OS.get_name() != "Web"
+	popup_button3.hide()
+	popup.show()
 
 
 func destroy_assignment(assignment: Assignment) -> void:
 	for entity in assignment.get_entities():
-		self.return_entity(entity)
-	self.assignments.erase(assignment)
+		return_entity(entity)
+	assignments.erase(assignment)
 	assignment.queue_free()
 
 
 func create_assignment(
 	type := Global.AssignmentTypes.GENERIC,
-	container := self.assignment_container2
+	container := assignment_container2
 ) -> Assignment:
-	var assignment = self.assignment_scene.instantiate()
-	self.assignments.append(assignment)
+	var assignment = assignment_scene.instantiate()
+	assignments.append(assignment)
 	container.add_child(assignment)
 	assignment.connect("request", Callable(self, "_on_Assignment_request"))
 
 	assignment.type = type
 	match type:
 		Global.AssignmentTypes.ARTIFACT_QUEST:
-			var artifact := self.create_entity(Global.Types.ARTIFACT)
+			var artifact := create_entity(Global.Types.ARTIFACT)
 			assignment.gained_entities.append(artifact)
 			assignment.set_text("Seek the %s" % artifact.text)
 			assignment.set_texture(artifact.texture)
@@ -222,7 +222,7 @@ func create_assignment(
 			assignment.risk = randi() % 8 + 3
 			assignment.max_death_chance = float(randi() % 6 + 5) * 0.10
 			assignment.min_death_chance = float(randi() % 3 + 1) * 0.10
-			assignment.set_template_slot(self.slot_scene.instantiate())
+			assignment.set_template_slot(slot_scene.instantiate())
 			assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 			assignment.label_dirty = true
 			assignment.update_slots()
@@ -233,145 +233,145 @@ func create_assignments():
 	var assignment: Assignment
 	var slot: Slot
 
-	assignment = self.create_assignment(
+	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		self.assignment_container1
+		assignment_container1
 	)
 	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
-#	slot = self.slot_scene.instantiate()
+#	slot = slot_scene.instantiate()
 #	slot.consumed = true
 #	slot.allowed_types = [Global.Types.SUSPICION]
 #	assignment.add_slot(slot)
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-	assignment.set_texture(self.investigation_texture)
+	assignment.set_texture(investigation_texture)
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
-	self.default_assignments[Global.Types.SUSPICION] = assignment
+	default_assignments[Global.Types.SUSPICION] = assignment
 
-#	assignment = self.create_assignment(
+#	assignment = create_assignment(
 #		Global.AssignmentTypes.GENERIC,
-#		self.assignment_container1
+#		assignment_container1
 #	)
 #	assignment.set_text("Rumors")
 #	assignment.set_max_progress(20)
 #	assignment.type_deltas = {
 #		Global.Types.INVESTIGATOR: +1,
 #	}
-#	slot = self.slot_scene.instantiate()
+#	slot = slot_scene.instantiate()
 #	slot.consumed = true
 #	slot.allowed_types = [Global.Types.SUSPICION]
 #	assignment.add_slot(slot)
-#	assignment.set_template_slot(self.slot_scene.instantiate())
+#	assignment.set_template_slot(slot_scene.instantiate())
 #	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.set_texture(self.rumors_texture)
+#	assignment.set_texture(rumors_texture)
 #	assignment.label_dirty = true
 #	assignment.update_slots()
 #	assignment.hide()
-#	self.default_assignments[Global.Types.SUSPICION] = assignment
+#	default_assignments[Global.Types.SUSPICION] = assignment
 #
-#	assignment = self.create_assignment(
+#	assignment = create_assignment(
 #		Global.AssignmentTypes.GENERIC,
-#		self.assignment_container1
+#		assignment_container1
 #	)
 #	assignment.set_text("Investigation")
 #	assignment.set_max_progress(10)
 #	assignment.raid = true
-#	assignment.set_template_slot(self.slot_scene.instantiate())
+#	assignment.set_template_slot(slot_scene.instantiate())
 #	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
 #	assignment.template_slot.consumed = true
-#	assignment.set_texture(self.investigation_texture)
+#	assignment.set_texture(investigation_texture)
 #	assignment.label_dirty = true
 #	assignment.update_slots()
 #	assignment.hide()
-#	self.default_assignments[Global.Types.INVESTIGATOR] = assignment
+#	default_assignments[Global.Types.INVESTIGATOR] = assignment
 
-	assignment = self.create_assignment(
+	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		self.assignment_container1
+		assignment_container1
 	)
 	assignment.set_text("Wealth")
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.WEALTH]
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
-	self.default_assignments[Global.Types.WEALTH] = assignment
+	default_assignments[Global.Types.WEALTH] = assignment
 
-	assignment = self.create_assignment(
+	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		self.assignment_container1
+		assignment_container1
 	)
 	assignment.set_text("Artifacts")
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.ARTIFACT]
 	assignment.label_dirty = true
 	assignment.update_slots()
 	assignment.hide()
-	self.default_assignments[Global.Types.ARTIFACT] = assignment
+	default_assignments[Global.Types.ARTIFACT] = assignment
 
-	assignment = self.create_assignment(
+	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		self.assignment_container1
+		assignment_container1
 	)
 	assignment.set_text("Idle")
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
-	self.default_assignments[Global.Types.FOLLOWER] = assignment
+	default_assignments[Global.Types.FOLLOWER] = assignment
 
-	assignment = self.create_assignment()
+	assignment = create_assignment()
 	assignment.set_text("Recruit follower")
-	assignment.set_texture(self.recruit_texture)
+	assignment.set_texture(recruit_texture)
 	assignment.set_max_progress(3)
 	assignment.max_slots = 9
 	assignment.type_deltas = {
 		Global.Types.FOLLOWER: +1,
 		Global.Types.SUSPICION: +1,
 	}
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment()
+	assignment = create_assignment()
 	assignment.set_text("Work")
-	assignment.set_texture(self.work_texture)
+	assignment.set_texture(work_texture)
 	assignment.set_max_progress(2)
 	assignment.max_slots = 10
 	assignment.type_deltas = {
 		Global.Types.WEALTH: +1,
 	}
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment()
+	assignment = create_assignment()
 	assignment.set_text("Research artifacts")
-	assignment.set_texture(self.research_texture)
+	assignment.set_texture(research_texture)
 	assignment.set_max_progress(8)
 	assignment.gained_assignments = [Global.AssignmentTypes.ARTIFACT_QUEST]
-	assignment.set_template_slot(self.slot_scene.instantiate())
+	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.FOLLOWER]
 	assignment.label_dirty = true
 	assignment.update_slots()
 
-	assignment = self.create_assignment()
+	assignment = create_assignment()
 	assignment.set_text("Bribe the Watch")
-	assignment.set_texture(self.conceal_texture)
+	assignment.set_texture(conceal_texture)
 	assignment.set_max_progress(1)
-	slot = self.slot_scene.instantiate()
+	slot = slot_scene.instantiate()
 	slot.progress = 1
 	slot.required = true
 	slot.consumed = true
 	slot.allowed_types = [Global.Types.WEALTH]
 	assignment.add_slot(slot)
-	slot = self.slot_scene.instantiate()
+	slot = slot_scene.instantiate()
 	slot.progress = 0
 	slot.required = true
 	slot.consumed = true
@@ -382,17 +382,17 @@ func create_assignments():
 
 
 func start():
-	for assignment in self.assignments:
+	for assignment in assignments:
 		for slot in assignment.slots:
 			if slot.entity != null:
 				slot.entity.queue_free()
 			slot.queue_free()
 		assignment.queue_free()
-	self.assignments.clear()
-	self.is_game_over = false
-	self.set_turn(0)
-	self.create_assignments()
-	self.add_entity(self.create_entity(Global.Types.FOLLOWER))
+	assignments.clear()
+	is_game_over = false
+	set_turn(0)
+	create_assignments()
+	add_entity(create_entity(Global.Types.FOLLOWER))
 
 
 func _init():
@@ -400,26 +400,26 @@ func _init():
 
 
 func _ready():
-	self.music.play(0.0)
+	music.play(0.0)
 	if OS.get_name() == "Web":
-		self.quit_button.hide()
-		self.fullscreen_button.button_pressed = false
+		quit_button.hide()
+		fullscreen_button.button_pressed = false
 	start()
 
 
 func _on_EndTurnButton_pressed():
-	if self.popup.visible:
+	if popup.visible:
 		return
 
-	self.end_turn_sound.play()
+	end_turn_sound.play()
 
 	var type_deltas := {}
 	for type in Global.Types.values():
 		type_deltas[type] = 0
 	var raids := 0
 	var i := 0
-	while i < len(self.assignments):
-		var assignment: Assignment = self.assignments[i]
+	while i < len(assignments):
+		var assignment: Assignment = assignments[i]
 		if assignment.max_progress == 0:
 			i += 1
 			continue
@@ -445,10 +445,10 @@ func _on_EndTurnButton_pressed():
 
 			for _i in range(completions):
 				for assignment_type in assignment.gained_assignments:
-					self.create_assignment(assignment_type)
+					create_assignment(assignment_type)
 
 			for entity in assignment.gained_entities:
-				self.add_entity(entity)
+				add_entity(entity)
 
 			for type in assignment.type_deltas:
 				type_deltas[type] += assignment.type_deltas[type] * completions
@@ -459,34 +459,34 @@ func _on_EndTurnButton_pressed():
 			entities = assignment.get_entities()
 
 			if assignment.exhausts:
-				self.destroy_assignment(assignment)
+				destroy_assignment(assignment)
 				continue
 		i += 1
 
 	for type in type_deltas:
-		self.change_resource(type, type_deltas[type])
+		change_resource(type, type_deltas[type])
 
-	var entities := self.get_entities()
+	var entities := get_entities()
 
 	# TODO multiple raids
 	if raids > 0:
-		self.raid()
+		raid()
 
-	if self.turn + 1 == self.max_turn:
+	if turn + 1 == max_turn:
 		var artifact_count = len(entities[Global.Types.ARTIFACT])
 		if artifact_count >= 5:
-			self.game_over(self.TEXT_WIN % artifact_count)
+			game_over(TEXT_WIN % artifact_count)
 		else:
-			self.game_over(self.TEXT_LOSE_TURN_LIMIT)
+			game_over(TEXT_LOSE_TURN_LIMIT)
 	else:
-		self.set_turn(self.turn + 1)
+		set_turn(turn + 1)
 
 	if len(entities[Global.Types.FOLLOWER]) == 0:
-		self.game_over(self.TEXT_LOSE_NO_FOLLOWERS)
+		game_over(TEXT_LOSE_NO_FOLLOWERS)
 
 
 func destroy_raid_losses(type: int) -> void:
-	for entity in self.raid_losses[type]:
+	for entity in raid_losses[type]:
 		entity.slot.remove_entity()
 		entity.queue_free()
 
@@ -494,74 +494,74 @@ func destroy_raid_losses(type: int) -> void:
 func _on_PopupButton1_pressed():
 	popup.hide()
 	# TODO don't hard code this
-	if self.is_game_over:
-		self.start()
+	if is_game_over:
+		start()
 	else:
-		self.destroy_raid_losses(Global.Types.FOLLOWER)
-		if len(self.get_entities()[Global.Types.FOLLOWER]) == 0:
-			self.game_over(self.TEXT_LOSE_SURRENDER)
+		destroy_raid_losses(Global.Types.FOLLOWER)
+		if len(get_entities()[Global.Types.FOLLOWER]) == 0:
+			game_over(TEXT_LOSE_SURRENDER)
 
 
 func _on_PopupButton2_pressed():
 	popup.hide()
 	# TODO don't hard code this
-	if self.is_game_over:
-		self.get_tree().quit()
+	if is_game_over:
+		get_tree().quit()
 	else:
-		self.destroy_raid_losses(Global.Types.WEALTH)
+		destroy_raid_losses(Global.Types.WEALTH)
 
 
 func _on_PopupButton3_pressed():
 	popup.hide()
 	# TODO don't hard code this
-	self.game_over(self.TEXT_LOSE_SURRENDER)
+	game_over(TEXT_LOSE_SURRENDER)
 
 
 func _on_Entity_drag():
-	self.drag_sound.play()
+	drag_sound.play()
 
 
 func _on_Entity_drop():
-	self.drop_sound.play()
+	drop_sound.play()
 
 
 func _on_Entity_cancel():
-	self.cancel_sound.play()
+	cancel_sound.play()
 
 
 func _on_Entity_request(entity: Entity):
-	if entity.slot.assignment == self.default_assignments[entity.type]:
-		self.cancel_sound.play()
+	if entity.slot.assignment == default_assignments[entity.type]:
+		cancel_sound.play()
 	else:
-		self.return_entity(entity)
-		self.drop_sound.play()
+		return_entity(entity)
+		drop_sound.play()
 
 
 func _on_Assignment_request(slot: Slot):
-	if not slot.assignment in self.default_assignments.values():
+	if not slot.assignment in default_assignments.values():
 		for type in slot.allowed_types:
-			var assignment: Assignment = self.default_assignments[type]
+			var assignment: Assignment = default_assignments[type]
 			for i in range(len(assignment.slots) - 1, -1, -1):
 				var source_slot: Slot = assignment.slots[i]
 				var entity: Entity = source_slot.entity
 				if entity != null:
 					source_slot.remove_entity()
 					slot.add_entity(entity)
-					self.drag_sound.play()
+					drag_sound.play()
 					return
-	self.cancel_sound.play()
+	cancel_sound.play()
 
 
 func _on_SoundButton_pressed():
-	AudioServer.set_bus_mute(Global.SOUND_BUS, not self.sound_button.button_pressed)
+	AudioServer.set_bus_mute(Global.SOUND_BUS, not sound_button.button_pressed)
 
 
 func _on_MusicButton_pressed():
-	AudioServer.set_bus_mute(Global.MUSIC_BUS, not self.music_button.button_pressed)
+	AudioServer.set_bus_mute(Global.MUSIC_BUS, not music_button.button_pressed)
 
 
 func _on_FullscreenButton_pressed():
-	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (self.fullscreen_button.pressed) else Window.MODE_WINDOWED
+	get_window().mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (fullscreen_button.pressed) else Window.MODE_WINDOWED
 
 
 func _on_QuitButton_pressed():
