@@ -1,4 +1,5 @@
-class_name Main extends Control
+class_name Main
+extends Control
 
 const TEXT_WIN := "The conjunction is at hand.\n\nThrough secretive and tireless search, you have gathered %d artifacts. Harnessing their ancient energies, you tear a rift in the planes, whenceforth cometh eldritch beings of ineffable might.\n\nVICTORY?"
 const TEXT_LOSE_TURN_LIMIT := "The conjunction is at hand.\n\nDespite your unshakeable devotion, you could not gather enough artifacts in time. The stars in their cosmic dance align once in a brief, majestic formation, but it is all for naught.\n\nFAILURE..."
@@ -6,7 +7,7 @@ const TEXT_LOSE_NO_FOLLOWERS := "The last of your followers has fallen. With non
 const TEXT_LOSE_SURRENDER := "Reluctantly, you submit yourself and your accomplices to arrest. Many years will pass as you languish in the cold, stone jails of the Watch, wistfully watching the constellations whirl from behind iron bars.\n\nFAILURE..."
 const TEXT_RAID := "The wolves are at the door.\n\nYour conjurations and clandestine operations were not as well concealed as you had hoped. Investigators from the Watch have picked up your trail. A truncheon knocks upon the door of your secret chamber and ultimatums are shouted.\n\nHow shall you respond?"
 
-var raid_losses := {}
+var raid_losses := { }
 
 var turn := 0
 const max_turn := 52
@@ -25,7 +26,7 @@ const seek_texture := preload("res://sprites/assignments/seek.png")
 const conceal_texture := preload("res://sprites/assignments/conceal.png")
 const research_texture := preload("res://sprites/assignments/research.png")
 
-var default_assignments := {}
+var default_assignments := { }
 
 @onready var turn_label: Label = %TurnLabel
 @onready var assignment_container1: Container = %AssignmentContainer1
@@ -101,7 +102,7 @@ func get_slots() -> Array:
 
 
 func get_entities() -> Dictionary:
-	var entities := {}
+	var entities := { }
 	for type in Global.Types.values():
 		entities[type] = []
 	for slot in get_slots():
@@ -111,11 +112,11 @@ func get_entities() -> Dictionary:
 
 
 func set_raid_option(
-	button: Button,
-	entities: Dictionary,
-	type: int,
-	cost: int,
-	option_text: String
+		button: Button,
+		entities: Dictionary,
+		type: int,
+		cost: int,
+		option_text: String,
 ) -> void:
 	if len(entities[type]) >= cost:
 		button.disabled = false
@@ -144,6 +145,7 @@ func set_raid_option(
 			Global.plural(Global.TYPE_NAMES[type], cost),
 		]
 
+
 func raid() -> void:
 	popup_label.text = TEXT_RAID
 	popup_spacer.show()
@@ -158,7 +160,7 @@ func raid() -> void:
 		entities,
 		Global.Types.FOLLOWER,
 		10,
-		"Offer scapegoats"
+		"Offer scapegoats",
 	)
 
 	set_raid_option(
@@ -166,7 +168,7 @@ func raid() -> void:
 		entities,
 		Global.Types.WEALTH,
 		10,
-		"Pay ransom"
+		"Pay ransom",
 	)
 
 	popup_button3.disabled = false
@@ -197,8 +199,8 @@ func destroy_assignment(assignment: Assignment) -> void:
 
 
 func create_assignment(
-	type := Global.AssignmentTypes.GENERIC,
-	container := assignment_container2
+		type := Global.AssignmentTypes.GENERIC,
+		container := assignment_container2,
 ) -> Assignment:
 	var assignment = assignment_scene.instantiate()
 	assignments.append(assignment)
@@ -235,15 +237,15 @@ func create_assignments():
 
 	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		assignment_container1
+		assignment_container1,
 	)
 	assignment.set_text("Investigation")
 	assignment.set_max_progress(10)
 	assignment.raid = true
-#	slot = slot_scene.instantiate()
-#	slot.consumed = true
-#	slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.add_slot(slot)
+	#slot = slot_scene.instantiate()
+	#slot.consumed = true
+	#slot.allowed_types = [Global.Types.SUSPICION]
+	#assignment.add_slot(slot)
 	assignment.set_template_slot(slot_scene.instantiate())
 	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
 	assignment.set_texture(investigation_texture)
@@ -252,46 +254,46 @@ func create_assignments():
 	assignment.hide()
 	default_assignments[Global.Types.SUSPICION] = assignment
 
-#	assignment = create_assignment(
-#		Global.AssignmentTypes.GENERIC,
-#		assignment_container1
-#	)
-#	assignment.set_text("Rumors")
-#	assignment.set_max_progress(20)
-#	assignment.type_deltas = {
-#		Global.Types.INVESTIGATOR: +1,
-#	}
-#	slot = slot_scene.instantiate()
-#	slot.consumed = true
-#	slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.add_slot(slot)
-#	assignment.set_template_slot(slot_scene.instantiate())
-#	assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
-#	assignment.set_texture(rumors_texture)
-#	assignment.label_dirty = true
-#	assignment.update_slots()
-#	assignment.hide()
-#	default_assignments[Global.Types.SUSPICION] = assignment
-#
-#	assignment = create_assignment(
-#		Global.AssignmentTypes.GENERIC,
-#		assignment_container1
-#	)
-#	assignment.set_text("Investigation")
-#	assignment.set_max_progress(10)
-#	assignment.raid = true
-#	assignment.set_template_slot(slot_scene.instantiate())
-#	assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
-#	assignment.template_slot.consumed = true
-#	assignment.set_texture(investigation_texture)
-#	assignment.label_dirty = true
-#	assignment.update_slots()
-#	assignment.hide()
-#	default_assignments[Global.Types.INVESTIGATOR] = assignment
+	#assignment = create_assignment(
+	#	Global.AssignmentTypes.GENERIC,
+	#	assignment_container1
+	#)
+	#assignment.set_text("Rumors")
+	#assignment.set_max_progress(20)
+	#assignment.type_deltas = {
+	#	Global.Types.INVESTIGATOR: +1,
+	#}
+	#slot = slot_scene.instantiate()
+	#slot.consumed = true
+	#slot.allowed_types = [Global.Types.SUSPICION]
+	#assignment.add_slot(slot)
+	#assignment.set_template_slot(slot_scene.instantiate())
+	#assignment.template_slot.allowed_types = [Global.Types.SUSPICION]
+	#assignment.set_texture(rumors_texture)
+	#assignment.label_dirty = true
+	#assignment.update_slots()
+	#assignment.hide()
+	#default_assignments[Global.Types.SUSPICION] = assignment
+	#
+	#assignment = create_assignment(
+	#	Global.AssignmentTypes.GENERIC,
+	#	assignment_container1
+	#)
+	#assignment.set_text("Investigation")
+	#assignment.set_max_progress(10)
+	#assignment.raid = true
+	#assignment.set_template_slot(slot_scene.instantiate())
+	#assignment.template_slot.allowed_types = [Global.Types.INVESTIGATOR]
+	#assignment.template_slot.consumed = true
+	#assignment.set_texture(investigation_texture)
+	#assignment.label_dirty = true
+	#assignment.update_slots()
+	#assignment.hide()
+	#default_assignments[Global.Types.INVESTIGATOR] = assignment
 
 	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		assignment_container1
+		assignment_container1,
 	)
 	assignment.set_text("Wealth")
 	assignment.set_template_slot(slot_scene.instantiate())
@@ -303,7 +305,7 @@ func create_assignments():
 
 	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		assignment_container1
+		assignment_container1,
 	)
 	assignment.set_text("Artifacts")
 	assignment.set_template_slot(slot_scene.instantiate())
@@ -315,7 +317,7 @@ func create_assignments():
 
 	assignment = create_assignment(
 		Global.AssignmentTypes.GENERIC,
-		assignment_container1
+		assignment_container1,
 	)
 	assignment.set_text("Idle")
 	assignment.set_template_slot(slot_scene.instantiate())
@@ -413,7 +415,7 @@ func _on_EndTurnButton_pressed():
 
 	end_turn_sound.play()
 
-	var type_deltas := {}
+	var type_deltas := { }
 	for type in Global.Types.values():
 		type_deltas[type] = 0
 	var raids := 0

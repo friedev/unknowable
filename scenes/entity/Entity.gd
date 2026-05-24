@@ -1,4 +1,5 @@
-class_name Entity extends Control
+class_name Entity
+extends Control
 
 signal drag
 signal drop
@@ -170,6 +171,7 @@ func make_type(type: int) -> void:
 			_make_artifact()
 		Global.Types.INVESTIGATOR:
 			_make_investigator()
+
 
 func create_preview() -> Control:
 	var preview: Container = duplicate()

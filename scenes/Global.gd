@@ -1,14 +1,13 @@
 extends Node
 
-
 const SOUND_BUS := 1
 const MUSIC_BUS := 2
 
-enum Types {FOLLOWER, ARTIFACT, WEALTH, SUSPICION, INVESTIGATOR}
+enum Types { FOLLOWER, ARTIFACT, WEALTH, SUSPICION, INVESTIGATOR }
 const TYPE_NAMES := ["follower", "artifact", "wealth", "suspicion", "investigator"]
 var DRAGGABLE_TYPES := [Types.FOLLOWER, Types.ARTIFACT, Types.WEALTH, Types.SUSPICION]
 
-enum AssignmentTypes {GENERIC, ARTIFACT_QUEST}
+enum AssignmentTypes { GENERIC, ARTIFACT_QUEST }
 
 const COLOR_PREVIEW := Color(0.5, 0.5, 0.5)
 const COLOR_BAD := Color(1.0, 0.0, 0.0)
@@ -41,7 +40,7 @@ func delta(amount: int) -> String:
 
 
 func get_unique_random_numbers(count: int, max_value: int) -> Array:
-	var values := {}
+	var values := { }
 	while len(values) < count:
 		values[randi() % max_value] = 0
 	return values.keys()

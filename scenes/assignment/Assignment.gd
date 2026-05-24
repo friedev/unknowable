@@ -1,4 +1,5 @@
-class_name Assignment extends Control
+class_name Assignment
+extends Control
 
 signal request(slot)
 
@@ -15,7 +16,7 @@ signal request(slot)
 @export var risk := 0
 @export var max_death_chance := 0.0
 @export var min_death_chance := 0.0
-var type_deltas := {}
+var type_deltas := { }
 var gained_assignments := []
 var gained_entities := []
 var template_slot: Slot = null
@@ -94,10 +95,11 @@ func update_label() -> void:
 	for type in Global.Types.values():
 		var delta = type_deltas.get(type)
 		if delta != null and delta != 0:
-			previews.append("%s %s" % [
+			previews.append(
+				"%s %s" % [
 					Global.delta(delta),
 					Global.plural(Global.TYPE_NAMES[type].capitalize(), delta),
-				]
+				],
 			)
 
 	if len(previews) > 0:
@@ -210,7 +212,6 @@ func add_entity(entity: Entity) -> void:
 	assert(success)
 	update_slots()
 	show()
-
 
 
 func send_request(slot: Slot) -> void:

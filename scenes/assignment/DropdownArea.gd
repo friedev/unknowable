@@ -1,4 +1,5 @@
-class_name DropdownArea extends Control
+class_name DropdownArea
+extends Control
 
 @export var expanded_texture: Texture2D
 @export var collapsed_texture: Texture2D

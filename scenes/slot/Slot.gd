@@ -1,4 +1,5 @@
-class_name Slot extends Control
+class_name Slot
+extends Control
 
 signal request
 
